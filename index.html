@@ -99,7 +99,7 @@
     .downloader-box {
       background: #0f172a; border: 1px solid #1e293b; border-radius: 14px; padding: 16px; margin-bottom: 16px;
     }
-    .input-row { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
+    .input-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; flex-wrap: wrap; }
     .custom-input {
       flex: 1; min-width: 200px; background: #080d1a; border: 1px solid #334155; color: #f8fafc;
       padding: 10px 14px; border-radius: 8px; font-size: 12px; outline: none;
@@ -123,7 +123,7 @@
     .btn-tool { background: #334155; }
     .btn-tool:hover { background: #475569; }
 
-    /* GALERI GAMBAR PILIHAN */
+    /* GALERI GAMBAR */
     .gallery-panel {
       flex: 1; background: #0f172a; border: 1px solid #1e293b; border-radius: 14px;
       padding: 16px; display: flex; flex-direction: column; overflow: hidden;
@@ -149,6 +149,7 @@
     .empty-gallery {
       grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center;
       justify-content: center; height: 220px; color: #64748b; font-size: 12px; gap: 8px; text-align: center;
+      padding: 20px;
     }
 
     /* SCRIBD WRAPPER */
@@ -228,7 +229,7 @@
         <span class="dot-live"></span>
         <span style="font-weight:600; color:#cbd5e1;">Vercel Live</span>
       </div>
-      <span style="color:#64748b;">v2.4</span>
+      <span style="color:#64748b;">v2.5</span>
     </div>
   </aside>
 
@@ -287,11 +288,12 @@
           <div class="input-row">
             <input type="text" id="shopee-url-input" 
                    value="https://shopee.co.id/Nappa-Milano-Pam-Penny-Black-(Women-Shoes)-i.158797510.50217130926" 
-                   placeholder="Tempel link produk Shopee di sini..." 
+                   placeholder="Tempel link produk Shopee lengkap di sini..." 
                    class="custom-input" />
             <button onclick="processShopeeUrl()" class="btn-action btn-shopee">Proses Link</button>
             <button onclick="document.getElementById('shopee-url-input').value=''" class="btn-action btn-red">Hapus</button>
           </div>
+          <div style="font-size:11px; color:#64748b;">Tips: Pastikan link mengandung format <code>i.ShopID.ItemID</code> lengkap.</div>
         </div>
 
         <div class="gallery-panel">
@@ -319,12 +321,13 @@
           <div style="font-size:13px; font-weight:700; color:#f87171; margin-bottom:8px;">📌 Pinterest HD Pin Downloader</div>
           <div class="input-row">
             <input type="text" id="pinterest-url-input" 
-                   value="https://id.pinterest.com/pin/777856166932028229/" 
+                   value="https://id.pinterest.com/pin/967711038698345670/" 
                    placeholder="Tempel link Pin Pinterest di sini..." 
                    class="custom-input" />
             <button onclick="processPinterestUrl()" class="btn-action btn-pinterest">Proses Link</button>
             <button onclick="document.getElementById('pinterest-url-input').value=''" class="btn-action btn-red">Hapus</button>
           </div>
+          <div style="font-size:11px; color:#64748b;">Menggunakan jalur API resmi Pinterest untuk mengambil kualitas asli (Original HD).</div>
         </div>
 
         <div class="gallery-panel">
@@ -393,7 +396,7 @@
       document.getElementById('mobile-overlay').classList.remove('active');
     }
 
-    // 2. Tab Menu
+    // 2. Tab Navigation
     function openTab(tabId) {
       document.querySelectorAll('.page-view').forEach(view => view.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
@@ -414,6 +417,30 @@
       closeSidebar();
     }
 
+    // Helper Multi-Proxy Fetcher
+    async function fetchViaFastProxy(targetUrl) {
+      const proxies = [
+        `https://corsproxy.io/?url=${encodeURIComponent(targetUrl)}`,
+        `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`,
+        `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`
+      ];
+
+      for (let p of proxies) {
+        try {
+          const res = await fetch(p);
+          if (res.ok) {
+            const text = await res.text();
+            try {
+              return JSON.parse(text);
+            } catch (e) {
+              return text;
+            }
+          }
+        } catch (err) {}
+      }
+      throw new Error("Proxy error");
+    }
+
     // ================= SHOPEE SCRAPER & DOWNLOADER ================= //
     let shopeeSelectedImages = new Set();
     let shopeeAllImages = [];
@@ -423,51 +450,62 @@
       const gallery = document.getElementById('shopee-gallery');
       const countLabel = document.getElementById('shopee-count');
 
-      // Ambil shopid dan itemid dari link
+      // Ambil shopid dan itemid dari URL
       const match = urlInput.match(/i\.(\d+)\.(\d+)/);
       if (!match) {
-        alert("Link Shopee tidak valid! Pastikan link mengandung format 'i.shopid.itemid'.");
+        gallery.innerHTML = '<div class="empty-gallery" style="color:#ef4444;"><span>⚠️ Link Shopee tidak lengkap! Pastikan mengandung kode <b>i.ShopID.ItemID</b> di bagian belakang link.</span></div>';
         return;
       }
 
       const shopid = match[1];
       const itemid = match[2];
 
-      gallery.innerHTML = '<div class="empty-gallery"><span>⏳ Mengambil data foto produk Shopee...</span></div>';
+      gallery.innerHTML = '<div class="empty-gallery"><span>⏳ Menghubungi server Shopee untuk mengambil foto produk...</span></div>';
 
       try {
-        const apiUrl = `https://shopee.co.id/api/v4/item/get?itemid=${itemid}&shopid=${shopid}`;
-        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(apiUrl)}`;
-        
-        const res = await fetch(proxyUrl);
-        const data = await res.json();
-        const item = data?.data || data?.item;
+        // Coba endpoint resmi PDP Shopee
+        const apiUrl = `https://shopee.co.id/api/v4/pdp/get_pc?item_id=${itemid}&shop_id=${shopid}`;
+        const data = await fetchViaFastProxy(apiUrl);
+        const item = data?.data?.item || data?.data || data?.item;
 
-        if (!item || !item.images) {
-          throw new Error("Gagal membaca gambar produk.");
+        let images = [];
+        if (item && item.images && Array.isArray(item.images)) {
+          item.images.forEach(hash => {
+            images.push(`https://down-id.img.susercontent.com/file/${hash}`);
+          });
         }
 
-        shopeeAllImages = [];
-        // Gambar Utama
-        item.images.forEach(hash => {
-          shopeeAllImages.push(`https://down-id.img.susercontent.com/file/${hash}`);
-        });
-
-        // Gambar Variasi (Warna / Tipe)
-        if (item.tier_variations) {
+        // Variasi Foto
+        if (item && item.tier_variations) {
           item.tier_variations.forEach(tier => {
             if (tier.images) {
               tier.images.forEach(hash => {
-                if (hash) shopeeAllImages.push(`https://down-id.img.susercontent.com/file/${hash}`);
+                if (hash) images.push(`https://down-id.img.susercontent.com/file/${hash}`);
               });
             }
           });
         }
 
-        shopeeAllImages = [...new Set(shopeeAllImages)];
+        // Fallback jika API terblokir: Ambil dari halaman HTML langsung
+        if (images.length === 0) {
+          const pageHtml = await fetchViaFastProxy(urlInput);
+          if (typeof pageHtml === 'string') {
+            const hashMatches = pageHtml.match(/([a-f0-9]{32}|id-11134207-[a-z0-9\-]+|sg-11134201-[a-z0-9\-]+)/g) || [];
+            hashMatches.slice(0, 15).forEach(h => {
+              images.push(`https://down-id.img.susercontent.com/file/${h}`);
+            });
+          }
+        }
+
+        shopeeAllImages = [...new Set(images)];
+
+        if (shopeeAllImages.length === 0) {
+          throw new Error("Tidak menemukan foto");
+        }
+
         renderDownloaderGallery('shopee', shopeeAllImages);
       } catch (err) {
-        gallery.innerHTML = '<div class="empty-gallery" style="color:#ef4444;"><span>Gagal memuat foto Shopee. Silakan cek kembali link produk Anda.</span></div>';
+        gallery.innerHTML = '<div class="empty-gallery" style="color:#ef4444;"><span>Gagal mengambil foto Shopee. Pastikan link produk valid dan toko tidak dalam mode libur.</span></div>';
       }
     }
 
@@ -481,28 +519,44 @@
 
       const match = urlInput.match(/pin\/(\d+)/);
       if (!match) {
-        alert("Link Pinterest tidak valid! Pastikan link mengandung format Pin ID.");
+        alert("Link Pinterest tidak valid! Pastikan link mengandung ID pin (contoh: /pin/967711038698345670/)");
         return;
       }
 
-      gallery.innerHTML = '<div class="empty-gallery"><span>⏳ Mengambil gambar resolusi asli Pinterest...</span></div>';
+      const pinId = match[1];
+      gallery.innerHTML = '<div class="empty-gallery"><span>⏳ Mengambil resolusi asli Pinterest HD...</span></div>';
 
       try {
-        // Ambil data melalui oEmbed Pinterest
-        const oembedUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent('https://www.pinterest.com/oembed.json?url=' + encodeURIComponent(urlInput))}`;
-        const res = await fetch(oembedUrl);
+        // Menggunakan API Resmi Pinterest Pidgets (Tanpa Proxy, Anti-Blokir)
+        const res = await fetch(`https://api.pinterest.com/v3/pidgets/pins/info/?pin_ids=${pinId}`);
         const data = await res.json();
 
-        pinterestAllImages = [];
-        if (data && data.thumbnail_url) {
-          // Otomatis ubah thumbnail jadi format resolusi asli Original HD
-          let hdUrl = data.thumbnail_url.replace(/\/\d+x\d*\/|\/236x\/|\/564x\/|\/736x\//, '/originals/');
-          pinterestAllImages.push(hdUrl);
+        let found = [];
+        if (data?.data?.pins && data.data.pins.length > 0) {
+          const pin = data.data.pins[0];
+          // Ambil gambar kualitas terbaik
+          let rawUrl = pin.images?.orig?.url || pin.images?.['564x']?.url || pin.images?.['237x']?.url;
+          if (rawUrl) {
+            // Ubah format resolusi menjadi HD asli (originals)
+            let hdUrl = rawUrl.replace(/\/\d+x\d*\/|\/236x\/|\/564x\/|\/736x\//, '/originals/');
+            found.push(hdUrl);
+          }
         }
 
+        // Fallback jika API pidgets kosong: Gunakan CorsProxy oEmbed
+        if (found.length === 0) {
+          const oembedData = await fetchViaFastProxy(`https://www.pinterest.com/oembed.json?url=${encodeURIComponent(urlInput)}`);
+          if (oembedData && oembedData.thumbnail_url) {
+            found.push(oembedData.thumbnail_url.replace(/\/\d+x\d*\/|\/236x\/|\/564x\/|\/736x\//, '/originals/'));
+          }
+        }
+
+        if (found.length === 0) throw new Error("Gambar tidak ditemukan");
+
+        pinterestAllImages = found;
         renderDownloaderGallery('pinterest', pinterestAllImages);
       } catch (err) {
-        gallery.innerHTML = '<div class="empty-gallery" style="color:#ef4444;"><span>Gagal mengambil gambar Pinterest. Pastikan link Pin dapat diakses publik.</span></div>';
+        gallery.innerHTML = '<div class="empty-gallery" style="color:#ef4444;"><span>Gagal mengambil gambar Pinterest. Pastikan Pin bersifat publik.</span></div>';
       }
     }
 
@@ -517,7 +571,7 @@
       countLabel.innerText = images.length;
 
       images.forEach((imgUrl) => {
-        selectedSet.add(imgUrl); // Default: Terpilih semua
+        selectedSet.add(imgUrl);
 
         const item = document.createElement('div');
         item.className = 'image-item selected';
@@ -577,19 +631,19 @@
       updateDownloaderBtn(platform);
     }
 
-    // Fungsi Pengunduh File Gambar Langsung
+    // Unduh File Langsung ke Penyimpanan HP/PC
     async function downloadSelectedImages(platform) {
       const selectedSet = platform === 'shopee' ? shopeeSelectedImages : pinterestSelectedImages;
       let index = 1;
 
       for (const url of selectedSet) {
         try {
-          const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`);
+          const res = await fetch(`https://corsproxy.io/?url=${encodeURIComponent(url)}`);
           const blob = await res.blob();
           const blobUrl = URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = blobUrl;
-          a.download = `${platform}_image_${index++}.jpg`;
+          a.download = `${platform}_foto_${index++}.jpg`;
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
