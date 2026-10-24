@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>DJ Hub Pro - All-in-One Workspace</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>DJ Hub Pro - Pembuat Surat Resmi & Workspace</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Tinos:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
     body { background-color: #0b0f19; color: #f1f5f9; display: flex; height: 100vh; overflow: hidden; }
@@ -74,7 +74,7 @@
     .page-view { display: none; height: 100%; flex-direction: column; }
     .page-view.active { display: flex; }
 
-    /* Dashboard Cards */
+    /* DASHBOARD CARDS */
     .welcome-banner {
       background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(168,85,247,0.08));
       border: 1px solid rgba(99,102,241,0.25); border-radius: 14px; padding: 20px; margin-bottom: 20px;
@@ -82,75 +82,122 @@
     .welcome-banner h2 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
     .welcome-banner p { font-size: 12px; color: #94a3b8; line-height: 1.5; }
 
-    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
     .hub-card {
-      background: #0f172a; border: 1px solid #1e293b; border-radius: 14px; padding: 16px;
+      background: #0f172a; border: 1px solid #1e293b; border-radius: 14px; padding: 18px;
       cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; gap: 8px;
     }
     .hub-card:hover { border-color: #6366f1; transform: translateY(-3px); }
     .card-icon {
-      width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center;
+      width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center;
       justify-content: center; margin-bottom: 2px;
     }
-    .hub-card h3 { font-size: 14px; font-weight: 600; color: #fff; }
+    .hub-card h3 { font-size: 15px; font-weight: 600; color: #fff; }
     .hub-card p { font-size: 11px; color: #94a3b8; line-height: 1.4; }
 
-    /* TOOLBAR & INPUTS */
-    .downloader-box {
-      background: #0f172a; border: 1px solid #1e293b; border-radius: 14px; padding: 16px; margin-bottom: 16px;
+    /* ================= PEMBUAT SURAT (SPLIT WORKSPACE) ================= */
+    .surat-workspace {
+      display: grid; grid-template-columns: 420px 1fr; gap: 18px; height: 100%; overflow: hidden;
     }
-    .input-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; flex-wrap: wrap; }
-    .custom-input {
-      flex: 1; min-width: 200px; background: #080d1a; border: 1px solid #334155; color: #f8fafc;
-      padding: 10px 14px; border-radius: 8px; font-size: 12px; outline: none;
+
+    /* FORM PANEL */
+    .form-panel {
+      background: #0f172a; border: 1px solid #1e293b; border-radius: 14px;
+      padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px;
     }
-    .custom-input:focus { border-color: #6366f1; }
+    .section-heading {
+      font-size: 11px; font-weight: 700; color: #818cf8; text-transform: uppercase;
+      letter-spacing: 0.6px; border-bottom: 1px solid #1e293b; padding-bottom: 4px;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-group label { font-size: 11px; color: #94a3b8; font-weight: 500; }
+    .form-control {
+      background: #080d1a; border: 1px solid #334155; color: #f8fafc;
+      padding: 8px 12px; border-radius: 8px; font-size: 12px; outline: none; transition: 0.15s;
+    }
+    .form-control:focus { border-color: #6366f1; }
+    textarea.form-control { resize: vertical; min-height: 60px; }
 
     .btn-action {
       background: #6366f1; color: white; border: none; padding: 9px 15px; border-radius: 8px;
-      font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;
-      transition: 0.15s; white-space: nowrap;
+      font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      gap: 6px; transition: 0.15s;
     }
     .btn-action:hover { background: #4f46e5; }
-    .btn-shopee { background: #ee4d2d; }
-    .btn-shopee:hover { background: #d73211; }
-    .btn-pinterest { background: #e60023; }
-    .btn-pinterest:hover { background: #c5001e; }
     .btn-green { background: #16a34a; }
     .btn-green:hover { background: #15803d; }
     .btn-red { background: #ef4444; }
     .btn-red:hover { background: #dc2626; }
-    .btn-tool { background: #334155; }
-    .btn-tool:hover { background: #475569; }
+    .btn-tool { background: #1e293b; border: 1px solid #334155; }
+    .btn-tool:hover { background: #334155; }
 
-    /* GALERI GAMBAR */
-    .gallery-panel {
-      flex: 1; background: #0f172a; border: 1px solid #1e293b; border-radius: 14px;
-      padding: 16px; display: flex; flex-direction: column; overflow: hidden;
+    /* PREVIEW PANEL */
+    .preview-panel {
+      background: #080d1a; border: 1px solid #1e293b; border-radius: 14px;
+      display: flex; flex-direction: column; overflow: hidden;
     }
-    .gallery-header {
-      display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 12px; flex-wrap: wrap; gap: 8px;
+    .preview-toolbar {
+      padding: 10px 14px; background: #0f172a; border-bottom: 1px solid #1e293b;
+      display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;
     }
-    .gallery-grid {
-      flex: 1; overflow-y: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-      gap: 12px; padding: 4px;
-    }
-    .image-item {
-      position: relative; height: 130px; border-radius: 10px; overflow: hidden;
-      border: 2px solid transparent; background: #1e293b; cursor: pointer; transition: 0.2s;
-    }
-    .image-item:hover { transform: scale(1.02); }
-    .image-item.selected { border-color: #6366f1; box-shadow: 0 0 10px rgba(99, 102, 241, 0.4); }
-    .image-item img { width: 100%; height: 100%; object-fit: cover; }
-    .image-item input[type="checkbox"] {
-      position: absolute; top: 6px; right: 6px; width: 18px; height: 18px; accent-color: #6366f1; cursor: pointer;
+    .preview-stage {
+      flex: 1; overflow-y: auto; padding: 24px; display: flex; justify-content: center;
+      background: #0b1120;
     }
 
-    .empty-gallery {
-      grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center;
-      justify-content: center; height: 220px; color: #64748b; font-size: 12px; gap: 8px; text-align: center;
-      padding: 20px;
+    /* KERTAS A4 SURAT RESMI */
+    .a4-paper {
+      width: 210mm;
+      min-height: 297mm;
+      background: #ffffff;
+      color: #000000;
+      padding: 25mm 20mm 20mm 25mm;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      border-radius: 4px;
+      font-family: 'Tinos', 'Times New Roman', serif;
+      line-height: 1.5;
+      font-size: 12pt;
     }
+
+    /* KOP SURAT */
+    .kop-surat {
+      text-align: center;
+      border-bottom: 3px double #000;
+      padding-bottom: 10px;
+      margin-bottom: 16px;
+    }
+    .kop-surat h4 { font-size: 13pt; font-weight: 700; text-transform: uppercase; margin: 0; }
+    .kop-surat h3 { font-size: 14pt; font-weight: 700; text-transform: uppercase; margin: 0; }
+    .kop-surat h2 { font-size: 16pt; font-weight: 700; text-transform: uppercase; margin: 2px 0; }
+    .kop-surat p { font-size: 9pt; margin: 0; font-family: 'Inter', sans-serif; }
+
+    /* JUDUL & NOMOR SURAT */
+    .judul-surat { text-align: center; margin-bottom: 18px; }
+    .judul-surat h3 {
+      font-size: 14pt; text-decoration: underline; text-transform: uppercase; margin: 0;
+    }
+    .judul-surat p { font-size: 11pt; margin-top: 2px; }
+
+    /* ISI SURAT */
+    .isi-surat p { text-align: justify; text-indent: 30px; margin-bottom: 10px; }
+    
+    .tabel-identitas { width: 100%; margin: 10px 0 14px 20px; border-collapse: collapse; }
+    .tabel-identitas td { padding: 3px 0; font-size: 11.5pt; vertical-align: top; }
+    .tabel-identitas td.kol-label { width: 180px; }
+    .tabel-identitas td.kol-titik { width: 15px; }
+
+    /* TANDA TANGAN */
+    .tanda-tangan-box {
+      margin-top: 35px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .ttd-kanan {
+      width: 250px;
+      text-align: center;
+    }
+    .ttd-space { height: 75px; }
+    .ttd-nama { font-weight: 700; text-decoration: underline; }
 
     /* SCRIBD WRAPPER */
     .reader-stage {
@@ -170,14 +217,31 @@
     .mask-bottom-left { position: absolute; bottom: 0; left: 0; width: 180px; height: 46px; background: #ffffff; z-index: 30; pointer-events: none; }
     .mask-bottom-right { position: absolute; bottom: 0; right: 0; width: 90px; height: 46px; background: #ffffff; z-index: 30; pointer-events: none; }
 
+    /* ================= PRINT / PDF MODE (MURNI KERTAS A4) ================= */
+    @media print {
+      body, html { background: #fff !important; color: #000 !important; margin: 0 !important; padding: 0 !important; height: auto !important; overflow: visible !important; }
+      aside, header, .form-panel, .preview-toolbar, .mobile-overlay, .btn-action { display: none !important; }
+      main, .content-area, .page-view, #view-surat, .surat-workspace, .preview-panel, .preview-stage {
+        display: block !important; padding: 0 !important; margin: 0 !important; background: transparent !important; overflow: visible !important; border: none !important;
+      }
+      .a4-paper {
+        width: 100% !important; min-height: auto !important; box-shadow: none !important; margin: 0 !important; padding: 10mm 15mm !important;
+      }
+      @page { size: A4 portrait; margin: 15mm; }
+    }
+
     /* RESPONSIVE HP */
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
       aside { position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; transform: translateX(-100%); box-shadow: 10px 0 30px rgba(0,0,0,0.7); }
       aside.open { transform: translateX(0); }
       .btn-close-sidebar { display: block; }
       .btn-hamburger { display: flex; }
       .content-area { padding: 12px; }
-      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+
+      .surat-workspace { grid-template-columns: 1fr; overflow-y: auto; display: flex; flex-direction: column; }
+      .form-panel { max-height: none; }
+      .preview-stage { overflow-x: auto; padding: 12px; }
+      .a4-paper { min-width: 210mm; transform-origin: top left; }
     }
   </style>
 </head>
@@ -190,10 +254,10 @@
     <div>
       <div class="brand">
         <div class="brand-content">
-          <div class="brand-icon">⚡</div>
+          <div class="brand-icon">📜</div>
           <div>
             <div class="brand-title">DJ Hub <span>Pro</span></div>
-            <div class="brand-sub">All-in-One Workspace</div>
+            <div class="brand-sub">Sistem Pembuat Surat Resmi</div>
           </div>
         </div>
         <button class="btn-close-sidebar" onclick="closeSidebar()">✕</button>
@@ -205,20 +269,17 @@
           App Dashboard
         </button>
 
-        <div class="menu-label">Portal Web Terhubung</div>
+        <div class="menu-label">Layanan Utama</div>
 
-        <button onclick="openTab('shopee')" id="nav-shopee" class="nav-btn">
-          <svg fill="none" viewBox="0 0 24 24" stroke="#fb923c" stroke-width="2"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-          Shopee Downloader
+        <!-- Pembuat Surat -->
+        <button onclick="openTab('surat')" id="nav-surat" class="nav-btn">
+          <svg fill="none" viewBox="0 0 24 24" stroke="#818cf8" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          Pembuat Surat Resmi
         </button>
 
-        <button onclick="openTab('pinterest')" id="nav-pinterest" class="nav-btn">
-          <svg fill="none" viewBox="0 0 24 24" stroke="#f87171" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          Pinterest Downloader
-        </button>
-
+        <!-- Scribd Reader -->
         <button onclick="openTab('scribd')" id="nav-scribd" class="nav-btn">
-          <svg fill="none" viewBox="0 0 24 24" stroke="#4ade80" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <svg fill="none" viewBox="0 0 24 24" stroke="#4ade80" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
           Scribd Reader & PDF
         </button>
       </nav>
@@ -229,7 +290,7 @@
         <span class="dot-live"></span>
         <span style="font-weight:600; color:#cbd5e1;">Vercel Live</span>
       </div>
-      <span style="color:#64748b;">v2.6</span>
+      <span style="color:#64748b;">v3.0</span>
     </div>
   </aside>
 
@@ -251,122 +312,234 @@
       <section id="view-dashboard" class="page-view active">
         <div class="welcome-banner">
           <h2>Selamat Datang di DJ Hub Pro 🚀</h2>
-          <p>Pusat eksekusi tools multi-platform. Unduh foto produk Shopee, gambar resolusi asli Pinterest, dan pembaca dokumen Scribd terpadu.</p>
+          <p>Platform administrasi surat resmi digital dan pembaca dokumen. Buat surat keterangan usaha, domisili, atau pengantar dengan format A4 siap cetak hanya dalam 1 menit.</p>
         </div>
 
         <div class="cards-grid">
-          <div class="hub-card" onclick="openTab('shopee')">
-            <div class="card-icon" style="background:rgba(249,115,22,0.15); color:#fb923c;">
-              <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-            </div>
-            <h3>Shopee Downloader</h3>
-            <p>Salin link produk Shopee untuk mengambil semua foto produk & variasi secara instan.</p>
-          </div>
-
-          <div class="hub-card" onclick="openTab('pinterest')">
-            <div class="card-icon" style="background:rgba(239,68,68,0.15); color:#f87171;">
-              <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </div>
-            <h3>Pinterest Downloader</h3>
-            <p>Salin link Pin Pinterest untuk mengambil foto resolusi tinggi (Original HD) tanpa kompresi.</p>
-          </div>
-
-          <div class="hub-card" onclick="openTab('scribd')">
-            <div class="card-icon" style="background:rgba(34,197,94,0.15); color:#4ade80;">
+          <!-- Card Pembuat Surat -->
+          <div class="hub-card" onclick="openTab('surat')">
+            <div class="card-icon" style="background:rgba(99,102,241,0.15); color:#818cf8;">
               <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
             </div>
-            <h3>Scribd Reader & PDF</h3>
-            <p>Buka dokumen skrip Scribd dalam format A4 / Zoom dan unduh PDF dengan mudah.</p>
+            <h3>Pembuat Surat Resmi (A4 Studio)</h3>
+            <p>Generator surat instan ala Surat Menjalin: SKU, Domisili, SKTM dengan live preview A4 dan unduh PDF resmi.</p>
+          </div>
+
+          <!-- Card Scribd -->
+          <div class="hub-card" onclick="openTab('scribd')">
+            <div class="card-icon" style="background:rgba(34,197,94,0.15); color:#4ade80;">
+              <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            </div>
+            <h3>Scribd Reader & PDF Exporter</h3>
+            <p>Buka dan konversi skrip dokumen Scribd embed ke format PDF utuh tanpa watermark.</p>
           </div>
         </div>
       </section>
 
-      <!-- 2. SHOPEE DOWNLOADER VIEW -->
-      <section id="view-shopee" class="page-view">
-        <div class="downloader-box">
-          <div style="font-size:13px; font-weight:700; color:#fb923c; margin-bottom:8px;">🛍️ Shopee Product Image Downloader</div>
-          <div class="input-row">
-            <input type="text" id="shopee-url-input" 
-                   value="https://shopee.co.id/Nappa-Milano-Pam-Penny-Black-(Women-Shoes)-i.158797510.50217130926" 
-                   placeholder="Tempel link produk Shopee di sini..." 
-                   class="custom-input" />
-            <button onclick="processShopeeUrl()" class="btn-action btn-shopee">Proses Link</button>
-            <button onclick="document.getElementById('shopee-url-input').value=''" class="btn-action btn-red">Hapus</button>
-          </div>
-          <div style="font-size:11px; color:#64748b;">Mendukung link Shopee Indonesia lengkap dengan variasi warna & foto katalog.</div>
-        </div>
-
-        <div class="gallery-panel">
-          <div class="gallery-header">
-            <div><strong id="shopee-count">0</strong> Foto Ditemukan</div>
-            <div style="display:flex; gap:8px;">
-              <button onclick="selectAllImages('shopee')" class="btn-action btn-tool" style="font-size:11px; padding:6px 10px;">Pilih Semua</button>
-              <button onclick="unselectAllImages('shopee')" class="btn-action btn-tool" style="font-size:11px; padding:6px 10px;">Reset</button>
-              <button id="btn-download-shopee" onclick="downloadSelectedImages('shopee')" class="btn-action btn-green" disabled>
-                Unduh (0) Foto
+      <!-- 2. PEMBUAT SURAT RESMI VIEW -->
+      <section id="view-surat" class="page-view">
+        <div class="surat-workspace">
+          
+          <!-- FORMULIR INPUT (KIRI) -->
+          <div class="form-panel">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span class="section-heading">Formulir Pembuat Surat</span>
+              <button onclick="fillSampleData()" class="btn-action btn-tool" style="font-size:10px; padding:5px 8px;">
+                ⚡ Isi Contoh Data
               </button>
             </div>
-          </div>
-          <div id="shopee-gallery" class="gallery-grid">
-            <div class="empty-gallery">
-              <span>Klik tombol "Proses Link" di atas untuk memuat foto produk Shopee.</span>
+
+            <!-- Pilih Jenis Surat -->
+            <div class="form-group">
+              <label>Jenis Template Surat:</label>
+              <select id="input-jenis-surat" class="form-control" onchange="onTemplateChange()">
+                <option value="SKU">Surat Keterangan Usaha (SKU)</option>
+                <option value="DOMISILI">Surat Keterangan Domisili</option>
+                <option value="PENGANTAR">Surat Pengantar / Keterangan Umum</option>
+                <option value="SKTM">Surat Keterangan Tidak Mampu (SKTM)</option>
+              </select>
+            </div>
+
+            <div class="section-heading">KOP Surat & Lembaga</div>
+            <div class="form-group">
+              <label>Pemerintah Daerah / Lembaga:</label>
+              <input type="text" id="kop-instansi" value="PEMERINTAH KABUPATEN LANDAK" class="form-control" oninput="renderSurat()" />
+            </div>
+            <div class="form-group">
+              <label>Kecamatan:</label>
+              <input type="text" id="kop-kecamatan" value="KECAMATAN MENJALIN" class="form-control" oninput="renderSurat()" />
+            </div>
+            <div class="form-group">
+              <label>Desa / Kelurahan:</label>
+              <input type="text" id="kop-desa" value="DESA MENJALIN" class="form-control" oninput="renderSurat()" />
+            </div>
+            <div class="form-group">
+              <label>Alamat & Kontak Kop:</label>
+              <input type="text" id="kop-alamat" value="Jalan Raya Menjalin No. 12 Kode Pos 79363" class="form-control" oninput="renderSurat()" />
+            </div>
+
+            <div class="section-heading">Nomor & Judul Surat</div>
+            <div class="form-group">
+              <label>Nomor Surat:</label>
+              <input type="text" id="surat-nomor" value="510 / 142 / DS / X / 2026" class="form-control" oninput="renderSurat()" />
+            </div>
+
+            <div class="section-heading">Identitas Warga / Pemohon</div>
+            <div class="form-group">
+              <label>Nama Lengkap:</label>
+              <input type="text" id="warga-nama" value="AHMAD FAJRI" class="form-control" oninput="renderSurat()" />
+            </div>
+            <div class="form-group">
+              <label>NIK (No. KTP):</label>
+              <input type="text" id="warga-nik" value="6108031204980002" class="form-control" oninput="renderSurat()" />
+            </div>
+            <div class="form-group">
+              <label>Tempat, Tanggal Lahir:</label>
+              <input type="text" id="warga-ttl" value="Menjalin, 12 April 1998" class="form-control" oninput="renderSurat()" />
+            </div>
+            <div class="form-group">
+              <label>Jenis Kelamin & Agama:</label>
+              <input type="text" id="warga-jk-agama" value="Laki-laki / Islam" class="form-control" oninput="renderSurat()" />
+            </div>
+            <div class="form-group">
+              <label>Pekerjaan:</label>
+              <input type="text" id="warga-pekerjaan" value="Wiraswasta" class="form-control" oninput="renderSurat()" />
+            </div>
+            <div class="form-group">
+              <label>Alamat Lengkap:</label>
+              <input type="text" id="warga-alamat" value="Dusun Menjalin RT 02 / RW 01, Desa Menjalin" class="form-control" oninput="renderSurat()" />
+            </div>
+
+            <div class="section-heading">Isi / Keterangan Khusus</div>
+            <div class="form-group">
+              <label id="label-keterangan">Keterangan Tambahan / Usaha:</label>
+              <textarea id="surat-keterangan" class="form-control" oninput="renderSurat()">Bahwa yang bersangkutan benar-benar memiliki usaha Toko Sembako dan Perlengkapan Rumah Tangga yang berlokasi di Dusun Menjalin sejak tahun 2021 hingga sekarang.</textarea>
+            </div>
+            <div class="form-group">
+              <label>Keperluan Pembuatan Surat:</label>
+              <input type="text" id="surat-keperluan" value="Kelengkapan Administrasi Pengajuan Kredit Usaha Rakyat (KUR) Bank" class="form-control" oninput="renderSurat()" />
+            </div>
+
+            <div class="section-heading">Penandatangan</div>
+            <div class="form-group">
+              <label>Tempat & Tanggal Surat:</label>
+              <input type="text" id="ttd-tgl" value="Menjalin, 24 Oktober 2026" class="form-control" oninput="renderSurat()" />
+            </div>
+            <div class="form-group">
+              <label>Jabatan Penandatangan:</label>
+              <input type="text" id="ttd-jabatan" value="Kepala Desa Menjalin" class="form-control" oninput="renderSurat()" />
+            </div>
+            <div class="form-group">
+              <label>Nama Pejabat:</label>
+              <input type="text" id="ttd-nama" value="YULIUS, S.Pd" class="form-control" oninput="renderSurat()" />
             </div>
           </div>
+
+          <!-- LIVE PREVIEW A4 (KANAN) -->
+          <div class="preview-panel">
+            <div class="preview-toolbar">
+              <span style="font-size:12px; font-weight:600; color:#cbd5e1;">📄 Live Preview Surat Resmi (Ukuran A4)</span>
+              <div style="display:flex; gap:8px;">
+                <button onclick="window.print()" class="btn-action btn-green">
+                  🖨️ Cetak / Simpan PDF
+                </button>
+              </div>
+            </div>
+
+            <div class="preview-stage">
+              <!-- LEMBAR A4 RESMI -->
+              <div class="a4-paper" id="paper-render">
+                <!-- KOP -->
+                <div class="kop-surat">
+                  <h4 id="view-kop-instansi">PEMERINTAH KABUPATEN LANDAK</h4>
+                  <h3 id="view-kop-kecamatan">KECAMATAN MENJALIN</h3>
+                  <h2 id="view-kop-desa">DESA MENJALIN</h2>
+                  <p id="view-kop-alamat">Jalan Raya Menjalin No. 12 Kode Pos 79363</p>
+                </div>
+
+                <!-- JUDUL & NOMOR -->
+                <div class="judul-surat">
+                  <h3 id="view-judul-surat">SURAT KETERANGAN USAHA</h3>
+                  <p>Nomor: <span id="view-surat-nomor">510 / 142 / DS / X / 2026</span></p>
+                </div>
+
+                <!-- ISI -->
+                <div class="isi-surat">
+                  <p>Yang bertanda tangan di bawah ini Kepala Desa Menjalin, Kecamatan Menjalin, Kabupaten Landak, menerangkan dengan sebenarnya bahwa:</p>
+
+                  <table class="tabel-identitas">
+                    <tr>
+                      <td class="kol-label">Nama</td>
+                      <td class="kol-titik">:</td>
+                      <td><strong id="view-warga-nama">AHMAD FAJRI</strong></td>
+                    </tr>
+                    <tr>
+                      <td class="kol-label">NIK</td>
+                      <td class="kol-titik">:</td>
+                      <td id="view-warga-nik">6108031204980002</td>
+                    </tr>
+                    <tr>
+                      <td class="kol-label">Tempat / Tgl Lahir</td>
+                      <td class="kol-titik">:</td>
+                      <td id="view-warga-ttl">Menjalin, 12 April 1998</td>
+                    </tr>
+                    <tr>
+                      <td class="kol-label">Jenis Kelamin / Agama</td>
+                      <td class="kol-titik">:</td>
+                      <td id="view-warga-jk-agama">Laki-laki / Islam</td>
+                    </tr>
+                    <tr>
+                      <td class="kol-label">Pekerjaan</td>
+                      <td class="kol-titik">:</td>
+                      <td id="view-warga-pekerjaan">Wiraswasta</td>
+                    </tr>
+                    <tr>
+                      <td class="kol-label">Alamat</td>
+                      <td class="kol-titik">:</td>
+                      <td id="view-warga-alamat">Dusun Menjalin RT 02 / RW 01, Desa Menjalin</td>
+                    </tr>
+                  </table>
+
+                  <p id="view-surat-keterangan">Bahwa yang bersangkutan benar-benar memiliki usaha Toko Sembako dan Perlengkapan Rumah Tangga yang berlokasi di Dusun Menjalin sejak tahun 2021 hingga sekarang.</p>
+
+                  <p>Surat keterangan ini dibuat dan diberikan kepada yang bersangkutan untuk dipergunakan sebagai: <strong id="view-surat-keperluan">Kelengkapan Administrasi Pengajuan Kredit Usaha Rakyat (KUR) Bank</strong>.</p>
+
+                  <p>Demikian surat keterangan ini kami buat dengan sebenarnya agar dapat dipergunakan sebagaimana mestinya.</p>
+                </div>
+
+                <!-- TANDA TANGAN -->
+                <div class="tanda-tangan-box">
+                  <div class="ttd-kanan">
+                    <div id="view-ttd-tgl">Menjalin, 24 Oktober 2026</div>
+                    <div id="view-ttd-jabatan">Kepala Desa Menjalin</div>
+                    <div class="ttd-space"></div>
+                    <div class="ttd-nama" id="view-ttd-nama">YULIUS, S.Pd</div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
-      <!-- 3. PINTEREST DOWNLOADER VIEW -->
-      <section id="view-pinterest" class="page-view">
-        <div class="downloader-box">
-          <div style="font-size:13px; font-weight:700; color:#f87171; margin-bottom:8px;">📌 Pinterest HD Pin Downloader</div>
-          <div class="input-row">
-            <input type="text" id="pinterest-url-input" 
-                   value="https://id.pinterest.com/pin/967711038698345670/" 
-                   placeholder="Tempel link Pin Pinterest di sini..." 
-                   class="custom-input" />
-            <button onclick="processPinterestUrl()" class="btn-action btn-pinterest">Proses Link</button>
-            <button onclick="document.getElementById('pinterest-url-input').value=''" class="btn-action btn-red">Hapus</button>
-          </div>
-          <div style="font-size:11px; color:#64748b;">Langsung terhubung ke server resmi Pinterest untuk resolusi asli Original HD.</div>
-        </div>
-
-        <div class="gallery-panel">
-          <div class="gallery-header">
-            <div><strong id="pinterest-count">0</strong> Gambar Ditemukan</div>
-            <div style="display:flex; gap:8px;">
-              <button onclick="selectAllImages('pinterest')" class="btn-action btn-tool" style="font-size:11px; padding:6px 10px;">Pilih Semua</button>
-              <button onclick="unselectAllImages('pinterest')" class="btn-action btn-tool" style="font-size:11px; padding:6px 10px;">Reset</button>
-              <button id="btn-download-pinterest" onclick="downloadSelectedImages('pinterest')" class="btn-action btn-green" disabled>
-                Unduh (0) Gambar
-              </button>
-            </div>
-          </div>
-          <div id="pinterest-gallery" class="gallery-grid">
-            <div class="empty-gallery">
-              <span>Klik tombol "Proses Link" di atas untuk memuat gambar Pinterest HD.</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 4. SCRIBD READER & PDF EXPORTER -->
+      <!-- 3. SCRIBD READER VIEW -->
       <section id="view-scribd" class="page-view">
-        <div class="downloader-box" style="padding:10px 14px; margin-bottom:12px;">
-          <div class="input-row" style="margin-bottom:0;">
-            <div style="display:flex; align-items:center; gap:6px; flex:1;">
-              <span style="font-size:12px; font-weight:600; color:#94a3b8;">ID:</span>
-              <input type="text" id="scribd-id-input" value="715129338" placeholder="ID Dokumen" class="custom-input" style="max-width:140px; padding:7px 10px;" />
-              <button onclick="loadScribdById()" class="btn-action">Buka</button>
-              <button onclick="clearScribdId()" class="btn-action btn-red">Hapus</button>
-            </div>
-            <div style="display:flex; align-items:center; gap:6px;">
-              <button id="btn-a4-toggle" onclick="toggleA4Mode()" class="btn-action btn-tool">📄 Mode A4</button>
-              <button onclick="zoomDoc(-0.1)" class="btn-action btn-tool" style="padding:7px 9px;">➖</button>
-              <span id="zoom-label" style="font-size:11px; font-weight:700; color:#818cf8; min-width:38px; text-align:center;">100%</span>
-              <button onclick="zoomDoc(0.1)" class="btn-action btn-tool" style="padding:7px 9px;">➕</button>
-              <button onclick="resetZoom()" class="btn-action btn-tool" style="padding:7px 8px; font-size:10px;">↺</button>
-              <button onclick="downloadAsPDF()" class="btn-action btn-green">Simpan PDF</button>
-            </div>
+        <div style="background:#0f172a; border:1px solid #1e293b; border-radius:12px; padding:10px 14px; margin-bottom:12px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="font-size:12px; font-weight:600; color:#94a3b8;">ID:</span>
+            <input type="text" id="scribd-id-input" value="715129338" placeholder="ID Dokumen" class="form-control" style="max-width:130px; padding:6px 10px;" />
+            <button onclick="loadScribdById()" class="btn-action">Buka</button>
+            <button onclick="document.getElementById('scribd-id-input').value=''" class="btn-action btn-red">Hapus</button>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <button id="btn-a4-toggle" onclick="toggleA4Mode()" class="btn-action btn-tool">📄 Mode A4</button>
+            <button onclick="zoomDoc(-0.1)" class="btn-action btn-tool" style="padding:6px 9px;">➖</button>
+            <span id="zoom-label" style="font-size:11px; font-weight:700; color:#818cf8; min-width:38px; text-align:center;">100%</span>
+            <button onclick="zoomDoc(0.1)" class="btn-action btn-tool" style="padding:6px 9px;">➕</button>
+            <button onclick="resetZoom()" class="btn-action btn-tool" style="padding:6px 8px; font-size:10px;">↺</button>
+            <button onclick="downloadScribdPDF()" class="btn-action btn-green">Simpan PDF</button>
           </div>
         </div>
 
@@ -409,252 +582,97 @@
 
       const titles = {
         'dashboard': 'App Dashboard Utama',
-        'shopee': 'Shopee Image Downloader',
-        'pinterest': 'Pinterest HD Downloader',
+        'surat': 'Studio Pembuat Surat Resmi A4',
         'scribd': 'Scribd Reader & PDF Exporter'
       };
       document.getElementById('page-title').innerText = titles[tabId] || 'Workspace';
       closeSidebar();
     }
 
-    // ================= PINTEREST ENGINE RESMI (JSONP - 100% BEBAS BLOKIR) ================= //
-    let pinterestSelectedImages = new Set();
-    let pinterestAllImages = [];
+    // ================= LOGIKA PEMBUAT SURAT ================= //
+    function renderSurat() {
+      // Kop
+      document.getElementById('view-kop-instansi').innerText = document.getElementById('kop-instansi').value;
+      document.getElementById('view-kop-kecamatan').innerText = document.getElementById('kop-kecamatan').value;
+      document.getElementById('view-kop-desa').innerText = document.getElementById('kop-desa').value;
+      document.getElementById('view-kop-alamat').innerText = document.getElementById('kop-alamat').value;
 
-    function processPinterestUrl() {
-      const urlInput = document.getElementById('pinterest-url-input').value.trim();
-      const gallery = document.getElementById('pinterest-gallery');
+      // Nomor
+      document.getElementById('view-surat-nomor').innerText = document.getElementById('surat-nomor').value;
 
-      const match = urlInput.match(/pin\/(\d+)/);
-      if (!match) {
-        alert("Link Pinterest tidak valid! Pastikan link mengandung angka ID pin (contoh: /pin/967711038698345670/)");
-        return;
+      // Identitas
+      document.getElementById('view-warga-nama').innerText = document.getElementById('warga-nama').value;
+      document.getElementById('view-warga-nik').innerText = document.getElementById('warga-nik').value;
+      document.getElementById('view-warga-ttl').innerText = document.getElementById('warga-ttl').value;
+      document.getElementById('view-warga-jk-agama').innerText = document.getElementById('warga-jk-agama').value;
+      document.getElementById('view-warga-pekerjaan').innerText = document.getElementById('warga-pekerjaan').value;
+      document.getElementById('view-warga-alamat').innerText = document.getElementById('warga-alamat').value;
+
+      // Keterangan
+      document.getElementById('view-surat-keterangan').innerText = document.getElementById('surat-keterangan').value;
+      document.getElementById('view-surat-keperluan').innerText = document.getElementById('surat-keperluan').value;
+
+      // TTD
+      document.getElementById('view-ttd-tgl').innerText = document.getElementById('ttd-tgl').value;
+      document.getElementById('view-ttd-jabatan').innerText = document.getElementById('ttd-jabatan').value;
+      document.getElementById('view-ttd-nama').innerText = document.getElementById('ttd-nama').value;
+    }
+
+    function onTemplateChange() {
+      const type = document.getElementById('input-jenis-surat').value;
+      const judul = document.getElementById('view-judul-surat');
+      const labelKet = document.getElementById('label-keterangan');
+      const ketInput = document.getElementById('surat-keterangan');
+
+      if (type === 'SKU') {
+        judul.innerText = 'SURAT KETERANGAN USAHA';
+        labelKet.innerText = 'Keterangan Usaha:';
+        ketInput.value = 'Bahwa yang bersangkutan benar-benar memiliki usaha Toko Sembako dan Perlengkapan Rumah Tangga yang berlokasi di Dusun Menjalin sejak tahun 2021 hingga sekarang.';
+      } else if (type === 'DOMISILI') {
+        judul.innerText = 'SURAT KETERANGAN DOMISILI';
+        labelKet.innerText = 'Keterangan Tempat Tinggal:';
+        ketInput.value = 'Bahwa nama tersebut di atas adalah benar-benar warga yang bertempat tinggal dan berdomisili tetap di alamat Dusun Menjalin RT 02 / RW 01, Desa Menjalin, Kecamatan Menjalin.';
+      } else if (type === 'PENGANTAR') {
+        judul.innerText = 'SURAT PENGANTAR';
+        labelKet.innerText = 'Maksud / Keterangan:';
+        ketInput.value = 'Surat pengantar ini diberikan kepada yang bersangkutan untuk pengurusan perpanjangan Surat Izin Mengemudi (SIM) / SKCK di kantor kepolisian setempat.';
+      } else if (type === 'SKTM') {
+        judul.innerText = 'SURAT KETERANGAN TIDAK MAMPU';
+        labelKet.innerText = 'Keterangan Kondisi Ekonomi:';
+        ketInput.value = 'Bahwa nama tersebut di atas adalah benar warga kami yang tergolong dalam keluarga kurang mampu/ekonomi lemah dan berhak menerima bantuan pendidikan/beasiswa.';
       }
-
-      const pinId = match[1];
-      gallery.innerHTML = '<div class="empty-gallery"><span>⏳ Mengambil gambar kualitas asli langsung dari Pinterest...</span></div>';
-
-      // Eksekusi via JSONP langsung ke CDN Pinterest (Anti-CORS, Tanpa Proxy)
-      const callbackName = 'pincb_' + Date.now();
-      const script = document.createElement('script');
-      script.src = `https://api.pinterest.com/v3/pidgets/pins/info/?pin_ids=${pinId}&callback=${callbackName}`;
-
-      window[callbackName] = function(response) {
-        delete window[callbackName];
-        script.remove();
-
-        try {
-          const pin = response?.data?.pins?.[0];
-          if (!pin) throw new Error("Data pin tidak ditemukan");
-
-          let rawUrl = pin.images?.orig?.url || pin.images?.['564x']?.url || pin.images?.['237x']?.url;
-          if (!rawUrl) throw new Error("URL gambar tidak ditemukan");
-
-          // Ubah thumbnail jadi resolusi asli tertinggi (Original HD)
-          let hdUrl = rawUrl.replace(/\/\d+x\d*\/|\/236x\/|\/564x\/|\/736x\//, '/originals/');
-
-          pinterestAllImages = [hdUrl];
-          renderDownloaderGallery('pinterest', pinterestAllImages);
-        } catch (e) {
-          gallery.innerHTML = '<div class="empty-gallery" style="color:#ef4444;"><span>Gagal mengambil pin. Pastikan link Pin bersifat publik.</span></div>';
-        }
-      };
-
-      script.onerror = function() {
-        delete window[callbackName];
-        script.remove();
-        gallery.innerHTML = '<div class="empty-gallery" style="color:#ef4444;"><span>Koneksi ke server Pinterest terputus. Silakan coba kembali.</span></div>';
-      };
-
-      document.body.appendChild(script);
+      renderSurat();
     }
 
-    // ================= SHOPEE CLOUD ENGINE (BYPASS AKAMAI FIREWALL) ================= //
-    let shopeeSelectedImages = new Set();
-    let shopeeAllImages = [];
-
-    async function processShopeeUrl() {
-      const urlInput = document.getElementById('shopee-url-input').value.trim();
-      const gallery = document.getElementById('shopee-gallery');
-
-      if (!urlInput.includes("shopee.co.id")) {
-        alert("Masukkan link produk resmi Shopee Indonesia!");
-        return;
-      }
-
-      gallery.innerHTML = '<div class="empty-gallery"><span>⏳ Melewati bot-shield Shopee dan memindai foto produk (butuh 2-4 detik)...</span></div>';
-
-      try {
-        // Gunakan Jina AI Reader Cloud yang mampu merender halaman web lengkap dan mengekstrak gambar CDN Shopee
-        const targetCleanUrl = urlInput.split("?")[0];
-        const jinaUrl = `https://r.jina.ai/${targetCleanUrl}`;
-        
-        const res = await fetch(jinaUrl);
-        const text = await res.text();
-
-        // Cari semua tautan gambar CDN resmi Shopee
-        const regex = /https:\/\/down-[a-z0-9\-]+\.img\.susercontent\.com\/file\/[a-zA-Z0-9\-_]+/g;
-        const matches = text.match(regex) || [];
-
-        let images = [];
-        matches.forEach(url => {
-          let clean = url.replace(/_tn$/, '').split('@')[0];
-          // Filter ukuran wajar (bukan icon kecil)
-          if (!clean.includes("icon") && !clean.includes("avatar")) {
-            images.push(clean);
-          }
-        });
-
-        shopeeAllImages = [...new Set(images)];
-
-        if (shopeeAllImages.length === 0) {
-          throw new Error("Foto tidak ditemukan");
-        }
-
-        renderDownloaderGallery('shopee', shopeeAllImages);
-      } catch (err) {
-        gallery.innerHTML = '<div class="empty-gallery" style="color:#ef4444;"><span>Gagal membaca foto produk Shopee. Pastikan link produk aktif dan dapat dibuka di browser.</span></div>';
-      }
-    }
-
-    // ================= RENDER GALERI & PILIHAN GAMBAR ================= //
-    function renderDownloaderGallery(platform, images) {
-      const gallery = document.getElementById(`${platform}-gallery`);
-      const countLabel = document.getElementById(`${platform}-count`);
-      const selectedSet = platform === 'shopee' ? shopeeSelectedImages : pinterestSelectedImages;
-
-      gallery.innerHTML = '';
-      selectedSet.clear();
-      countLabel.innerText = images.length;
-
-      images.forEach((imgUrl) => {
-        selectedSet.add(imgUrl);
-
-        const item = document.createElement('div');
-        item.className = 'image-item selected';
-        item.innerHTML = `
-          <img src="${imgUrl}" loading="lazy" />
-          <input type="checkbox" checked />
-        `;
-
-        const checkbox = item.querySelector('input');
-
-        item.addEventListener('click', (e) => {
-          if (e.target !== checkbox) checkbox.checked = !checkbox.checked;
-          if (checkbox.checked) {
-            selectedSet.add(imgUrl);
-            item.classList.add('selected');
-          } else {
-            selectedSet.delete(imgUrl);
-            item.classList.remove('selected');
-          }
-          updateDownloaderBtn(platform);
-        });
-
-        gallery.appendChild(item);
-      });
-
-      updateDownloaderBtn(platform);
-    }
-
-    function updateDownloaderBtn(platform) {
-      const selectedSet = platform === 'shopee' ? shopeeSelectedImages : pinterestSelectedImages;
-      const btn = document.getElementById(`btn-download-${platform}`);
-      const count = selectedSet.size;
-      btn.innerText = `Unduh (${count}) Gambar`;
-      btn.disabled = count === 0;
-    }
-
-    function selectAllImages(platform) {
-      const images = platform === 'shopee' ? shopeeAllImages : pinterestAllImages;
-      const selectedSet = platform === 'shopee' ? shopeeSelectedImages : pinterestSelectedImages;
-
-      selectedSet.clear();
-      document.querySelectorAll(`#${platform}-gallery .image-item`).forEach((item, idx) => {
-        item.classList.add('selected');
-        item.querySelector('input').checked = true;
-        selectedSet.add(images[idx]);
-      });
-      updateDownloaderBtn(platform);
-    }
-
-    function unselectAllImages(platform) {
-      const selectedSet = platform === 'shopee' ? shopeeSelectedImages : pinterestSelectedImages;
-      selectedSet.clear();
-      document.querySelectorAll(`#${platform}-gallery .image-item`).forEach(item => {
-        item.classList.remove('selected');
-        item.querySelector('input').checked = false;
-      });
-      updateDownloaderBtn(platform);
-    }
-
-    // Download Gambar Langsung ke Komputer / HP
-    async function downloadSelectedImages(platform) {
-      const selectedSet = platform === 'shopee' ? shopeeSelectedImages : pinterestSelectedImages;
-      let index = 1;
-
-      for (const url of selectedSet) {
-        try {
-          const res = await fetch(`https://corsproxy.io/?url=${encodeURIComponent(url)}`);
-          const blob = await res.blob();
-          const blobUrl = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = blobUrl;
-          a.download = `${platform}_foto_${index++}.jpg`;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          URL.revokeObjectURL(blobUrl);
-        } catch (e) {
-          window.open(url, '_blank');
-        }
-      }
+    function fillSampleData() {
+      document.getElementById('warga-nama').value = 'SITI NURHALIZA';
+      document.getElementById('warga-nik').value = '6108035508000004';
+      document.getElementById('warga-ttl').value = 'Pontianak, 15 Agustus 2000';
+      document.getElementById('warga-pekerjaan').value = 'Mahasiswi';
+      document.getElementById('warga-alamat').value = 'Jl. Trans Menjalin KM 2, RT 04, Desa Menjalin';
+      document.getElementById('surat-keperluan').value = 'Persyaratan Pendaftaran Beasiswa Berprestasi Tahun 2026';
+      renderSurat();
     }
 
     // ================= SCRIBD FUNCTIONS ================= //
-    function clearScribdId() {
-      const input = document.getElementById('scribd-id-input');
-      input.value = '';
-      input.focus();
-    }
-
-    function getActiveDocId() {
-      let inputVal = document.getElementById('scribd-id-input').value.trim();
-      let match = inputVal.match(/\d{6,}/);
-      if (match) return match[0];
-
-      const frameSrc = document.getElementById('scribd-frame').src;
-      let frameMatch = frameSrc.match(/embeds\/(\d+)\//);
-      if (frameMatch) {
-        document.getElementById('scribd-id-input').value = frameMatch[1];
-        return frameMatch[1];
-      }
-      return null;
-    }
-
     function loadScribdById() {
-      const docId = getActiveDocId();
-      if (!docId) {
-        alert("Silakan masukkan ID dokumen terlebih dahulu!");
-        document.getElementById('scribd-id-input').focus();
-        return;
-      }
-      const fullUrl = `https://www.scribd.com/embeds/${docId}/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf`;
-      document.getElementById('scribd-frame').src = fullUrl;
+      const input = document.getElementById('scribd-id-input').value.trim();
+      const match = input.match(/\d{6,}/);
+      const docId = match ? match[0] : input;
+      if (!docId) { alert("Masukkan ID dokumen!"); return; }
+      document.getElementById('scribd-frame').src = `https://www.scribd.com/embeds/${docId}/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf`;
     }
 
     let currentZoom = 1.0;
     function zoomDoc(step) {
       currentZoom = Math.min(Math.max(currentZoom + step, 0.5), 2.0);
-      applyZoom();
+      document.getElementById('zoom-label').innerText = Math.round(currentZoom * 100) + '%';
+      document.getElementById('scribd-target-wrapper').style.transform = `scale(${currentZoom})`;
     }
     function resetZoom() {
       currentZoom = 1.0;
-      applyZoom();
-    }
-    function applyZoom() {
-      document.getElementById('zoom-label').innerText = Math.round(currentZoom * 100) + '%';
-      document.getElementById('scribd-target-wrapper').style.transform = `scale(${currentZoom})`;
+      document.getElementById('zoom-label').innerText = '100%';
+      document.getElementById('scribd-target-wrapper').style.transform = 'scale(1)';
     }
 
     let isA4 = false;
@@ -669,18 +687,16 @@
       } else {
         wrapper.classList.remove('mode-a4');
         btn.innerText = '📄 Mode A4';
-        btn.style.background = '#334155';
+        btn.style.background = '#1e293b';
       }
     }
 
-    function downloadAsPDF() {
-      const docId = getActiveDocId();
-      if (!docId) {
-        alert("Tidak ada dokumen yang sedang dibuka. Masukkan ID dokumen terlebih dahulu!");
-        return;
-      }
-      const fullUrl = `https://www.scribd.com/embeds/${docId}/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf`;
-      const printWin = window.open(fullUrl, '_blank');
+    function downloadScribdPDF() {
+      const input = document.getElementById('scribd-id-input').value.trim();
+      const match = input.match(/\d{6,}/);
+      const docId = match ? match[0] : input;
+      if (!docId) { alert("Tidak ada dokumen aktif!"); return; }
+      const printWin = window.open(`https://www.scribd.com/embeds/${docId}/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf`, '_blank');
       if (printWin) {
         printWin.focus();
         setTimeout(() => { printWin.print(); }, 2000);
