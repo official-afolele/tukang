@@ -18,14 +18,8 @@
 
     /* SIDEBAR */
     aside {
-      width: 260px;
-      background: #0f172a;
-      border-right: 1px solid #1e293b;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 18px 14px;
-      flex-shrink: 0;
+      width: 260px; background: #0f172a; border-right: 1px solid #1e293b; display: flex;
+      flex-direction: column; justify-content: space-between; padding: 18px 14px; flex-shrink: 0;
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .brand { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; padding: 0 8px; }
@@ -38,10 +32,7 @@
     .brand-title { font-size: 15px; font-weight: 700; }
     .brand-title span { color: #818cf8; }
     .brand-sub { font-size: 10px; color: #64748b; font-weight: 500; }
-
-    .btn-close-sidebar {
-      display: none; background: none; border: none; color: #94a3b8; font-size: 20px; cursor: pointer;
-    }
+    .btn-close-sidebar { display: none; background: none; border: none; color: #94a3b8; font-size: 20px; cursor: pointer; }
 
     .menu-group { display: flex; flex-direction: column; gap: 6px; }
     .menu-label { font-size: 10px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.8px; margin: 16px 8px 6px; }
@@ -104,22 +95,27 @@
     .hub-card h3 { font-size: 14px; font-weight: 600; color: #fff; }
     .hub-card p { font-size: 11px; color: #94a3b8; line-height: 1.4; }
 
-    /* Toolbar Dokumen */
-    .iframe-toolbar {
-      display: flex; gap: 8px; align-items: center; justify-content: space-between; background: #0f172a; border: 1px solid #1e293b;
-      padding: 10px 12px; border-radius: 10px; margin-bottom: 12px; flex-wrap: wrap;
+    /* TOOLBAR & INPUTS */
+    .downloader-box {
+      background: #0f172a; border: 1px solid #1e293b; border-radius: 14px; padding: 16px; margin-bottom: 16px;
     }
-    .toolbar-group { display: flex; align-items: center; gap: 6px; }
-    .url-input {
-      background: #080d1a; border: 1px solid #334155; color: #f8fafc;
-      padding: 7px 10px; border-radius: 8px; font-size: 12px; outline: none; width: 120px;
+    .input-row { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
+    .custom-input {
+      flex: 1; min-width: 200px; background: #080d1a; border: 1px solid #334155; color: #f8fafc;
+      padding: 10px 14px; border-radius: 8px; font-size: 12px; outline: none;
     }
+    .custom-input:focus { border-color: #6366f1; }
+
     .btn-action {
-      background: #6366f1; color: white; border: none; padding: 7px 12px; border-radius: 8px;
-      font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px;
+      background: #6366f1; color: white; border: none; padding: 9px 15px; border-radius: 8px;
+      font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;
       transition: 0.15s; white-space: nowrap;
     }
     .btn-action:hover { background: #4f46e5; }
+    .btn-shopee { background: #ee4d2d; }
+    .btn-shopee:hover { background: #d73211; }
+    .btn-pinterest { background: #e60023; }
+    .btn-pinterest:hover { background: #c5001e; }
     .btn-green { background: #16a34a; }
     .btn-green:hover { background: #15803d; }
     .btn-red { background: #ef4444; }
@@ -127,12 +123,39 @@
     .btn-tool { background: #334155; }
     .btn-tool:hover { background: #475569; }
 
-    /* AREA BACA DOKUMEN */
+    /* GALERI GAMBAR PILIHAN */
+    .gallery-panel {
+      flex: 1; background: #0f172a; border: 1px solid #1e293b; border-radius: 14px;
+      padding: 16px; display: flex; flex-direction: column; overflow: hidden;
+    }
+    .gallery-header {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 12px; flex-wrap: wrap; gap: 8px;
+    }
+    .gallery-grid {
+      flex: 1; overflow-y: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 12px; padding: 4px;
+    }
+    .image-item {
+      position: relative; height: 130px; border-radius: 10px; overflow: hidden;
+      border: 2px solid transparent; background: #1e293b; cursor: pointer; transition: 0.2s;
+    }
+    .image-item:hover { transform: scale(1.02); }
+    .image-item.selected { border-color: #6366f1; box-shadow: 0 0 10px rgba(99, 102, 241, 0.4); }
+    .image-item img { width: 100%; height: 100%; object-fit: cover; }
+    .image-item input[type="checkbox"] {
+      position: absolute; top: 6px; right: 6px; width: 18px; height: 18px; accent-color: #6366f1; cursor: pointer;
+    }
+
+    .empty-gallery {
+      grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; height: 220px; color: #64748b; font-size: 12px; gap: 8px; text-align: center;
+    }
+
+    /* SCRIBD WRAPPER */
     .reader-stage {
       flex: 1; overflow: auto; background: #080d1a; display: flex; justify-content: center;
       padding: 8px 0; position: relative; border-radius: 12px;
     }
-
     .scribd-clean-wrapper {
       position: relative; width: 100%; height: 100%; background: #ffffff; border-radius: 12px;
       overflow: hidden; border: 1px solid #1e293b; transition: all 0.25s ease; transform-origin: top center;
@@ -143,47 +166,22 @@
     .scribd-clean-wrapper iframe {
       width: 100%; height: calc(100% + 46px); margin-bottom: -46px; border: none; background: #ffffff;
     }
-    .mask-bottom-left {
-      position: absolute; bottom: 0; left: 0; width: 180px; height: 46px; background: #ffffff; z-index: 30; pointer-events: none;
-    }
-    .mask-bottom-right {
-      position: absolute; bottom: 0; right: 0; width: 90px; height: 46px; background: #ffffff; z-index: 30; pointer-events: none;
-    }
+    .mask-bottom-left { position: absolute; bottom: 0; left: 0; width: 180px; height: 46px; background: #ffffff; z-index: 30; pointer-events: none; }
+    .mask-bottom-right { position: absolute; bottom: 0; right: 0; width: 90px; height: 46px; background: #ffffff; z-index: 30; pointer-events: none; }
 
-    .frame-box { flex: 1; background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden; }
-    .frame-box iframe { width: 100%; height: 100%; border: none; background: white; }
-
-    /* RESPONSIVE MOBILE */
+    /* RESPONSIVE HP */
     @media (max-width: 768px) {
-      aside {
-        position: fixed; top: 0; left: 0; bottom: 0; z-index: 100;
-        transform: translateX(-100%);
-        box-shadow: 10px 0 30px rgba(0,0,0,0.7);
-      }
+      aside { position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; transform: translateX(-100%); box-shadow: 10px 0 30px rgba(0,0,0,0.7); }
       aside.open { transform: translateX(0); }
       .btn-close-sidebar { display: block; }
       .btn-hamburger { display: flex; }
-
       .content-area { padding: 12px; }
-      
-      .iframe-toolbar {
-        flex-direction: column; align-items: stretch; gap: 10px;
-      }
-      .toolbar-group {
-        width: 100%; justify-content: space-between;
-      }
-      .url-input { flex: 1; width: auto; }
-      
-      .scribd-clean-wrapper.mode-a4 {
-        max-width: 100%;
-      }
-      .mask-bottom-left { width: 140px; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
 <body>
 
-  <!-- BACKDROP OVERLAY UNTUK HP -->
   <div id="mobile-overlay" class="mobile-overlay" onclick="closeSidebar()"></div>
 
   <!-- SIDEBAR -->
@@ -201,7 +199,6 @@
       </div>
 
       <nav class="menu-group">
-        <!-- 1. App Dashboard Utama -->
         <button onclick="openTab('dashboard')" id="nav-dashboard" class="nav-btn active">
           <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
           App Dashboard
@@ -209,19 +206,16 @@
 
         <div class="menu-label">Portal Web Terhubung</div>
 
-        <!-- 2. Shopee Center -->
         <button onclick="openTab('shopee')" id="nav-shopee" class="nav-btn">
           <svg fill="none" viewBox="0 0 24 24" stroke="#fb923c" stroke-width="2"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-          Shopee Center
+          Shopee Downloader
         </button>
 
-        <!-- 3. Pinterest Media -->
         <button onclick="openTab('pinterest')" id="nav-pinterest" class="nav-btn">
           <svg fill="none" viewBox="0 0 24 24" stroke="#f87171" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          Pinterest Media
+          Pinterest Downloader
         </button>
 
-        <!-- 4. Scribd Reader & PDF (DITARUH DI DERETAN BAWAH PINTEREST) -->
         <button onclick="openTab('scribd')" id="nav-scribd" class="nav-btn">
           <svg fill="none" viewBox="0 0 24 24" stroke="#4ade80" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
           Scribd Reader & PDF
@@ -229,13 +223,12 @@
       </nav>
     </div>
 
-    <!-- Status Server -->
     <div class="badge-live">
       <div style="display:flex; align-items:center; gap:8px;">
         <span class="dot-live"></span>
         <span style="font-weight:600; color:#cbd5e1;">Vercel Live</span>
       </div>
-      <span style="color:#64748b;">v2.3</span>
+      <span style="color:#64748b;">v2.4</span>
     </div>
   </aside>
 
@@ -246,7 +239,7 @@
         <button class="btn-hamburger" onclick="openSidebar()">☰</button>
         <div id="page-title" class="header-title">App Dashboard Utama</div>
       </div>
-      <button onclick="document.documentElement.requestFullscreen()" class="btn-action" style="background:#1e293b; padding:6px 10px; font-size:11px;">
+      <button onclick="document.documentElement.requestFullscreen()" class="btn-action btn-tool" style="font-size:11px;">
         Layar Penuh
       </button>
     </header>
@@ -257,59 +250,120 @@
       <section id="view-dashboard" class="page-view active">
         <div class="welcome-banner">
           <h2>Selamat Datang di DJ Hub Pro 🚀</h2>
-          <p>Pusat eksekusi tools multi-platform. Akses pembaca skrip Scribd, unduh PDF, serta jelajahi katalog Shopee & Pinterest dalam satu aplikasi terpadu.</p>
+          <p>Pusat eksekusi tools multi-platform. Unduh foto produk Shopee, gambar resolusi asli Pinterest, dan pembaca dokumen Scribd terpadu.</p>
         </div>
 
         <div class="cards-grid">
-          <!-- Shopee Card -->
           <div class="hub-card" onclick="openTab('shopee')">
             <div class="card-icon" style="background:rgba(249,115,22,0.15); color:#fb923c;">
               <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
             </div>
-            <h3>Shopee Center</h3>
-            <p>Riset produk e-commerce dan gunakan ekstensi DJ Grab Pro untuk mengunduh gambar produk.</p>
+            <h3>Shopee Downloader</h3>
+            <p>Salin link produk Shopee untuk mengambil semua foto produk & variasi secara instan.</p>
           </div>
 
-          <!-- Pinterest Card -->
           <div class="hub-card" onclick="openTab('pinterest')">
             <div class="card-icon" style="background:rgba(239,68,68,0.15); color:#f87171;">
               <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </div>
-            <h3>Pinterest Media</h3>
-            <p>Jelajahi visual HD dan manfaatkan downloader DJ Grab Pro untuk aset resolusi tinggi.</p>
+            <h3>Pinterest Downloader</h3>
+            <p>Salin link Pin Pinterest untuk mengambil foto resolusi tinggi (Original HD) tanpa kompresi.</p>
           </div>
 
-          <!-- Scribd Card (Di Bawah Pinterest) -->
           <div class="hub-card" onclick="openTab('scribd')">
             <div class="card-icon" style="background:rgba(34,197,94,0.15); color:#4ade80;">
               <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
             </div>
             <h3>Scribd Reader & PDF</h3>
-            <p>Buka dokumen skrip Scribd dalam format A4 / Fullscreen dan unduh PDF dengan mudah.</p>
+            <p>Buka dokumen skrip Scribd dalam format A4 / Zoom dan unduh PDF dengan mudah.</p>
           </div>
         </div>
       </section>
 
-      <!-- 2. SCRIBD READER & PDF EXPORTER -->
-      <section id="view-scribd" class="page-view">
-        <div class="iframe-toolbar">
-          <div class="toolbar-group">
-            <span style="font-size:12px; font-weight:600; color:#94a3b8; white-space:nowrap;">ID:</span>
-            <input type="text" id="scribd-id-input" value="715129338" placeholder="ID Dokumen" class="url-input" />
-            <button onclick="loadScribdById()" class="btn-action">Buka</button>
-            <button onclick="clearScribdId()" class="btn-action btn-red">Hapus</button>
+      <!-- 2. SHOPEE DOWNLOADER VIEW -->
+      <section id="view-shopee" class="page-view">
+        <div class="downloader-box">
+          <div style="font-size:13px; font-weight:700; color:#fb923c; margin-bottom:8px;">🛍️ Shopee Product Image Downloader</div>
+          <div class="input-row">
+            <input type="text" id="shopee-url-input" 
+                   value="https://shopee.co.id/Nappa-Milano-Pam-Penny-Black-(Women-Shoes)-i.158797510.50217130926" 
+                   placeholder="Tempel link produk Shopee di sini..." 
+                   class="custom-input" />
+            <button onclick="processShopeeUrl()" class="btn-action btn-shopee">Proses Link</button>
+            <button onclick="document.getElementById('shopee-url-input').value=''" class="btn-action btn-red">Hapus</button>
           </div>
+        </div>
 
-          <div class="toolbar-group">
-            <button id="btn-a4-toggle" onclick="toggleA4Mode()" class="btn-action btn-tool">
-              📄 Mode A4
-            </button>
-            <button onclick="zoomDoc(-0.1)" class="btn-action btn-tool" style="padding:7px 9px;" title="Perkecil">➖</button>
-            <span id="zoom-label" style="font-size:11px; font-weight:700; color:#818cf8; min-width:38px; text-align:center;">100%</span>
-            <button onclick="zoomDoc(0.1)" class="btn-action btn-tool" style="padding:7px 9px;" title="Perbesar">➕</button>
-            <button onclick="resetZoom()" class="btn-action btn-tool" style="padding:7px 8px; font-size:10px;" title="Reset Zoom">↺</button>
-            
-            <button onclick="downloadAsPDF()" class="btn-action btn-green">Simpan PDF</button>
+        <div class="gallery-panel">
+          <div class="gallery-header">
+            <div><strong id="shopee-count">0</strong> Foto Ditemukan</div>
+            <div style="display:flex; gap:8px;">
+              <button onclick="selectAllImages('shopee')" class="btn-action btn-tool" style="font-size:11px; padding:6px 10px;">Pilih Semua</button>
+              <button onclick="unselectAllImages('shopee')" class="btn-action btn-tool" style="font-size:11px; padding:6px 10px;">Reset</button>
+              <button id="btn-download-shopee" onclick="downloadSelectedImages('shopee')" class="btn-action btn-green" disabled>
+                Unduh (0) Foto
+              </button>
+            </div>
+          </div>
+          <div id="shopee-gallery" class="gallery-grid">
+            <div class="empty-gallery">
+              <span>Klik tombol "Proses Link" di atas untuk memuat foto produk Shopee.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. PINTEREST DOWNLOADER VIEW -->
+      <section id="view-pinterest" class="page-view">
+        <div class="downloader-box">
+          <div style="font-size:13px; font-weight:700; color:#f87171; margin-bottom:8px;">📌 Pinterest HD Pin Downloader</div>
+          <div class="input-row">
+            <input type="text" id="pinterest-url-input" 
+                   value="https://id.pinterest.com/pin/777856166932028229/" 
+                   placeholder="Tempel link Pin Pinterest di sini..." 
+                   class="custom-input" />
+            <button onclick="processPinterestUrl()" class="btn-action btn-pinterest">Proses Link</button>
+            <button onclick="document.getElementById('pinterest-url-input').value=''" class="btn-action btn-red">Hapus</button>
+          </div>
+        </div>
+
+        <div class="gallery-panel">
+          <div class="gallery-header">
+            <div><strong id="pinterest-count">0</strong> Gambar Ditemukan</div>
+            <div style="display:flex; gap:8px;">
+              <button onclick="selectAllImages('pinterest')" class="btn-action btn-tool" style="font-size:11px; padding:6px 10px;">Pilih Semua</button>
+              <button onclick="unselectAllImages('pinterest')" class="btn-action btn-tool" style="font-size:11px; padding:6px 10px;">Reset</button>
+              <button id="btn-download-pinterest" onclick="downloadSelectedImages('pinterest')" class="btn-action btn-green" disabled>
+                Unduh (0) Gambar
+              </button>
+            </div>
+          </div>
+          <div id="pinterest-gallery" class="gallery-grid">
+            <div class="empty-gallery">
+              <span>Klik tombol "Proses Link" di atas untuk memuat gambar Pinterest HD.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. SCRIBD READER & PDF EXPORTER -->
+      <section id="view-scribd" class="page-view">
+        <div class="downloader-box" style="padding:10px 14px; margin-bottom:12px;">
+          <div class="input-row" style="margin-bottom:0;">
+            <div style="display:flex; align-items:center; gap:6px; flex:1;">
+              <span style="font-size:12px; font-weight:600; color:#94a3b8;">ID:</span>
+              <input type="text" id="scribd-id-input" value="715129338" placeholder="ID Dokumen" class="custom-input" style="max-width:140px; padding:7px 10px;" />
+              <button onclick="loadScribdById()" class="btn-action">Buka</button>
+              <button onclick="clearScribdId()" class="btn-action btn-red">Hapus</button>
+            </div>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <button id="btn-a4-toggle" onclick="toggleA4Mode()" class="btn-action btn-tool">📄 Mode A4</button>
+              <button onclick="zoomDoc(-0.1)" class="btn-action btn-tool" style="padding:7px 9px;">➖</button>
+              <span id="zoom-label" style="font-size:11px; font-weight:700; color:#818cf8; min-width:38px; text-align:center;">100%</span>
+              <button onclick="zoomDoc(0.1)" class="btn-action btn-tool" style="padding:7px 9px;">➕</button>
+              <button onclick="resetZoom()" class="btn-action btn-tool" style="padding:7px 8px; font-size:10px;">↺</button>
+              <button onclick="downloadAsPDF()" class="btn-action btn-green">Simpan PDF</button>
+            </div>
           </div>
         </div>
 
@@ -325,45 +379,21 @@
         </div>
       </section>
 
-      <!-- 3. SHOPEE VIEW -->
-      <section id="view-shopee" class="page-view">
-        <div class="iframe-toolbar">
-          <span style="font-size:12px; color:#94a3b8;">Shopee Portal</span>
-          <button onclick="window.open('https://shopee.co.id', '_blank')" class="btn-action" style="margin-left:auto;">Buka Shopee Resmi ↗</button>
-        </div>
-        <div class="frame-box">
-          <iframe src="https://shopee.co.id"></iframe>
-        </div>
-      </section>
-
-      <!-- 4. PINTEREST VIEW -->
-      <section id="view-pinterest" class="page-view">
-        <div class="iframe-toolbar">
-          <span style="font-size:12px; color:#94a3b8;">Pinterest Media Hub</span>
-          <button onclick="window.open('https://id.pinterest.com', '_blank')" class="btn-action" style="margin-left:auto;">Buka Pinterest Resmi ↗</button>
-        </div>
-        <div class="frame-box">
-          <iframe src="https://id.pinterest.com"></iframe>
-        </div>
-      </section>
-
     </div>
   </main>
 
-  <!-- JAVASCRIPT -->
   <script>
-    // 1. Mobile Drawer
+    // 1. Mobile Drawer Navigation
     function openSidebar() {
       document.getElementById('sidebar').classList.add('open');
       document.getElementById('mobile-overlay').classList.add('active');
     }
-
     function closeSidebar() {
       document.getElementById('sidebar').classList.remove('open');
       document.getElementById('mobile-overlay').classList.remove('active');
     }
 
-    // 2. Tab Navigation
+    // 2. Tab Menu
     function openTab(tabId) {
       document.querySelectorAll('.page-view').forEach(view => view.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
@@ -376,23 +406,207 @@
 
       const titles = {
         'dashboard': 'App Dashboard Utama',
-        'scribd': 'Scribd Reader & PDF Exporter',
-        'shopee': 'Shopee Center Hub',
-        'pinterest': 'Pinterest Media Studio'
+        'shopee': 'Shopee Image Downloader',
+        'pinterest': 'Pinterest HD Downloader',
+        'scribd': 'Scribd Reader & PDF Exporter'
       };
       document.getElementById('page-title').innerText = titles[tabId] || 'Workspace';
-
       closeSidebar();
     }
 
-    // 3. Hapus ID
+    // ================= SHOPEE SCRAPER & DOWNLOADER ================= //
+    let shopeeSelectedImages = new Set();
+    let shopeeAllImages = [];
+
+    async function processShopeeUrl() {
+      const urlInput = document.getElementById('shopee-url-input').value.trim();
+      const gallery = document.getElementById('shopee-gallery');
+      const countLabel = document.getElementById('shopee-count');
+
+      // Ambil shopid dan itemid dari link
+      const match = urlInput.match(/i\.(\d+)\.(\d+)/);
+      if (!match) {
+        alert("Link Shopee tidak valid! Pastikan link mengandung format 'i.shopid.itemid'.");
+        return;
+      }
+
+      const shopid = match[1];
+      const itemid = match[2];
+
+      gallery.innerHTML = '<div class="empty-gallery"><span>⏳ Mengambil data foto produk Shopee...</span></div>';
+
+      try {
+        const apiUrl = `https://shopee.co.id/api/v4/item/get?itemid=${itemid}&shopid=${shopid}`;
+        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(apiUrl)}`;
+        
+        const res = await fetch(proxyUrl);
+        const data = await res.json();
+        const item = data?.data || data?.item;
+
+        if (!item || !item.images) {
+          throw new Error("Gagal membaca gambar produk.");
+        }
+
+        shopeeAllImages = [];
+        // Gambar Utama
+        item.images.forEach(hash => {
+          shopeeAllImages.push(`https://down-id.img.susercontent.com/file/${hash}`);
+        });
+
+        // Gambar Variasi (Warna / Tipe)
+        if (item.tier_variations) {
+          item.tier_variations.forEach(tier => {
+            if (tier.images) {
+              tier.images.forEach(hash => {
+                if (hash) shopeeAllImages.push(`https://down-id.img.susercontent.com/file/${hash}`);
+              });
+            }
+          });
+        }
+
+        shopeeAllImages = [...new Set(shopeeAllImages)];
+        renderDownloaderGallery('shopee', shopeeAllImages);
+      } catch (err) {
+        gallery.innerHTML = '<div class="empty-gallery" style="color:#ef4444;"><span>Gagal memuat foto Shopee. Silakan cek kembali link produk Anda.</span></div>';
+      }
+    }
+
+    // ================= PINTEREST SCRAPER & DOWNLOADER ================= //
+    let pinterestSelectedImages = new Set();
+    let pinterestAllImages = [];
+
+    async function processPinterestUrl() {
+      const urlInput = document.getElementById('pinterest-url-input').value.trim();
+      const gallery = document.getElementById('pinterest-gallery');
+
+      const match = urlInput.match(/pin\/(\d+)/);
+      if (!match) {
+        alert("Link Pinterest tidak valid! Pastikan link mengandung format Pin ID.");
+        return;
+      }
+
+      gallery.innerHTML = '<div class="empty-gallery"><span>⏳ Mengambil gambar resolusi asli Pinterest...</span></div>';
+
+      try {
+        // Ambil data melalui oEmbed Pinterest
+        const oembedUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent('https://www.pinterest.com/oembed.json?url=' + encodeURIComponent(urlInput))}`;
+        const res = await fetch(oembedUrl);
+        const data = await res.json();
+
+        pinterestAllImages = [];
+        if (data && data.thumbnail_url) {
+          // Otomatis ubah thumbnail jadi format resolusi asli Original HD
+          let hdUrl = data.thumbnail_url.replace(/\/\d+x\d*\/|\/236x\/|\/564x\/|\/736x\//, '/originals/');
+          pinterestAllImages.push(hdUrl);
+        }
+
+        renderDownloaderGallery('pinterest', pinterestAllImages);
+      } catch (err) {
+        gallery.innerHTML = '<div class="empty-gallery" style="color:#ef4444;"><span>Gagal mengambil gambar Pinterest. Pastikan link Pin dapat diakses publik.</span></div>';
+      }
+    }
+
+    // ================= RENDER GALERI & PILIHAN GAMBAR ================= //
+    function renderDownloaderGallery(platform, images) {
+      const gallery = document.getElementById(`${platform}-gallery`);
+      const countLabel = document.getElementById(`${platform}-count`);
+      const selectedSet = platform === 'shopee' ? shopeeSelectedImages : pinterestSelectedImages;
+
+      gallery.innerHTML = '';
+      selectedSet.clear();
+      countLabel.innerText = images.length;
+
+      images.forEach((imgUrl) => {
+        selectedSet.add(imgUrl); // Default: Terpilih semua
+
+        const item = document.createElement('div');
+        item.className = 'image-item selected';
+        item.innerHTML = `
+          <img src="${imgUrl}" loading="lazy" />
+          <input type="checkbox" checked />
+        `;
+
+        const checkbox = item.querySelector('input');
+
+        item.addEventListener('click', (e) => {
+          if (e.target !== checkbox) checkbox.checked = !checkbox.checked;
+          if (checkbox.checked) {
+            selectedSet.add(imgUrl);
+            item.classList.add('selected');
+          } else {
+            selectedSet.delete(imgUrl);
+            item.classList.remove('selected');
+          }
+          updateDownloaderBtn(platform);
+        });
+
+        gallery.appendChild(item);
+      });
+
+      updateDownloaderBtn(platform);
+    }
+
+    function updateDownloaderBtn(platform) {
+      const selectedSet = platform === 'shopee' ? shopeeSelectedImages : pinterestSelectedImages;
+      const btn = document.getElementById(`btn-download-${platform}`);
+      const count = selectedSet.size;
+      btn.innerText = `Unduh (${count}) Gambar`;
+      btn.disabled = count === 0;
+    }
+
+    function selectAllImages(platform) {
+      const images = platform === 'shopee' ? shopeeAllImages : pinterestAllImages;
+      const selectedSet = platform === 'shopee' ? shopeeSelectedImages : pinterestSelectedImages;
+
+      selectedSet.clear();
+      document.querySelectorAll(`#${platform}-gallery .image-item`).forEach((item, idx) => {
+        item.classList.add('selected');
+        item.querySelector('input').checked = true;
+        selectedSet.add(images[idx]);
+      });
+      updateDownloaderBtn(platform);
+    }
+
+    function unselectAllImages(platform) {
+      const selectedSet = platform === 'shopee' ? shopeeSelectedImages : pinterestSelectedImages;
+      selectedSet.clear();
+      document.querySelectorAll(`#${platform}-gallery .image-item`).forEach(item => {
+        item.classList.remove('selected');
+        item.querySelector('input').checked = false;
+      });
+      updateDownloaderBtn(platform);
+    }
+
+    // Fungsi Pengunduh File Gambar Langsung
+    async function downloadSelectedImages(platform) {
+      const selectedSet = platform === 'shopee' ? shopeeSelectedImages : pinterestSelectedImages;
+      let index = 1;
+
+      for (const url of selectedSet) {
+        try {
+          const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`);
+          const blob = await res.blob();
+          const blobUrl = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = blobUrl;
+          a.download = `${platform}_image_${index++}.jpg`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(blobUrl);
+        } catch (e) {
+          window.open(url, '_blank');
+        }
+      }
+    }
+
+    // ================= SCRIBD FUNCTIONS ================= //
     function clearScribdId() {
       const input = document.getElementById('scribd-id-input');
       input.value = '';
       input.focus();
     }
 
-    // 4. Deteksi ID Aktif
     function getActiveDocId() {
       let inputVal = document.getElementById('scribd-id-input').value.trim();
       let match = inputVal.match(/\d{6,}/);
@@ -407,7 +621,6 @@
       return null;
     }
 
-    // 5. Muat Dokumen
     function loadScribdById() {
       const docId = getActiveDocId();
       if (!docId) {
@@ -419,31 +632,25 @@
       document.getElementById('scribd-frame').src = fullUrl;
     }
 
-    // 6. Zoom Kontrol
     let currentZoom = 1.0;
     function zoomDoc(step) {
       currentZoom = Math.min(Math.max(currentZoom + step, 0.5), 2.0);
       applyZoom();
     }
-
     function resetZoom() {
       currentZoom = 1.0;
       applyZoom();
     }
-
     function applyZoom() {
       document.getElementById('zoom-label').innerText = Math.round(currentZoom * 100) + '%';
-      const wrapper = document.getElementById('scribd-target-wrapper');
-      wrapper.style.transform = `scale(${currentZoom})`;
+      document.getElementById('scribd-target-wrapper').style.transform = `scale(${currentZoom})`;
     }
 
-    // 7. Mode A4
     let isA4 = false;
     function toggleA4Mode() {
       isA4 = !isA4;
       const wrapper = document.getElementById('scribd-target-wrapper');
       const btn = document.getElementById('btn-a4-toggle');
-
       if (isA4) {
         wrapper.classList.add('mode-a4');
         btn.innerText = '🖥️ Lebar Penuh';
@@ -455,22 +662,17 @@
       }
     }
 
-    // 8. Download PDF
     function downloadAsPDF() {
       const docId = getActiveDocId();
       if (!docId) {
         alert("Tidak ada dokumen yang sedang dibuka. Masukkan ID dokumen terlebih dahulu!");
-        document.getElementById('scribd-id-input').focus();
         return;
       }
-
       const fullUrl = `https://www.scribd.com/embeds/${docId}/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf`;
       const printWin = window.open(fullUrl, '_blank');
       if (printWin) {
         printWin.focus();
-        setTimeout(() => {
-          printWin.print();
-        }, 2000);
+        setTimeout(() => { printWin.print(); }, 2000);
       }
     }
   </script>
