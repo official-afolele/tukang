@@ -58,9 +58,9 @@
     /* MAIN VIEW */
     main { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: #080d1a; position: relative; }
     header {
-      height: 54px; border-bottom: 1px solid #1e293b; background: rgba(15,23,42,0.8);
+      height: 50px; border-bottom: 1px solid #1e293b; background: rgba(15,23,42,0.8);
       display: flex; align-items: center; justify-content: space-between; padding: 0 16px;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px); flex-shrink: 0;
     }
     .header-left { display: flex; align-items: center; gap: 12px; }
     .btn-hamburger {
@@ -70,11 +70,12 @@
     }
     .header-title { font-size: 14px; font-weight: 600; color: #e2e8f0; }
 
-    .content-area { flex: 1; overflow: auto; padding: 18px; position: relative; }
-    .page-view { display: none; height: 100%; flex-direction: column; }
+    .content-area { flex: 1; overflow: hidden; position: relative; }
+    .page-view { display: none; height: 100%; width: 100%; flex-direction: column; }
     .page-view.active { display: flex; }
 
     /* DASHBOARD CARDS */
+    .dashboard-container { padding: 20px; overflow-y: auto; height: 100%; }
     .welcome-banner {
       background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(168,85,247,0.08));
       border: 1px solid rgba(99,102,241,0.25); border-radius: 14px; padding: 20px; margin-bottom: 20px;
@@ -95,10 +96,38 @@
     .hub-card h3 { font-size: 15px; font-weight: 600; color: #fff; }
     .hub-card p { font-size: 11px; color: #94a3b8; line-height: 1.4; }
 
-    /* TOOLBAR & BUTTONS */
+    /* ================= AREA SURAT MENJALIN (BERSIH & LEBAR MAKSIMAL) ================= */
+    .surat-full-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #0b1120;
+    }
+
+    .surat-full-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #ffffff;
+    }
+
+    /* PENUTUP BANNER TENGAH (LINGKARAN MERAH 2 HILANG, LINGKARAN PUTIH TETAP KLIK-ABLE) */
+    .mask-header-banner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: calc(100% - 310px); /* Menyisakan 310px di kanan agar tombol Split/Form/Dokumen tetap muncul */
+      height: 56px;              /* Menutup tepat area logo & teks Kecamatan Menjalin */
+      background: #0b1120;        /* Warna gelap senada aplikasi */
+      z-index: 10;
+      pointer-events: none;      /* Tidak mengganggu klik */
+    }
+
+    /* TOOLBAR SCRIBD */
     .app-toolbar {
       display: flex; gap: 8px; align-items: center; justify-content: space-between; background: #0f172a; border: 1px solid #1e293b;
-      padding: 10px 14px; border-radius: 12px; margin-bottom: 12px; flex-wrap: wrap;
+      padding: 10px 14px; border-radius: 12px; margin: 12px 14px; flex-wrap: wrap; flex-shrink: 0;
     }
     .btn-action {
       background: #6366f1; color: white; border: none; padding: 8px 14px; border-radius: 8px;
@@ -116,15 +145,6 @@
     .form-control {
       background: #080d1a; border: 1px solid #334155; color: #f8fafc;
       padding: 7px 11px; border-radius: 8px; font-size: 12px; outline: none;
-    }
-
-    /* BINGKAI IFRAME LENGKAP */
-    .frame-viewport {
-      flex: 1; background: #ffffff; border: 1px solid #1e293b; border-radius: 12px;
-      overflow: hidden; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    }
-    .frame-viewport iframe {
-      width: 100%; height: 100%; border: none; background: #ffffff;
     }
 
     /* SCRIBD WRAPPER */
@@ -151,8 +171,7 @@
       aside.open { transform: translateX(0); }
       .btn-close-sidebar { display: block; }
       .btn-hamburger { display: flex; }
-      .content-area { padding: 10px; }
-      .app-toolbar { flex-direction: column; align-items: stretch; gap: 8px; }
+      .mask-header-banner { display: none; } /* Di HP biarkan menyesuaikan otomatis */
     }
   </style>
 </head>
@@ -182,7 +201,7 @@
 
         <div class="menu-label">Layanan Utama</div>
 
-        <!-- Pembuat Surat Terhubung ke Surat Menjalin -->
+        <!-- Pembuat Surat -->
         <button onclick="openTab('surat')" id="nav-surat" class="nav-btn">
           <svg fill="none" viewBox="0 0 24 24" stroke="#818cf8" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
           Pembuat Surat Resmi
@@ -201,7 +220,7 @@
         <span class="dot-live"></span>
         <span style="font-weight:600; color:#cbd5e1;">Vercel Live</span>
       </div>
-      <span style="color:#64748b;">v3.2</span>
+      <span style="color:#64748b;">v3.3</span>
     </div>
   </aside>
 
@@ -221,49 +240,39 @@
 
       <!-- 1. DASHBOARD -->
       <section id="view-dashboard" class="page-view active">
-        <div class="welcome-banner">
-          <h2>Selamat Datang di DJ Hub Pro 🚀</h2>
-          <p>Pusat administrasi digital terpadu. Terhubung langsung dengan sistem <b>Surat Menjalin</b> untuk pembuatan surat resmi instan serta pembaca dokumen Scribd.</p>
-        </div>
-
-        <div class="cards-grid">
-          <div class="hub-card" onclick="openTab('surat')">
-            <div class="card-icon" style="background:rgba(99,102,241,0.15); color:#818cf8;">
-              <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-            </div>
-            <h3>Pembuat Surat Resmi (Surat Menjalin)</h3>
-            <p>Akses langsung aplikasi Surat Menjalin untuk membuat surat dinas, rekomendasi, dan keterangan secara otomatis.</p>
+        <div class="dashboard-container">
+          <div class="welcome-banner">
+            <h2>Selamat Datang di DJ Hub Pro 🚀</h2>
+            <p>Pusat administrasi digital terpadu. Terhubung langsung dengan sistem <b>Surat Menjalin</b> untuk pembuatan surat resmi instan serta pembaca dokumen Scribd.</p>
           </div>
 
-          <div class="hub-card" onclick="openTab('scribd')">
-            <div class="card-icon" style="background:rgba(34,197,94,0.15); color:#4ade80;">
-              <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          <div class="cards-grid">
+            <div class="hub-card" onclick="openTab('surat')">
+              <div class="card-icon" style="background:rgba(99,102,241,0.15); color:#818cf8;">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              </div>
+              <h3>Pembuat Surat Resmi (Surat Menjalin)</h3>
+              <p>Akses langsung aplikasi Surat Menjalin untuk membuat surat dinas, rekomendasi, dan keterangan dengan tampilan leluasa.</p>
             </div>
-            <h3>Scribd Reader & PDF Exporter</h3>
-            <p>Buka dan konversi skrip dokumen Scribd embed ke format PDF utuh tanpa watermark.</p>
+
+            <div class="hub-card" onclick="openTab('scribd')">
+              <div class="card-icon" style="background:rgba(34,197,94,0.15); color:#4ade80;">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+              </div>
+              <h3>Scribd Reader & PDF Exporter</h3>
+              <p>Buka dan konversi skrip dokumen Scribd embed ke format PDF utuh tanpa watermark.</p>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- 2. PEMBUAT SURAT RESMI (SURAT MENJALIN TERHUBUNG LANGSUNG) -->
+      <!-- 2. PEMBUAT SURAT RESMI (BERSIH TOTAL, HANYA SISAKAN TOMBOL SPLIT/FORM/DOKUMEN) -->
       <section id="view-surat" class="page-view">
-        <div class="app-toolbar">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span style="font-size:13px; font-weight:700; color:#818cf8;">📜 Aplikasi Surat Menjalin</span>
-            <span style="font-size:11px; color:#64748b;">(surat-menjalin.vercel.app)</span>
-          </div>
-          <div style="display:flex; align-items:center; gap:8px;">
-            <button onclick="document.getElementById('frame-surat-menjalin').src = 'https://surat-menjalin.vercel.app/'" class="btn-action btn-tool">
-              ↺ Muat Ulang
-            </button>
-            <button onclick="window.open('https://surat-menjalin.vercel.app/', '_blank')" class="btn-action btn-green">
-              Buka di Tab Baru ↗
-            </button>
-          </div>
-        </div>
+        <div class="surat-full-container">
+          <!-- Menutupi banner tengah (Lingkaran Merah 2) secara mulus -->
+          <div class="mask-header-banner"></div>
 
-        <!-- TAMPILAN RESMI APLIKASI SURAT MENJALIN -->
-        <div class="frame-viewport">
+          <!-- Iframe Aplikasi Surat Menjalin -->
           <iframe id="frame-surat-menjalin" 
                   src="https://surat-menjalin.vercel.app/" 
                   allow="fullscreen; clipboard-read; clipboard-write;">
@@ -329,7 +338,7 @@
 
       const titles = {
         'dashboard': 'App Dashboard Utama',
-        'surat': 'Pembuat Surat Resmi (Surat Menjalin)',
+        'surat': 'Studio Pembuat Surat Resmi',
         'scribd': 'Scribd Reader & PDF Exporter'
       };
       document.getElementById('page-title').innerText = titles[tabId] || 'Workspace';
