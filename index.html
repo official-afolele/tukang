@@ -6,50 +6,6 @@
   <title>DJ Hub Pro - All-in-One Workspace</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-
-    /* Wadah Bersih Scribd (Memotong footer bar bawah) */
-    .scribd-clean-wrapper {
-      position: relative;
-      flex: 1;
-      background: #ffffff;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid #1e293b;
-    }
-
-    .btn-red { background: #ef4444; }
-    .btn-red:hover { background: #dc2626; }
-    /* Memperpanjang tinggi iframe 46px ke bawah agar toolbar Scribd terdorong keluar layar */
-    .scribd-clean-wrapper iframe {
-      width: 100%;
-      height: calc(100% + 46px);
-      margin-bottom: -46px;
-      border: none;
-      background: #ffffff;
-    }
-
-    /* Masking Pengaman Sudut (Menutup tombol Download & Fullscreen secara permanen) */
-    .mask-bottom-left {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 180px;
-      height: 46px;
-      background: #ffffff;
-      z-index: 30;
-      pointer-events: none;
-    }
-
-    .mask-bottom-right {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 90px;
-      height: 46px;
-      background: #ffffff;
-      z-index: 30;
-      pointer-events: none;
-    }
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
     body { background-color: #0b0f19; color: #f1f5f9; display: flex; height: 100vh; overflow: hidden; }
 
@@ -77,7 +33,6 @@
     .menu-group { display: flex; flex-direction: column; gap: 6px; }
     .menu-label { font-size: 10px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.8px; margin: 16px 8px 6px; }
 
-    /* Nav Buttons */
     .nav-btn {
       width: 100%; display: flex; align-items: center; gap: 12px; padding: 10px 12px;
       background: transparent; border: none; border-radius: 10px; color: #94a3b8;
@@ -129,7 +84,7 @@
     .hub-card h3 { font-size: 14px; font-weight: 600; color: #fff; }
     .hub-card p { font-size: 11px; color: #94a3b8; line-height: 1.4; }
 
-    /* Scribd / Iframe Toolbar */
+    /* Toolbar Scribd */
     .iframe-toolbar {
       display: flex; gap: 10px; align-items: center; background: #0f172a; border: 1px solid #1e293b;
       padding: 10px 14px; border-radius: 10px; margin-bottom: 14px;
@@ -141,10 +96,36 @@
     .btn-action {
       background: #6366f1; color: white; border: none; padding: 8px 14px; border-radius: 8px;
       font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;
+      transition: 0.15s;
     }
     .btn-action:hover { background: #4f46e5; }
     .btn-green { background: #16a34a; }
     .btn-green:hover { background: #15803d; }
+    .btn-red { background: #ef4444; }
+    .btn-red:hover { background: #dc2626; }
+
+    /* Area Bersih Scribd */
+    .scribd-clean-wrapper {
+      position: relative;
+      flex: 1;
+      background: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #1e293b;
+    }
+    .scribd-clean-wrapper iframe {
+      width: 100%;
+      height: calc(100% + 46px);
+      margin-bottom: -46px;
+      border: none;
+      background: #ffffff;
+    }
+    .mask-bottom-left {
+      position: absolute; bottom: 0; left: 0; width: 180px; height: 46px; background: #ffffff; z-index: 30; pointer-events: none;
+    }
+    .mask-bottom-right {
+      position: absolute; bottom: 0; right: 0; width: 90px; height: 46px; background: #ffffff; z-index: 30; pointer-events: none;
+    }
 
     .frame-box { flex: 1; background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden; }
     .frame-box iframe { width: 100%; height: 100%; border: none; background: white; }
@@ -253,64 +234,42 @@
         </div>
       </section>
 
-// 1. Fungsi Tombol Hapus ID (Kosongkan input & arahkan kursor kembali)
-    function clearScribdId() {
-      const input = document.getElementById('scribd-id-input');
-      input.value = '';
-      input.focus();
-    }
+      <!-- 2. SCRIBD READER & PDF EXPORTER -->
+      <section id="view-scribd" class="page-view">
+        <div class="iframe-toolbar">
+          <div style="display:flex; align-items:center; gap:8px; flex:1;">
+            <span style="font-size:12px; font-weight:600; color:#94a3b8; white-space:nowrap;">ID Dokumen:</span>
+            <input type="text" id="scribd-id-input" 
+                   value="715129338" 
+                   placeholder="Masukkan ID Dokumen..." 
+                   class="url-input" />
+            
+            <!-- Tombol Buka Dokumen -->
+            <button onclick="loadScribdById()" class="btn-action">Buka Dokumen</button>
+            
+            <!-- Tombol Hapus ID Berderet -->
+            <button onclick="clearScribdId()" class="btn-action btn-red">Hapus ID</button>
+          </div>
+          
+          <!-- Tombol Simpan PDF -->
+          <button onclick="downloadAsPDF()" class="btn-action btn-green">Simpan PDF</button>
+        </div>
 
-    // 2. Fungsi Buka Dokumen dari ID
-    function loadScribdById() {
-      let inputVal = document.getElementById('scribd-id-input').value.trim();
-      let match = inputVal.match(/\d{6,}/);
-      let docId = match ? match[0] : inputVal;
-
-      if (!docId) {
-        alert("Silakan masukkan ID dokumen terlebih dahulu!");
-        document.getElementById('scribd-id-input').focus();
-        return;
-      }
-
-      const fullUrl = `https://www.scribd.com/embeds/${docId}/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf`;
-      document.getElementById('scribd-frame').src = fullUrl;
-    }
-
-    // 3. Fungsi Simpan PDF Langsung (Tanpa Meninggalkan Tab Baru)
-    function downloadAsPDF() {
-      const frame = document.getElementById('scribd-frame');
-      
-      try {
-        // Coba print langsung di dalam frame halaman saat ini
-        frame.contentWindow.focus();
-        frame.contentWindow.print();
-      } catch (err) {
-        // Jika dibatasi izin browser, gunakan background printer yang langsung tertutup otomatis
-        let inputVal = document.getElementById('scribd-id-input').value.trim();
-        let match = inputVal.match(/\d{6,}/);
-        let docId = match ? match[0] : inputVal;
-        
-        const fullUrl = `https://www.scribd.com/embeds/${docId}/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf`;
-        
-        // Membuka jendela dialog simpan PDF dan langsung menutup dirinya sendiri saat selesai
-        const printWindow = window.open(fullUrl, '_blank', 'width=800,height=600');
-        if (printWindow) {
-          printWindow.onload = function() {
-            printWindow.focus();
-            printWindow.print();
-            // Otomatis tertutup sendiri begitu Anda klik Save / Batal
-            printWindow.onafterprint = function() {
-              printWindow.close();
-            };
-          };
-        }
-      }
-    }
+        <!-- Area Pembaca dengan Pemotong Toolbar Bawah -->
+        <div class="scribd-clean-wrapper">
+          <iframe id="scribd-frame" 
+                  src="https://www.scribd.com/embeds/715129338/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf" 
+                  allowfullscreen="true">
+          </iframe>
+          <div class="mask-bottom-left"></div>
+          <div class="mask-bottom-right"></div>
+        </div>
+      </section>
 
       <!-- 3. SHOPEE VIEW -->
       <section id="view-shopee" class="page-view">
         <div class="iframe-toolbar">
-          <span style="font-size:12px; color:#94a3b8;">Shopee Portal (Buka di Tab Baru jika browser memblokir frame)</span>
+          <span style="font-size:12px; color:#94a3b8;">Shopee Portal</span>
           <button onclick="window.open('https://shopee.co.id', '_blank')" class="btn-action" style="margin-left:auto;">Buka Shopee Resmi ↗</button>
         </div>
         <div class="frame-box">
@@ -343,8 +302,9 @@
     </div>
   </main>
 
+  <!-- SEMUA LOGIKA JAVASCRIPT ADA DI SINI -->
   <script>
-    // Logika Penggantian Tab Menu
+    // 1. Logika Penggantian Tab Menu
     function openTab(tabId) {
       document.querySelectorAll('.page-view').forEach(view => view.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
@@ -365,36 +325,54 @@
       document.getElementById('page-title').innerText = titles[tabId] || 'Workspace';
     }
 
-// Fungsi memuat dokumen hanya dari ID angka
+    // 2. Fungsi Hapus ID (Kosongkan input & arahkan kursor kembali)
+    function clearScribdId() {
+      const input = document.getElementById('scribd-id-input');
+      input.value = '';
+      input.focus();
+    }
+
+    // 3. Fungsi Buka Dokumen dari ID Angka
     function loadScribdById() {
       let inputVal = document.getElementById('scribd-id-input').value.trim();
-      
-      // Mengambil hanya angka ID meskipun pengguna menempelkan link lengkap
       let match = inputVal.match(/\d{6,}/);
       let docId = match ? match[0] : inputVal;
 
       if (!docId) {
-        alert("Silakan masukkan ID dokumen yang valid!");
+        alert("Silakan masukkan ID dokumen terlebih dahulu!");
+        document.getElementById('scribd-id-input').focus();
         return;
       }
 
-      // Format embed otomatis
       const fullUrl = `https://www.scribd.com/embeds/${docId}/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf`;
       document.getElementById('scribd-frame').src = fullUrl;
     }
 
-    // Fungsi unduh ke PDF
+    // 4. Fungsi Simpan PDF Langsung (Auto-Close Tab)
     function downloadAsPDF() {
-      let inputVal = document.getElementById('scribd-id-input').value.trim();
-      let match = inputVal.match(/\d{6,}/);
-      let docId = match ? match[0] : inputVal;
+      const frame = document.getElementById('scribd-frame');
       
-      const fullUrl = `https://www.scribd.com/embeds/${docId}/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf`;
-      const win = window.open(fullUrl, '_blank');
-      win.focus();
-      win.onload = function() {
-        win.print();
-      };
+      try {
+        frame.contentWindow.focus();
+        frame.contentWindow.print();
+      } catch (err) {
+        let inputVal = document.getElementById('scribd-id-input').value.trim();
+        let match = inputVal.match(/\d{6,}/);
+        let docId = match ? match[0] : inputVal;
+        
+        const fullUrl = `https://www.scribd.com/embeds/${docId}/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf`;
+        
+        const printWindow = window.open(fullUrl, '_blank', 'width=800,height=600');
+        if (printWindow) {
+          printWindow.onload = function() {
+            printWindow.focus();
+            printWindow.print();
+            printWindow.onafterprint = function() {
+              printWindow.close();
+            };
+          };
+        }
+      }
     }
   </script>
 </body>
