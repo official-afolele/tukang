@@ -17,6 +17,8 @@
       border: 1px solid #1e293b;
     }
 
+    .btn-red { background: #ef4444; }
+    .btn-red:hover { background: #dc2626; }
     /* Memperpanjang tinggi iframe 46px ke bawah agar toolbar Scribd terdorong keluar layar */
     .scribd-clean-wrapper iframe {
       width: 100%;
@@ -251,33 +253,59 @@
         </div>
       </section>
 
-     <!-- 2. SCRIBD READER & PDF EXPORTER -->
-      <section id="view-scribd" class="page-view">
-        <div class="iframe-toolbar">
-          <div style="display:flex; align-items:center; gap:8px; flex:1;">
-            <span style="font-size:12px; font-weight:600; color:#94a3b8; white-space:nowrap;">ID Dokumen:</span>
-            <!-- Input hanya memerlukan ID saja -->
-            <input type="text" id="scribd-id-input" 
-                   value="715129338" 
-                   placeholder="Masukkan ID (Contoh: 715129338)" 
-                   class="url-input" />
-            <button onclick="loadScribdById()" class="btn-action">Buka Dokumen</button>
-          </div>
-          
-          <button onclick="downloadAsPDF()" class="btn-action btn-green">Simpan PDF</button>
-        </div>
+// 1. Fungsi Tombol Hapus ID (Kosongkan input & arahkan kursor kembali)
+    function clearScribdId() {
+      const input = document.getElementById('scribd-id-input');
+      input.value = '';
+      input.focus();
+    }
 
-        <!-- Area Pembaca dengan Masking Penghilang Toolbar Bawah -->
-        <div class="scribd-clean-wrapper">
-          <iframe id="scribd-frame" 
-                  src="https://www.scribd.com/embeds/715129338/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf" 
-                  allowfullscreen="true">
-          </iframe>
-          <!-- Penutup sudut kiri dan kanan agar bagian merah hilang 100% -->
-          <div class="mask-bottom-left"></div>
-          <div class="mask-bottom-right"></div>
-        </div>
-      </section>
+    // 2. Fungsi Buka Dokumen dari ID
+    function loadScribdById() {
+      let inputVal = document.getElementById('scribd-id-input').value.trim();
+      let match = inputVal.match(/\d{6,}/);
+      let docId = match ? match[0] : inputVal;
+
+      if (!docId) {
+        alert("Silakan masukkan ID dokumen terlebih dahulu!");
+        document.getElementById('scribd-id-input').focus();
+        return;
+      }
+
+      const fullUrl = `https://www.scribd.com/embeds/${docId}/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf`;
+      document.getElementById('scribd-frame').src = fullUrl;
+    }
+
+    // 3. Fungsi Simpan PDF Langsung (Tanpa Meninggalkan Tab Baru)
+    function downloadAsPDF() {
+      const frame = document.getElementById('scribd-frame');
+      
+      try {
+        // Coba print langsung di dalam frame halaman saat ini
+        frame.contentWindow.focus();
+        frame.contentWindow.print();
+      } catch (err) {
+        // Jika dibatasi izin browser, gunakan background printer yang langsung tertutup otomatis
+        let inputVal = document.getElementById('scribd-id-input').value.trim();
+        let match = inputVal.match(/\d{6,}/);
+        let docId = match ? match[0] : inputVal;
+        
+        const fullUrl = `https://www.scribd.com/embeds/${docId}/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf`;
+        
+        // Membuka jendela dialog simpan PDF dan langsung menutup dirinya sendiri saat selesai
+        const printWindow = window.open(fullUrl, '_blank', 'width=800,height=600');
+        if (printWindow) {
+          printWindow.onload = function() {
+            printWindow.focus();
+            printWindow.print();
+            // Otomatis tertutup sendiri begitu Anda klik Save / Batal
+            printWindow.onafterprint = function() {
+              printWindow.close();
+            };
+          };
+        }
+      }
+    }
 
       <!-- 3. SHOPEE VIEW -->
       <section id="view-shopee" class="page-view">
