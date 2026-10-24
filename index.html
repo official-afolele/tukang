@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DJ Hub Pro - Multi-Workspace Portal</title>
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-950 text-slate-100 flex h-screen overflow-hidden font-sans">
+
+  <!-- SIDEBAR -->
+  <aside class="w-64 bg-slate-900/80 backdrop-blur-xl border-r border-slate-800 flex flex-col justify-between p-4 z-20">
+    <div>
+      <!-- Brand -->
+      <div class="flex items-center gap-3 px-2 py-3 mb-6">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center shadow-lg shadow-indigo-500/30 text-xl font-bold">
+          ⚡
+        </div>
+        <div>
+          <h1 class="font-bold text-base tracking-tight">DJ Hub <span class="text-indigo-400">Pro</span></h1>
+          <p class="text-xs text-slate-400 font-medium">All-in-One Workspace</p>
+        </div>
+      </div>
+
+      <!-- Navigasi Menu -->
+      <nav class="space-y-1.5">
+        <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-item active">
+          <i data-lucide="layout-grid" class="w-4 h-4"></i>
+          <span>App Dashboard</span>
+        </button>
+        <button onclick="switchTab('multiview')" id="nav-multiview" class="nav-item">
+          <i data-lucide="columns-2" class="w-4 h-4"></i>
+          <span>Split Workspace</span>
+        </button>
+        <div class="pt-4 pb-1 px-3 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Websites Terhubung</div>
+        <button onclick="switchTab('shopee')" id="nav-shopee" class="nav-item">
+          <i data-lucide="shopping-bag" class="w-4 h-4 text-orange-400"></i>
+          <span>Shopee Center</span>
+        </button>
+        <button onclick="switchTab('pinterest')" id="nav-pinterest" class="nav-item">
+          <i data-lucide="pin" class="w-4 h-4 text-red-500"></i>
+          <span>Pinterest Media</span>
+        </button>
+        <button onclick="switchTab('google-ai')" id="nav-google-ai" class="nav-item">
+          <i data-lucide="sparkles" class="w-4 h-4 text-cyan-400"></i>
+          <span>Google AI Studio</span>
+        </button>
+        <button onclick="switchTab('scribd')" id="nav-scribd" class="nav-item">
+  <i data-lucide="file-text" class="w-4 h-4 text-emerald-400"></i>
+  <span>Scribd Reader & PDF</span>
+</button>
+      </nav>
+    </div>
+
+    <!-- Status Server & Versi -->
+    <div class="p-3 bg-slate-950/60 rounded-xl border border-slate-800/80 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="text-xs text-slate-300 font-medium">Vercel Live</span>
+      </div>
+      <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-400">v2.0</span>
+    </div>
+  </aside>
+
+  <!-- MAIN VIEWPORT -->
+  <main class="flex-1 flex flex-col bg-slate-950 overflow-hidden">
+    
+    <!-- TOP BAR -->
+    <header class="h-14 border-b border-slate-800/80 bg-slate-900/40 backdrop-blur-md flex items-center justify-between px-6">
+      <div class="flex items-center gap-4">
+        <span id="current-page-title" class="text-sm font-semibold text-slate-200">Dashboard Utama</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <button onclick="toggleFullScreen()" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition text-xs flex items-center gap-1.5">
+          <i data-lucide="maximize" class="w-3.5 h-3.5"></i> Fullscreen
+        </button>
+      </div>
+    </header>
+
+    <!-- CONTENT AREAS -->
+    <div class="flex-1 overflow-auto relative">
+
+      <!-- 1. DASHBOARD VIEW -->
+      <section id="view-dashboard" class="content-view p-8">
+        <div class="max-w-5xl mx-auto space-y-6">
+          <div class="bg-gradient-to-r from-indigo-900/40 via-purple-900/20 to-slate-900 p-6 rounded-2xl border border-indigo-500/20">
+            <h2 class="text-2xl font-bold tracking-tight text-white mb-1">Selamat Datang di DJ Hub Pro 🚀</h2>
+            <p class="text-slate-400 text-sm max-w-xl">Pusat kendali web terintegrasi. Jalankan marketplace, media extractor, dan AI studio tanpa harus berpindah-pindah tab browser.</p>
+          </div>
+
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500">Aplikasi & Portal</h3>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Card Shopee -->
+            <div class="app-card group" onclick="switchTab('shopee')">
+              <div class="flex items-center justify-between mb-4">
+                <div class="p-3 bg-orange-500/10 text-orange-400 rounded-xl border border-orange-500/20">
+                  <i data-lucide="shopping-bag" class="w-6 h-6"></i>
+                </div>
+                <i data-lucide="arrow-up-right" class="w-4 h-4 text-slate-500 group-hover:text-white transition"></i>
+              </div>
+              <h4 class="font-semibold text-white">Shopee Hub</h4>
+              <p class="text-xs text-slate-400 mt-1">Akses katalog, riset produk, dan eksekusi downloader gambar produk.</p>
+            </div>
+
+            <!-- Card Pinterest -->
+            <div class="app-card group" onclick="switchTab('pinterest')">
+              <div class="flex items-center justify-between mb-4">
+                <div class="p-3 bg-red-500/10 text-red-400 rounded-xl border border-red-500/20">
+                  <i data-lucide="pin" class="w-6 h-6"></i>
+                </div>
+                <i data-lucide="arrow-up-right" class="w-4 h-4 text-slate-500 group-hover:text-white transition"></i>
+              </div>
+              <h4 class="font-semibold text-white">Pinterest Studio</h4>
+              <p class="text-xs text-slate-400 mt-1">Cari inspirasi konten visual resolusi tinggi dan unduh aset HD.</p>
+            </div>
+
+            <!-- Card Split Workspace -->
+            <div class="app-card group" onclick="switchTab('multiview')">
+              <div class="flex items-center justify-between mb-4">
+                <div class="p-3 bg-purple-500/10 text-purple-400 rounded-xl border border-purple-500/20">
+                  <i data-lucide="columns-2" class="w-6 h-6"></i>
+                </div>
+                <i data-lucide="arrow-up-right" class="w-4 h-4 text-slate-500 group-hover:text-white transition"></i>
+              </div>
+              <h4 class="font-semibold text-white">Split Workspace</h4>
+              <p class="text-xs text-slate-400 mt-1">Buka 2 website sekaligus berdampingan dalam satu layar penuh.</p>
+            </div>
+
+            <!-- 4. SCRIBD READER & DOWNLOADER -->
+<section id="view-scribd" class="content-view hidden h-full flex flex-col p-4">
+  <!-- Toolbar Pengendali -->
+  <div class="mb-3 flex items-center justify-between bg-slate-900 p-3 rounded-xl border border-slate-800 text-xs">
+    <div class="flex items-center gap-2 flex-1 mr-4">
+      <span class="text-slate-400 font-semibold whitespace-nowrap">URL Embed:</span>
+      <input type="text" id="scribd-url-input" 
+             value="https://www.scribd.com/embeds/715129338/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf" 
+             class="frame-input w-full text-xs" />
+      <button onclick="loadScribdEmbed()" class="preset-btn whitespace-nowrap">Buka Dokumen</button>
+    </div>
+    
+    <!-- Tombol Simpan PDF -->
+    <div class="flex items-center gap-2">
+      <button onclick="printScribdDocument()" class="btn-primary !w-auto !py-1.5 !px-3 text-xs bg-emerald-600 hover:bg-emerald-500">
+        <i data-lucide="download" class="w-3.5 h-3.5"></i>
+        <span>Simpan sebagai PDF</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Area Iframe Pembaca Dokumen -->
+  <div class="flex-1 bg-slate-900 border border-slate-800 rounded-xl overflow-hidden relative shadow-inner">
+    <iframe id="scribd-frame" 
+            src="https://www.scribd.com/embeds/715129338/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf" 
+            class="w-full h-full border-0 bg-white"
+            allowfullscreen="true">
+    </iframe>
+  </div>
+</section>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. MULTI-VIEW (SPLIT SCREEN WORKSPACE) -->
+      <section id="view-multiview" class="content-view hidden h-full p-4 flex flex-col">
+        <div class="mb-3 flex items-center justify-between bg-slate-900 p-2.5 rounded-xl border border-slate-800 text-xs">
+          <div class="flex items-center gap-2">
+            <span class="text-slate-400">Preset:</span>
+            <button onclick="setSplitPreset('https://shopee.co.id', 'https://id.pinterest.com')" class="preset-btn">Shopee + Pinterest</button>
+            <button onclick="setSplitPreset('https://id.pinterest.com', 'https://aistudio.google.com')" class="preset-btn">Pinterest + AI Studio</button>
+          </div>
+          <span class="text-slate-500">Layar Terbagi Aktif (Dual Browser)</span>
+        </div>
+        <div class="flex-1 grid grid-cols-2 gap-4 h-full">
+          <div class="frame-container">
+            <div class="frame-header">
+              <input type="text" id="url-left" value="https://shopee.co.id" class="frame-input" />
+              <button onclick="loadFrame('left')" class="frame-btn"><i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i></button>
+            </div>
+            <iframe id="iframe-left" src="https://shopee.co.id" class="w-full h-full bg-white"></iframe>
+          </div>
+          <div class="frame-container">
+            <div class="frame-header">
+              <input type="text" id="url-right" value="https://id.pinterest.com" class="frame-input" />
+              <button onclick="loadFrame('right')" class="frame-btn"><i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i></button>
+            </div>
+            <iframe id="iframe-right" src="https://id.pinterest.com" class="w-full h-full bg-white"></iframe>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. INDIVIDUAL WEBSITE VIEWS -->
+      <section id="view-shopee" class="content-view hidden h-full">
+        <iframe src="https://shopee.co.id" class="w-full h-full border-0 bg-white"></iframe>
+      </section>
+
+      <section id="view-pinterest" class="content-view hidden h-full">
+        <iframe src="https://id.pinterest.com" class="w-full h-full border-0 bg-white"></iframe>
+      </section>
+
+      <section id="view-google-ai" class="content-view hidden h-full">
+        <iframe src="https://aistudio.google.com" class="w-full h-full border-0 bg-white"></iframe>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

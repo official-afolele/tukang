@@ -1,0 +1,84 @@
+/* Sidebar Nav Item */
+.nav-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #94a3b8;
+  border-radius: 0.625rem;
+  transition: all 0.15s ease-in-out;
+}
+
+.nav-item:hover {
+  background-color: #1e293b;
+  color: #f8fafc;
+}
+
+.nav-item.active {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(168, 85, 247, 0.15));
+  color: #818cf8;
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px rgba(99, 102, 241, 0.3);
+}
+
+/* App Cards */
+.app-card {
+  background-color: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.app-card:hover {
+  border-color: #6366f1;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.15);
+}
+
+/* Multi-Frame Container */
+.frame-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.frame-header {
+  padding: 0.5rem 0.75rem;
+  background-color: #1e293b;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  border-bottom: 1px solid #334155;
+}
+
+.frame-input {
+  flex: 1;
+  background-color: #090d16;
+  border: 1px solid #334155;
+  color: #f8fafc;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  outline: none;
+}
+
+.frame-btn, .preset-btn {
+  background-color: #334155;
+  color: #f8fafc;
+  padding: 0.35rem 0.65rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.frame-btn:hover, .preset-btn:hover {
+  background-color: #475569;
+}
