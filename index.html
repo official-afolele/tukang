@@ -84,7 +84,7 @@
     .hub-card h3 { font-size: 14px; font-weight: 600; color: #fff; }
     .hub-card p { font-size: 11px; color: #94a3b8; line-height: 1.4; }
 
-    /* Toolbar Scribd */
+    /* Toolbar Dokumen */
     .iframe-toolbar {
       display: flex; gap: 10px; align-items: center; background: #0f172a; border: 1px solid #1e293b;
       padding: 10px 14px; border-radius: 10px; margin-bottom: 14px;
@@ -104,7 +104,7 @@
     .btn-red { background: #ef4444; }
     .btn-red:hover { background: #dc2626; }
 
-    /* Area Bersih Scribd */
+    /* Wadah Bersih Scribd */
     .scribd-clean-wrapper {
       position: relative;
       flex: 1;
@@ -302,7 +302,7 @@
     </div>
   </main>
 
-  <!-- SEMUA LOGIKA JAVASCRIPT ADA DI SINI -->
+  <!-- LOGIKA JAVASCRIPT -->
   <script>
     // 1. Logika Penggantian Tab Menu
     function openTab(tabId) {
@@ -325,18 +325,33 @@
       document.getElementById('page-title').innerText = titles[tabId] || 'Workspace';
     }
 
-    // 2. Fungsi Hapus ID (Kosongkan input & arahkan kursor kembali)
+    // 2. Fungsi Tombol Hapus ID
     function clearScribdId() {
       const input = document.getElementById('scribd-id-input');
       input.value = '';
       input.focus();
     }
 
-    // 3. Fungsi Buka Dokumen dari ID Angka
-    function loadScribdById() {
+    // 3. Fungsi Cerdas: Deteksi ID Aktif (Cegah error 404 jika input kosong)
+    function getActiveDocId() {
       let inputVal = document.getElementById('scribd-id-input').value.trim();
       let match = inputVal.match(/\d{6,}/);
-      let docId = match ? match[0] : inputVal;
+      if (match) return match[0];
+
+      // Fallback: Jika input kosong, ambil ID dari dokumen yang sedang tampil di layar
+      const frameSrc = document.getElementById('scribd-frame').src;
+      let frameMatch = frameSrc.match(/embeds\/(\d+)\//);
+      if (frameMatch) {
+        document.getElementById('scribd-id-input').value = frameMatch[1];
+        return frameMatch[1];
+      }
+
+      return null;
+    }
+
+    // 4. Fungsi Buka Dokumen Baru
+    function loadScribdById() {
+      const docId = getActiveDocId();
 
       if (!docId) {
         alert("Silakan masukkan ID dokumen terlebih dahulu!");
@@ -348,30 +363,24 @@
       document.getElementById('scribd-frame').src = fullUrl;
     }
 
-    // 4. Fungsi Simpan PDF Langsung (Auto-Close Tab)
+    // 5. Fungsi Simpan PDF (Auto-Detect ID & Auto-Print)
     function downloadAsPDF() {
-      const frame = document.getElementById('scribd-frame');
+      const docId = getActiveDocId();
+
+      if (!docId) {
+        alert("Tidak ada dokumen yang sedang dibuka. Masukkan ID dokumen terlebih dahulu!");
+        document.getElementById('scribd-id-input').focus();
+        return;
+      }
+
+      const fullUrl = `https://www.scribd.com/embeds/${docId}/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf`;
       
-      try {
-        frame.contentWindow.focus();
-        frame.contentWindow.print();
-      } catch (err) {
-        let inputVal = document.getElementById('scribd-id-input').value.trim();
-        let match = inputVal.match(/\d{6,}/);
-        let docId = match ? match[0] : inputVal;
-        
-        const fullUrl = `https://www.scribd.com/embeds/${docId}/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf`;
-        
-        const printWindow = window.open(fullUrl, '_blank', 'width=800,height=600');
-        if (printWindow) {
-          printWindow.onload = function() {
-            printWindow.focus();
-            printWindow.print();
-            printWindow.onafterprint = function() {
-              printWindow.close();
-            };
-          };
-        }
+      const printWin = window.open(fullUrl, '_blank');
+      if (printWin) {
+        printWin.focus();
+        setTimeout(() => {
+          printWin.print();
+        }, 2000);
       }
     }
   </script>
