@@ -6,6 +6,48 @@
   <title>DJ Hub Pro - All-in-One Workspace</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+
+    /* Wadah Bersih Scribd (Memotong footer bar bawah) */
+    .scribd-clean-wrapper {
+      position: relative;
+      flex: 1;
+      background: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #1e293b;
+    }
+
+    /* Memperpanjang tinggi iframe 46px ke bawah agar toolbar Scribd terdorong keluar layar */
+    .scribd-clean-wrapper iframe {
+      width: 100%;
+      height: calc(100% + 46px);
+      margin-bottom: -46px;
+      border: none;
+      background: #ffffff;
+    }
+
+    /* Masking Pengaman Sudut (Menutup tombol Download & Fullscreen secara permanen) */
+    .mask-bottom-left {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 180px;
+      height: 46px;
+      background: #ffffff;
+      z-index: 30;
+      pointer-events: none;
+    }
+
+    .mask-bottom-right {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 90px;
+      height: 46px;
+      background: #ffffff;
+      z-index: 30;
+      pointer-events: none;
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
     body { background-color: #0b0f19; color: #f1f5f9; display: flex; height: 100vh; overflow: hidden; }
 
@@ -209,20 +251,31 @@
         </div>
       </section>
 
-      <!-- 2. SCRIBD READER & PDF EXPORTER -->
+     <!-- 2. SCRIBD READER & PDF EXPORTER -->
       <section id="view-scribd" class="page-view">
         <div class="iframe-toolbar">
-          <input type="text" id="scribd-input-url" 
-                 value="https://www.scribd.com/embeds/715129338/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf" 
-                 class="url-input" />
-          <button onclick="reloadScribd()" class="btn-action">Muat Ulang</button>
+          <div style="display:flex; align-items:center; gap:8px; flex:1;">
+            <span style="font-size:12px; font-weight:600; color:#94a3b8; white-space:nowrap;">ID Dokumen:</span>
+            <!-- Input hanya memerlukan ID saja -->
+            <input type="text" id="scribd-id-input" 
+                   value="715129338" 
+                   placeholder="Masukkan ID (Contoh: 715129338)" 
+                   class="url-input" />
+            <button onclick="loadScribdById()" class="btn-action">Buka Dokumen</button>
+          </div>
+          
           <button onclick="downloadAsPDF()" class="btn-action btn-green">Simpan PDF</button>
         </div>
-        <div class="frame-box">
+
+        <!-- Area Pembaca dengan Masking Penghilang Toolbar Bawah -->
+        <div class="scribd-clean-wrapper">
           <iframe id="scribd-frame" 
                   src="https://www.scribd.com/embeds/715129338/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf" 
                   allowfullscreen="true">
           </iframe>
+          <!-- Penutup sudut kiri dan kanan agar bagian merah hilang 100% -->
+          <div class="mask-bottom-left"></div>
+          <div class="mask-bottom-right"></div>
         </div>
       </section>
 
@@ -284,15 +337,32 @@
       document.getElementById('page-title').innerText = titles[tabId] || 'Workspace';
     }
 
-    // Fungsi Scribd
-    function reloadScribd() {
-      const url = document.getElementById('scribd-input-url').value;
-      if (url) document.getElementById('scribd-frame').src = url;
+// Fungsi memuat dokumen hanya dari ID angka
+    function loadScribdById() {
+      let inputVal = document.getElementById('scribd-id-input').value.trim();
+      
+      // Mengambil hanya angka ID meskipun pengguna menempelkan link lengkap
+      let match = inputVal.match(/\d{6,}/);
+      let docId = match ? match[0] : inputVal;
+
+      if (!docId) {
+        alert("Silakan masukkan ID dokumen yang valid!");
+        return;
+      }
+
+      // Format embed otomatis
+      const fullUrl = `https://www.scribd.com/embeds/${docId}/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf`;
+      document.getElementById('scribd-frame').src = fullUrl;
     }
 
+    // Fungsi unduh ke PDF
     function downloadAsPDF() {
-      const url = document.getElementById('scribd-input-url').value;
-      const win = window.open(url, '_blank');
+      let inputVal = document.getElementById('scribd-id-input').value.trim();
+      let match = inputVal.match(/\d{6,}/);
+      let docId = match ? match[0] : inputVal;
+      
+      const fullUrl = `https://www.scribd.com/embeds/${docId}/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf`;
+      const win = window.open(fullUrl, '_blank');
       win.focus();
       win.onload = function() {
         win.print();
