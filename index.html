@@ -191,4 +191,113 @@
             <p>Buka dokumen skrip Scribd embed langsung di website dan unduh menjadi file PDF utuh.</p>
           </div>
 
-          <div class="hub-card" onclick="openTab(
+          <div class="hub-card" onclick="openTab('shopee')">
+            <div class="card-icon" style="background:rgba(249,115,22,0.15); color:#fb923c;">
+              <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+            </div>
+            <h3>Shopee Center</h3>
+            <p>Riset produk e-commerce dan gunakan ekstensi DJ Grab Pro untuk mengunduh gambar produk.</p>
+          </div>
+
+          <div class="hub-card" onclick="openTab('pinterest')">
+            <div class="card-icon" style="background:rgba(239,68,68,0.15); color:#f87171;">
+              <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+            <h3>Pinterest Media</h3>
+            <p>Jelajahi visual HD dan manfaatkan downloader DJ Grab Pro untuk aset resolusi tinggi.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. SCRIBD READER & PDF EXPORTER -->
+      <section id="view-scribd" class="page-view">
+        <div class="iframe-toolbar">
+          <input type="text" id="scribd-input-url" 
+                 value="https://www.scribd.com/embeds/715129338/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf" 
+                 class="url-input" />
+          <button onclick="reloadScribd()" class="btn-action">Muat Ulang</button>
+          <button onclick="downloadAsPDF()" class="btn-action btn-green">Simpan PDF</button>
+        </div>
+        <div class="frame-box">
+          <iframe id="scribd-frame" 
+                  src="https://www.scribd.com/embeds/715129338/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf" 
+                  allowfullscreen="true">
+          </iframe>
+        </div>
+      </section>
+
+      <!-- 3. SHOPEE VIEW -->
+      <section id="view-shopee" class="page-view">
+        <div class="iframe-toolbar">
+          <span style="font-size:12px; color:#94a3b8;">Shopee Portal (Buka di Tab Baru jika browser memblokir frame)</span>
+          <button onclick="window.open('https://shopee.co.id', '_blank')" class="btn-action" style="margin-left:auto;">Buka Shopee Resmi ↗</button>
+        </div>
+        <div class="frame-box">
+          <iframe src="https://shopee.co.id"></iframe>
+        </div>
+      </section>
+
+      <!-- 4. PINTEREST VIEW -->
+      <section id="view-pinterest" class="page-view">
+        <div class="iframe-toolbar">
+          <span style="font-size:12px; color:#94a3b8;">Pinterest Media Hub</span>
+          <button onclick="window.open('https://id.pinterest.com', '_blank')" class="btn-action" style="margin-left:auto;">Buka Pinterest Resmi ↗</button>
+        </div>
+        <div class="frame-box">
+          <iframe src="https://id.pinterest.com"></iframe>
+        </div>
+      </section>
+
+      <!-- 5. GOOGLE AI STUDIO -->
+      <section id="view-google-ai" class="page-view">
+        <div class="iframe-toolbar">
+          <span style="font-size:12px; color:#94a3b8;">Google AI Studio Workspace</span>
+          <button onclick="window.open('https://aistudio.google.com', '_blank')" class="btn-action" style="margin-left:auto;">Buka AI Studio ↗</button>
+        </div>
+        <div class="frame-box">
+          <iframe src="https://aistudio.google.com"></iframe>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    // Logika Penggantian Tab Menu
+    function openTab(tabId) {
+      document.querySelectorAll('.page-view').forEach(view => view.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+      const targetView = document.getElementById('view-' + tabId);
+      const targetNav = document.getElementById('nav-' + tabId);
+
+      if (targetView) targetView.classList.add('active');
+      if (targetNav) targetNav.classList.add('active');
+
+      const titles = {
+        'dashboard': 'App Dashboard Utama',
+        'scribd': 'Scribd Reader & PDF Exporter',
+        'shopee': 'Shopee Center Hub',
+        'pinterest': 'Pinterest Media Studio',
+        'google-ai': 'Google AI Studio Workspace'
+      };
+      document.getElementById('page-title').innerText = titles[tabId] || 'Workspace';
+    }
+
+    // Fungsi Scribd
+    function reloadScribd() {
+      const url = document.getElementById('scribd-input-url').value;
+      if (url) document.getElementById('scribd-frame').src = url;
+    }
+
+    function downloadAsPDF() {
+      const url = document.getElementById('scribd-input-url').value;
+      const win = window.open(url, '_blank');
+      win.focus();
+      win.onload = function() {
+        win.print();
+      };
+    }
+  </script>
+</body>
+</html>
