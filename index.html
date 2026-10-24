@@ -97,29 +97,29 @@
 
     /* ================= PEMBUAT SURAT (SPLIT WORKSPACE) ================= */
     .surat-workspace {
-      display: grid; grid-template-columns: 420px 1fr; gap: 18px; height: 100%; overflow: hidden;
+      display: grid; grid-template-columns: 390px 1fr; gap: 18px; height: 100%; overflow: hidden;
     }
 
     /* FORM PANEL */
     .form-panel {
       background: #0f172a; border: 1px solid #1e293b; border-radius: 14px;
-      padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px;
+      padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;
     }
     .section-heading {
       font-size: 11px; font-weight: 700; color: #818cf8; text-transform: uppercase;
-      letter-spacing: 0.6px; border-bottom: 1px solid #1e293b; padding-bottom: 4px;
+      letter-spacing: 0.6px; border-bottom: 1px solid #1e293b; padding-bottom: 4px; margin-top: 4px;
     }
-    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-group { display: flex; flex-direction: column; gap: 4px; }
     .form-group label { font-size: 11px; color: #94a3b8; font-weight: 500; }
     .form-control {
       background: #080d1a; border: 1px solid #334155; color: #f8fafc;
-      padding: 8px 12px; border-radius: 8px; font-size: 12px; outline: none; transition: 0.15s;
+      padding: 7px 11px; border-radius: 8px; font-size: 12px; outline: none; transition: 0.15s;
     }
     .form-control:focus { border-color: #6366f1; }
-    textarea.form-control { resize: vertical; min-height: 60px; }
+    textarea.form-control { resize: vertical; min-height: 65px; }
 
     .btn-action {
-      background: #6366f1; color: white; border: none; padding: 9px 15px; border-radius: 8px;
+      background: #6366f1; color: white; border: none; padding: 8px 14px; border-radius: 8px;
       font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center;
       gap: 6px; transition: 0.15s;
     }
@@ -145,59 +145,125 @@
       background: #0b1120;
     }
 
-    /* KERTAS A4 SURAT RESMI */
+    /* ================= KERTAS RESMI A4 (FORMAT PERSIS SURAT CAMAT MENJALIN) ================= */
     .a4-paper {
       width: 210mm;
       min-height: 297mm;
       background: #ffffff;
       color: #000000;
-      padding: 25mm 20mm 20mm 25mm;
+      padding: 20mm 20mm 20mm 25mm;
       box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-      border-radius: 4px;
-      font-family: 'Tinos', 'Times New Roman', serif;
-      line-height: 1.5;
+      border-radius: 2px;
+      font-family: 'Times New Roman', Times, serif;
+      line-height: 1.35;
       font-size: 12pt;
     }
 
-    /* KOP SURAT */
-    .kop-surat {
+    /* KOP SURAT BERLOGO DINAS */
+    .kop-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding-bottom: 8px;
+      border-bottom: 3px double #000000;
+      margin-bottom: 18px;
+    }
+    .kop-logo {
+      width: 75px;
+      height: auto;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+    .kop-text-box {
+      flex: 1;
       text-align: center;
-      border-bottom: 3px double #000;
-      padding-bottom: 10px;
-      margin-bottom: 16px;
     }
-    .kop-surat h4 { font-size: 13pt; font-weight: 700; text-transform: uppercase; margin: 0; }
-    .kop-surat h3 { font-size: 14pt; font-weight: 700; text-transform: uppercase; margin: 0; }
-    .kop-surat h2 { font-size: 16pt; font-weight: 700; text-transform: uppercase; margin: 2px 0; }
-    .kop-surat p { font-size: 9pt; margin: 0; font-family: 'Inter', sans-serif; }
-
-    /* JUDUL & NOMOR SURAT */
-    .judul-surat { text-align: center; margin-bottom: 18px; }
-    .judul-surat h3 {
-      font-size: 14pt; text-decoration: underline; text-transform: uppercase; margin: 0;
+    .kop-text-box h2 {
+      font-size: 15pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin: 0;
+      letter-spacing: 0.5px;
     }
-    .judul-surat p { font-size: 11pt; margin-top: 2px; }
+    .kop-text-box h3 {
+      font-size: 14pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin: 1px 0;
+    }
+    .kop-text-box p {
+      font-size: 9.5pt;
+      margin: 1px 0;
+      font-family: Arial, sans-serif;
+    }
 
-    /* ISI SURAT */
-    .isi-surat p { text-align: justify; text-indent: 30px; margin-bottom: 10px; }
-    
-    .tabel-identitas { width: 100%; margin: 10px 0 14px 20px; border-collapse: collapse; }
-    .tabel-identitas td { padding: 3px 0; font-size: 11.5pt; vertical-align: top; }
-    .tabel-identitas td.kol-label { width: 180px; }
-    .tabel-identitas td.kol-titik { width: 15px; }
+    /* JUDUL SURAT & NOMOR */
+    .judul-surat-box {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+    .judul-surat-box h4 {
+      font-size: 13pt;
+      font-weight: bold;
+      text-decoration: underline;
+      text-transform: uppercase;
+      margin: 0;
+      letter-spacing: 1px;
+    }
+    .judul-surat-box p {
+      font-size: 11pt;
+      margin-top: 2px;
+    }
 
-    /* TANDA TANGAN */
-    .tanda-tangan-box {
-      margin-top: 35px;
+    /* ISI SURAT RESMI */
+    .isi-paragraf {
+      text-align: justify;
+      text-indent: 35px;
+      margin-bottom: 10px;
+    }
+
+    .tabel-identitas-dinas {
+      width: 100%;
+      margin: 8px 0 12px 35px;
+      border-collapse: collapse;
+    }
+    .tabel-identitas-dinas td {
+      padding: 3px 0;
+      font-size: 11.5pt;
+      vertical-align: top;
+    }
+    .tabel-identitas-dinas td.label-col { width: 100px; }
+    .tabel-identitas-dinas td.colon-col { width: 25px; text-align: center; }
+
+    /* FORMAT TANDA TANGAN CAMAT */
+    .ttd-wrapper {
+      margin-top: 30px;
       display: flex;
       justify-content: flex-end;
     }
-    .ttd-kanan {
-      width: 250px;
-      text-align: center;
+    .ttd-box {
+      width: 290px;
+      text-align: left;
     }
-    .ttd-space { height: 75px; }
-    .ttd-nama { font-weight: 700; text-decoration: underline; }
+    .ttd-row {
+      display: flex;
+      font-size: 11.5pt;
+      margin-bottom: 2px;
+    }
+    .ttd-row-label { width: 110px; }
+    .ttd-row-colon { width: 20px; }
+    .ttd-jabatan-title {
+      margin-top: 4px;
+      font-size: 11.5pt;
+    }
+    .ttd-space { height: 65px; }
+    .ttd-nama-pejabat {
+      font-size: 11.5pt;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    .ttd-pangkat { font-size: 10.5pt; margin-top: 1px; }
+    .ttd-nip { font-size: 10.5pt; margin-top: 1px; }
 
     /* SCRIBD WRAPPER */
     .reader-stage {
@@ -217,20 +283,45 @@
     .mask-bottom-left { position: absolute; bottom: 0; left: 0; width: 180px; height: 46px; background: #ffffff; z-index: 30; pointer-events: none; }
     .mask-bottom-right { position: absolute; bottom: 0; right: 0; width: 90px; height: 46px; background: #ffffff; z-index: 30; pointer-events: none; }
 
-    /* ================= PRINT / PDF MODE (MURNI KERTAS A4) ================= */
+    /* ================= PENGATURAN CETAK (HANYA SURAT A4, PASTI 1 LEMBAR) ================= */
     @media print {
-      body, html { background: #fff !important; color: #000 !important; margin: 0 !important; padding: 0 !important; height: auto !important; overflow: visible !important; }
-      aside, header, .form-panel, .preview-toolbar, .mobile-overlay, .btn-action { display: none !important; }
+      /* Sembunyikan SEMUA elemen web selain kertas A4 */
+      body, html {
+        background: #ffffff !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        height: auto !important;
+        overflow: visible !important;
+      }
+      aside, header, .form-panel, .preview-toolbar, .mobile-overlay, #view-dashboard, #view-scribd {
+        display: none !important;
+      }
       main, .content-area, .page-view, #view-surat, .surat-workspace, .preview-panel, .preview-stage {
-        display: block !important; padding: 0 !important; margin: 0 !important; background: transparent !important; overflow: visible !important; border: none !important;
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: transparent !important;
+        border: none !important;
+        overflow: visible !important;
+        height: auto !important;
       }
       .a4-paper {
-        width: 100% !important; min-height: auto !important; box-shadow: none !important; margin: 0 !important; padding: 10mm 15mm !important;
+        width: 100% !important;
+        min-height: auto !important;
+        box-shadow: none !important;
+        border: none !important;
+        margin: 0 !important;
+        padding: 0mm 5mm 0mm 5mm !important;
+        font-size: 11pt !important;
+        line-height: 1.35 !important;
       }
-      @page { size: A4 portrait; margin: 15mm; }
+      @page {
+        size: A4 portrait;
+        margin: 18mm 15mm 15mm 15mm;
+      }
     }
 
-    /* RESPONSIVE HP */
+    /* RESPONSIVE SMARTPHONE (HP) */
     @media (max-width: 900px) {
       aside { position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; transform: translateX(-100%); box-shadow: 10px 0 30px rgba(0,0,0,0.7); }
       aside.open { transform: translateX(0); }
@@ -238,10 +329,10 @@
       .btn-hamburger { display: flex; }
       .content-area { padding: 12px; }
 
-      .surat-workspace { grid-template-columns: 1fr; overflow-y: auto; display: flex; flex-direction: column; }
+      .surat-workspace { grid-template-columns: 1fr; display: flex; flex-direction: column; overflow-y: auto; }
       .form-panel { max-height: none; }
       .preview-stage { overflow-x: auto; padding: 12px; }
-      .a4-paper { min-width: 210mm; transform-origin: top left; }
+      .a4-paper { min-width: 210mm; }
     }
   </style>
 </head>
@@ -271,13 +362,11 @@
 
         <div class="menu-label">Layanan Utama</div>
 
-        <!-- Pembuat Surat -->
         <button onclick="openTab('surat')" id="nav-surat" class="nav-btn">
           <svg fill="none" viewBox="0 0 24 24" stroke="#818cf8" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
           Pembuat Surat Resmi
         </button>
 
-        <!-- Scribd Reader -->
         <button onclick="openTab('scribd')" id="nav-scribd" class="nav-btn">
           <svg fill="none" viewBox="0 0 24 24" stroke="#4ade80" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
           Scribd Reader & PDF
@@ -290,7 +379,7 @@
         <span class="dot-live"></span>
         <span style="font-weight:600; color:#cbd5e1;">Vercel Live</span>
       </div>
-      <span style="color:#64748b;">v3.0</span>
+      <span style="color:#64748b;">v3.1</span>
     </div>
   </aside>
 
@@ -312,20 +401,18 @@
       <section id="view-dashboard" class="page-view active">
         <div class="welcome-banner">
           <h2>Selamat Datang di DJ Hub Pro 🚀</h2>
-          <p>Platform administrasi surat resmi digital dan pembaca dokumen. Buat surat keterangan usaha, domisili, atau pengantar dengan format A4 siap cetak hanya dalam 1 menit.</p>
+          <p>Platform administrasi surat resmi digital dan pembaca dokumen. Buat surat rekomendasi, keterangan usaha, domisili, atau pengantar dengan format A4 resmi siap cetak.</p>
         </div>
 
         <div class="cards-grid">
-          <!-- Card Pembuat Surat -->
           <div class="hub-card" onclick="openTab('surat')">
             <div class="card-icon" style="background:rgba(99,102,241,0.15); color:#818cf8;">
               <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
             </div>
-            <h3>Pembuat Surat Resmi (A4 Studio)</h3>
-            <p>Generator surat instan ala Surat Menjalin: SKU, Domisili, SKTM dengan live preview A4 dan unduh PDF resmi.</p>
+            <h3>Pembuat Surat Resmi (Format Kecamatan Menjalin)</h3>
+            <p>Format 1:1 surat dinas resmi dengan logo Kabupaten Landak asli. Lengkap dengan live preview A4 dan cetak 1 lembar utuh.</p>
           </div>
 
-          <!-- Card Scribd -->
           <div class="hub-card" onclick="openTab('scribd')">
             <div class="card-icon" style="background:rgba(34,197,94,0.15); color:#4ade80;">
               <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
@@ -343,177 +430,177 @@
           <!-- FORMULIR INPUT (KIRI) -->
           <div class="form-panel">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-              <span class="section-heading">Formulir Pembuat Surat</span>
-              <button onclick="fillSampleData()" class="btn-action btn-tool" style="font-size:10px; padding:5px 8px;">
-                ⚡ Isi Contoh Data
+              <span class="section-heading">Formulir Surat Resmi</span>
+              <button onclick="loadTemplateRekomendasi()" class="btn-action btn-tool" style="font-size:10px; padding:4px 8px;">
+                ⚡ Muat Contoh Rekomendasi
               </button>
             </div>
 
-            <!-- Pilih Jenis Surat -->
+            <!-- Unggah Logo -->
             <div class="form-group">
-              <label>Jenis Template Surat:</label>
-              <select id="input-jenis-surat" class="form-control" onchange="onTemplateChange()">
-                <option value="SKU">Surat Keterangan Usaha (SKU)</option>
-                <option value="DOMISILI">Surat Keterangan Domisili</option>
-                <option value="PENGANTAR">Surat Pengantar / Keterangan Umum</option>
-                <option value="SKTM">Surat Keterangan Tidak Mampu (SKTM)</option>
-              </select>
+              <label>Logo Instansi (Kiri Kop):</label>
+              <input type="file" id="input-logo" accept="image/*" class="form-control" onchange="previewCustomLogo(event)" />
             </div>
 
-            <div class="section-heading">KOP Surat & Lembaga</div>
+            <div class="section-heading">KOP SURAT</div>
             <div class="form-group">
-              <label>Pemerintah Daerah / Lembaga:</label>
-              <input type="text" id="kop-instansi" value="PEMERINTAH KABUPATEN LANDAK" class="form-control" oninput="renderSurat()" />
+              <label>Pemerintah Daerah / Tingkat I:</label>
+              <input type="text" id="kop-kab" value="PEMERINTAH KABUPATEN LANDAK" class="form-control" oninput="renderSurat()" />
             </div>
             <div class="form-group">
-              <label>Kecamatan:</label>
-              <input type="text" id="kop-kecamatan" value="KECAMATAN MENJALIN" class="form-control" oninput="renderSurat()" />
+              <label>Instansi / Kecamatan:</label>
+              <input type="text" id="kop-kec" value="KECAMATAN MENJALIN" class="form-control" oninput="renderSurat()" />
             </div>
             <div class="form-group">
-              <label>Desa / Kelurahan:</label>
-              <input type="text" id="kop-desa" value="DESA MENJALIN" class="form-control" oninput="renderSurat()" />
+              <label>Alamat Kantor:</label>
+              <input type="text" id="kop-alamat" value="Alamat: Jalan Raya Menjalin No.50 Kode Pos 78362" class="form-control" oninput="renderSurat()" />
             </div>
             <div class="form-group">
-              <label>Alamat & Kontak Kop:</label>
-              <input type="text" id="kop-alamat" value="Jalan Raya Menjalin No. 12 Kode Pos 79363" class="form-control" oninput="renderSurat()" />
+              <label>Kontak / E-mail:</label>
+              <input type="text" id="kop-kontak" value="E-mail menjalin kec@gmail.com" class="form-control" oninput="renderSurat()" />
             </div>
 
-            <div class="section-heading">Nomor & Judul Surat</div>
+            <div class="section-heading">JUDUL & NOMOR SURAT</div>
+            <div class="form-group">
+              <label>Judul Surat:</label>
+              <input type="text" id="surat-judul" value="REKOMENDASI" class="form-control" oninput="renderSurat()" />
+            </div>
             <div class="form-group">
               <label>Nomor Surat:</label>
-              <input type="text" id="surat-nomor" value="510 / 142 / DS / X / 2026" class="form-control" oninput="renderSurat()" />
+              <input type="text" id="surat-nomor" value="Nomor : 400.8/18/TrantibumKecos/2026" class="form-control" oninput="renderSurat()" />
             </div>
 
-            <div class="section-heading">Identitas Warga / Pemohon</div>
+            <div class="section-heading">PARAGRAF PEMBUKA / PERTIMBANGAN</div>
             <div class="form-group">
-              <label>Nama Lengkap:</label>
-              <input type="text" id="warga-nama" value="AHMAD FAJRI" class="form-control" oninput="renderSurat()" />
+              <textarea id="surat-pembuka" class="form-control" style="min-height:90px;" oninput="renderSurat()">Setelah membaca dan meneliti secara seksama permohonan dana untuk pembangunan Gereja Katolik Santa Maria Duling Nomor: 01/PAN-GK/R/2026, Rekomendasi Kepala Desa Nangka Nomor: 400.8/09/PD.007/XI/2026 dan Rekomendasi Pastor Paroki / Pihak Pemohon Pastor Paroki Santo Petrus dan Paulus Menjalin Nomor: 7051/PP-PM/2026 Maka Saya selaku Camat Menjalin tidak keberatan atas Permohonan dimaksud, kepada:</textarea>
+            </div>
+
+            <div class="section-heading">DATA TUJUAN / PEMOHON</div>
+            <div class="form-group">
+              <label>Nama Pemohon:</label>
+              <input type="text" id="pemohon-nama" value="Herkulanus" class="form-control" oninput="renderSurat()" />
             </div>
             <div class="form-group">
-              <label>NIK (No. KTP):</label>
-              <input type="text" id="warga-nik" value="6108031204980002" class="form-control" oninput="renderSurat()" />
-            </div>
-            <div class="form-group">
-              <label>Tempat, Tanggal Lahir:</label>
-              <input type="text" id="warga-ttl" value="Menjalin, 12 April 1998" class="form-control" oninput="renderSurat()" />
-            </div>
-            <div class="form-group">
-              <label>Jenis Kelamin & Agama:</label>
-              <input type="text" id="warga-jk-agama" value="Laki-laki / Islam" class="form-control" oninput="renderSurat()" />
-            </div>
-            <div class="form-group">
-              <label>Pekerjaan:</label>
-              <input type="text" id="warga-pekerjaan" value="Wiraswasta" class="form-control" oninput="renderSurat()" />
+              <label>Jabatan:</label>
+              <input type="text" id="pemohon-jabatan" value="Ketua Panitia Pembangunan Gereja Katolik Santa Maria Duling" class="form-control" oninput="renderSurat()" />
             </div>
             <div class="form-group">
               <label>Alamat Lengkap:</label>
-              <input type="text" id="warga-alamat" value="Dusun Menjalin RT 02 / RW 01, Desa Menjalin" class="form-control" oninput="renderSurat()" />
+              <input type="text" id="pemohon-alamat" value="Dusun Duling Desa Nangka, Kecamatan Menjalin Kab.Landak" class="form-control" oninput="renderSurat()" />
             </div>
 
-            <div class="section-heading">Isi / Keterangan Khusus</div>
+            <div class="section-heading">PARAGRAF PENUTUP</div>
             <div class="form-group">
-              <label id="label-keterangan">Keterangan Tambahan / Usaha:</label>
-              <textarea id="surat-keterangan" class="form-control" oninput="renderSurat()">Bahwa yang bersangkutan benar-benar memiliki usaha Toko Sembako dan Perlengkapan Rumah Tangga yang berlokasi di Dusun Menjalin sejak tahun 2021 hingga sekarang.</textarea>
-            </div>
-            <div class="form-group">
-              <label>Keperluan Pembuatan Surat:</label>
-              <input type="text" id="surat-keperluan" value="Kelengkapan Administrasi Pengajuan Kredit Usaha Rakyat (KUR) Bank" class="form-control" oninput="renderSurat()" />
+              <input type="text" id="surat-penutup" value="Demikian Rekomendasi ini dibuat untuk dapat dipergunakan sebagaimana mestinya." class="form-control" oninput="renderSurat()" />
             </div>
 
-            <div class="section-heading">Penandatangan</div>
+            <div class="section-heading">PENANDATANGAN (CAMAT)</div>
             <div class="form-group">
-              <label>Tempat & Tanggal Surat:</label>
-              <input type="text" id="ttd-tgl" value="Menjalin, 24 Oktober 2026" class="form-control" oninput="renderSurat()" />
+              <label>Ditetapkan di:</label>
+              <input type="text" id="ttd-tempat" value="Menjalin" class="form-control" oninput="renderSurat()" />
             </div>
             <div class="form-group">
-              <label>Jabatan Penandatangan:</label>
-              <input type="text" id="ttd-jabatan" value="Kepala Desa Menjalin" class="form-control" oninput="renderSurat()" />
+              <label>Pada Tanggal:</label>
+              <input type="text" id="ttd-tgl" value="29 September 2026" class="form-control" oninput="renderSurat()" />
+            </div>
+            <div class="form-group">
+              <label>Jabatan Pejabat:</label>
+              <input type="text" id="ttd-jabatan" value="Camat Menjalin" class="form-control" oninput="renderSurat()" />
             </div>
             <div class="form-group">
               <label>Nama Pejabat:</label>
-              <input type="text" id="ttd-nama" value="YULIUS, S.Pd" class="form-control" oninput="renderSurat()" />
+              <input type="text" id="ttd-nama" value="ALBERTO ADMEDLA, S.H" class="form-control" oninput="renderSurat()" />
+            </div>
+            <div class="form-group">
+              <label>Pangkat / Golongan:</label>
+              <input type="text" id="ttd-pangkat" value="Penata Tingkat I" class="form-control" oninput="renderSurat()" />
+            </div>
+            <div class="form-group">
+              <label>NIP:</label>
+              <input type="text" id="ttd-nip" value="NIP. 198207072010011019" class="form-control" oninput="renderSurat()" />
             </div>
           </div>
 
           <!-- LIVE PREVIEW A4 (KANAN) -->
           <div class="preview-panel">
             <div class="preview-toolbar">
-              <span style="font-size:12px; font-weight:600; color:#cbd5e1;">📄 Live Preview Surat Resmi (Ukuran A4)</span>
-              <div style="display:flex; gap:8px;">
-                <button onclick="window.print()" class="btn-action btn-green">
-                  🖨️ Cetak / Simpan PDF
-                </button>
-              </div>
+              <span style="font-size:12px; font-weight:600; color:#cbd5e1;">📄 Live Preview Surat Rekomendasi (Format A4)</span>
+              <button onclick="window.print()" class="btn-action btn-green">
+                🖨️ Cetak / Simpan PDF (1 Lembar)
+              </button>
             </div>
 
             <div class="preview-stage">
-              <!-- LEMBAR A4 RESMI -->
+              <!-- LEMBAR KERJA A4 (PERSIS GAMBAR KE-1) -->
               <div class="a4-paper" id="paper-render">
-                <!-- KOP -->
-                <div class="kop-surat">
-                  <h4 id="view-kop-instansi">PEMERINTAH KABUPATEN LANDAK</h4>
-                  <h3 id="view-kop-kecamatan">KECAMATAN MENJALIN</h3>
-                  <h2 id="view-kop-desa">DESA MENJALIN</h2>
-                  <p id="view-kop-alamat">Jalan Raya Menjalin No. 12 Kode Pos 79363</p>
+                
+                <!-- KOP SURAT LENGKAP DENGAN LOGO KABUPATEN LANDAK -->
+                <div class="kop-container">
+                  <img id="view-logo-img" 
+                       src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Lambang_Kabupaten_Landak.png/480px-Lambang_Kabupaten_Landak.png" 
+                       alt="Logo Kabupaten Landak" 
+                       class="kop-logo" />
+                  <div class="kop-text-box">
+                    <h2 id="view-kop-kab">PEMERINTAH KABUPATEN LANDAK</h2>
+                    <h3 id="view-kop-kec">KECAMATAN MENJALIN</h3>
+                    <p id="view-kop-alamat">Alamat: Jalan Raya Menjalin No.50 Kode Pos 78362</p>
+                    <p id="view-kop-kontak">E-mail menjalin kec@gmail.com</p>
+                  </div>
                 </div>
 
-                <!-- JUDUL & NOMOR -->
-                <div class="judul-surat">
-                  <h3 id="view-judul-surat">SURAT KETERANGAN USAHA</h3>
-                  <p>Nomor: <span id="view-surat-nomor">510 / 142 / DS / X / 2026</span></p>
+                <!-- JUDUL SURAT & NOMOR -->
+                <div class="judul-surat-box">
+                  <h4 id="view-surat-judul">REKOMENDASI</h4>
+                  <p id="view-surat-nomor">Nomor : 400.8/18/TrantibumKecos/2026</p>
                 </div>
 
-                <!-- ISI -->
-                <div class="isi-surat">
-                  <p>Yang bertanda tangan di bawah ini Kepala Desa Menjalin, Kecamatan Menjalin, Kabupaten Landak, menerangkan dengan sebenarnya bahwa:</p>
+                <!-- ISI SURAT -->
+                <div>
+                  <p class="isi-paragraf" id="view-surat-pembuka">
+                    Setelah membaca dan meneliti secara seksama permohonan dana untuk pembangunan Gereja Katolik Santa Maria Duling Nomor: 01/PAN-GK/R/2026, Rekomendasi Kepala Desa Nangka Nomor: 400.8/09/PD.007/XI/2026 dan Rekomendasi Pastor Paroki / Pihak Pemohon Pastor Paroki Santo Petrus dan Paulus Menjalin Nomor: 7051/PP-PM/2026 Maka Saya selaku Camat Menjalin tidak keberatan atas Permohonan dimaksud, kepada:
+                  </p>
 
-                  <table class="tabel-identitas">
+                  <table class="tabel-identitas-dinas">
                     <tr>
-                      <td class="kol-label">Nama</td>
-                      <td class="kol-titik">:</td>
-                      <td><strong id="view-warga-nama">AHMAD FAJRI</strong></td>
+                      <td class="label-col">Nama</td>
+                      <td class="colon-col">:</td>
+                      <td id="view-pemohon-nama">Herkulanus</td>
                     </tr>
                     <tr>
-                      <td class="kol-label">NIK</td>
-                      <td class="kol-titik">:</td>
-                      <td id="view-warga-nik">6108031204980002</td>
+                      <td class="label-col">Jabatan</td>
+                      <td class="colon-col">:</td>
+                      <td id="view-pemohon-jabatan">Ketua Panitia Pembangunan Gereja Katolik Santa Maria Duling</td>
                     </tr>
                     <tr>
-                      <td class="kol-label">Tempat / Tgl Lahir</td>
-                      <td class="kol-titik">:</td>
-                      <td id="view-warga-ttl">Menjalin, 12 April 1998</td>
-                    </tr>
-                    <tr>
-                      <td class="kol-label">Jenis Kelamin / Agama</td>
-                      <td class="kol-titik">:</td>
-                      <td id="view-warga-jk-agama">Laki-laki / Islam</td>
-                    </tr>
-                    <tr>
-                      <td class="kol-label">Pekerjaan</td>
-                      <td class="kol-titik">:</td>
-                      <td id="view-warga-pekerjaan">Wiraswasta</td>
-                    </tr>
-                    <tr>
-                      <td class="kol-label">Alamat</td>
-                      <td class="kol-titik">:</td>
-                      <td id="view-warga-alamat">Dusun Menjalin RT 02 / RW 01, Desa Menjalin</td>
+                      <td class="label-col">Alamat</td>
+                      <td class="colon-col">:</td>
+                      <td id="view-pemohon-alamat">Dusun Duling Desa Nangka, Kecamatan Menjalin Kab.Landak</td>
                     </tr>
                   </table>
 
-                  <p id="view-surat-keterangan">Bahwa yang bersangkutan benar-benar memiliki usaha Toko Sembako dan Perlengkapan Rumah Tangga yang berlokasi di Dusun Menjalin sejak tahun 2021 hingga sekarang.</p>
-
-                  <p>Surat keterangan ini dibuat dan diberikan kepada yang bersangkutan untuk dipergunakan sebagai: <strong id="view-surat-keperluan">Kelengkapan Administrasi Pengajuan Kredit Usaha Rakyat (KUR) Bank</strong>.</p>
-
-                  <p>Demikian surat keterangan ini kami buat dengan sebenarnya agar dapat dipergunakan sebagaimana mestinya.</p>
+                  <p class="isi-paragraf" style="margin-top:14px;" id="view-surat-penutup">
+                    Demikian Rekomendasi ini dibuat untuk dapat dipergunakan sebagaimana mestinya.
+                  </p>
                 </div>
 
-                <!-- TANDA TANGAN -->
-                <div class="tanda-tangan-box">
-                  <div class="ttd-kanan">
-                    <div id="view-ttd-tgl">Menjalin, 24 Oktober 2026</div>
-                    <div id="view-ttd-jabatan">Kepala Desa Menjalin</div>
+                <!-- FORMAT TANDA TANGAN CAMAT MENJALIN -->
+                <div class="ttd-wrapper">
+                  <div class="ttd-box">
+                    <div class="ttd-row">
+                      <div class="ttd-row-label">Ditetapkan di</div>
+                      <div class="ttd-row-colon">:</div>
+                      <div id="view-ttd-tempat">Menjalin</div>
+                    </div>
+                    <div class="ttd-row">
+                      <div class="ttd-row-label">Pada Tanggal</div>
+                      <div class="ttd-row-colon">:</div>
+                      <div id="view-ttd-tgl">29 September 2026</div>
+                    </div>
+                    <div class="ttd-jabatan-title" id="view-ttd-jabatan">Camat Menjalin</div>
                     <div class="ttd-space"></div>
-                    <div class="ttd-nama" id="view-ttd-nama">YULIUS, S.Pd</div>
+                    <div class="ttd-nama-pejabat" id="view-ttd-nama">ALBERTO ADMEDLA, S.H</div>
+                    <div class="ttd-pangkat" id="view-ttd-pangkat">Penata Tingkat I</div>
+                    <div class="ttd-nip" id="view-ttd-nip">NIP. 198207072010011019</div>
                   </div>
                 </div>
 
@@ -589,68 +676,63 @@
       closeSidebar();
     }
 
-    // ================= LOGIKA PEMBUAT SURAT ================= //
+    // ================= LOGIKA SURAT RESMI ================= //
     function renderSurat() {
       // Kop
-      document.getElementById('view-kop-instansi').innerText = document.getElementById('kop-instansi').value;
-      document.getElementById('view-kop-kecamatan').innerText = document.getElementById('kop-kecamatan').value;
-      document.getElementById('view-kop-desa').innerText = document.getElementById('kop-desa').value;
+      document.getElementById('view-kop-kab').innerText = document.getElementById('kop-kab').value;
+      document.getElementById('view-kop-kec').innerText = document.getElementById('kop-kec').value;
       document.getElementById('view-kop-alamat').innerText = document.getElementById('kop-alamat').value;
+      document.getElementById('view-kop-kontak').innerText = document.getElementById('kop-kontak').value;
 
-      // Nomor
+      // Judul & Nomor
+      document.getElementById('view-surat-judul').innerText = document.getElementById('surat-judul').value;
       document.getElementById('view-surat-nomor').innerText = document.getElementById('surat-nomor').value;
 
-      // Identitas
-      document.getElementById('view-warga-nama').innerText = document.getElementById('warga-nama').value;
-      document.getElementById('view-warga-nik').innerText = document.getElementById('warga-nik').value;
-      document.getElementById('view-warga-ttl').innerText = document.getElementById('warga-ttl').value;
-      document.getElementById('view-warga-jk-agama').innerText = document.getElementById('warga-jk-agama').value;
-      document.getElementById('view-warga-pekerjaan').innerText = document.getElementById('warga-pekerjaan').value;
-      document.getElementById('view-warga-alamat').innerText = document.getElementById('warga-alamat').value;
+      // Paragraf & Data Pemohon
+      document.getElementById('view-surat-pembuka').innerText = document.getElementById('surat-pembuka').value;
+      document.getElementById('view-pemohon-nama').innerText = document.getElementById('pemohon-nama').value;
+      document.getElementById('view-pemohon-jabatan').innerText = document.getElementById('pemohon-jabatan').value;
+      document.getElementById('view-pemohon-alamat').innerText = document.getElementById('pemohon-alamat').value;
+      document.getElementById('view-surat-penutup').innerText = document.getElementById('surat-penutup').value;
 
-      // Keterangan
-      document.getElementById('view-surat-keterangan').innerText = document.getElementById('surat-keterangan').value;
-      document.getElementById('view-surat-keperluan').innerText = document.getElementById('surat-keperluan').value;
-
-      // TTD
+      // Tanda Tangan Camat
+      document.getElementById('view-ttd-tempat').innerText = document.getElementById('ttd-tempat').value;
       document.getElementById('view-ttd-tgl').innerText = document.getElementById('ttd-tgl').value;
       document.getElementById('view-ttd-jabatan').innerText = document.getElementById('ttd-jabatan').value;
       document.getElementById('view-ttd-nama').innerText = document.getElementById('ttd-nama').value;
+      document.getElementById('view-ttd-pangkat').innerText = document.getElementById('ttd-pangkat').value;
+      document.getElementById('view-ttd-nip').innerText = document.getElementById('ttd-nip').value;
     }
 
-    function onTemplateChange() {
-      const type = document.getElementById('input-jenis-surat').value;
-      const judul = document.getElementById('view-judul-surat');
-      const labelKet = document.getElementById('label-keterangan');
-      const ketInput = document.getElementById('surat-keterangan');
-
-      if (type === 'SKU') {
-        judul.innerText = 'SURAT KETERANGAN USAHA';
-        labelKet.innerText = 'Keterangan Usaha:';
-        ketInput.value = 'Bahwa yang bersangkutan benar-benar memiliki usaha Toko Sembako dan Perlengkapan Rumah Tangga yang berlokasi di Dusun Menjalin sejak tahun 2021 hingga sekarang.';
-      } else if (type === 'DOMISILI') {
-        judul.innerText = 'SURAT KETERANGAN DOMISILI';
-        labelKet.innerText = 'Keterangan Tempat Tinggal:';
-        ketInput.value = 'Bahwa nama tersebut di atas adalah benar-benar warga yang bertempat tinggal dan berdomisili tetap di alamat Dusun Menjalin RT 02 / RW 01, Desa Menjalin, Kecamatan Menjalin.';
-      } else if (type === 'PENGANTAR') {
-        judul.innerText = 'SURAT PENGANTAR';
-        labelKet.innerText = 'Maksud / Keterangan:';
-        ketInput.value = 'Surat pengantar ini diberikan kepada yang bersangkutan untuk pengurusan perpanjangan Surat Izin Mengemudi (SIM) / SKCK di kantor kepolisian setempat.';
-      } else if (type === 'SKTM') {
-        judul.innerText = 'SURAT KETERANGAN TIDAK MAMPU';
-        labelKet.innerText = 'Keterangan Kondisi Ekonomi:';
-        ketInput.value = 'Bahwa nama tersebut di atas adalah benar warga kami yang tergolong dalam keluarga kurang mampu/ekonomi lemah dan berhak menerima bantuan pendidikan/beasiswa.';
+    function previewCustomLogo(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('view-logo-img').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
       }
-      renderSurat();
     }
 
-    function fillSampleData() {
-      document.getElementById('warga-nama').value = 'SITI NURHALIZA';
-      document.getElementById('warga-nik').value = '6108035508000004';
-      document.getElementById('warga-ttl').value = 'Pontianak, 15 Agustus 2000';
-      document.getElementById('warga-pekerjaan').value = 'Mahasiswi';
-      document.getElementById('warga-alamat').value = 'Jl. Trans Menjalin KM 2, RT 04, Desa Menjalin';
-      document.getElementById('surat-keperluan').value = 'Persyaratan Pendaftaran Beasiswa Berprestasi Tahun 2026';
+    function loadTemplateRekomendasi() {
+      document.getElementById('kop-kab').value = "PEMERINTAH KABUPATEN LANDAK";
+      document.getElementById('kop-kec').value = "KECAMATAN MENJALIN";
+      document.getElementById('kop-alamat').value = "Alamat: Jalan Raya Menjalin No.50 Kode Pos 78362";
+      document.getElementById('kop-kontak').value = "E-mail menjalin kec@gmail.com";
+      document.getElementById('surat-judul').value = "REKOMENDASI";
+      document.getElementById('surat-nomor').value = "Nomor : 400.8/18/TrantibumKecos/2026";
+      document.getElementById('surat-pembuka').value = "Setelah membaca dan meneliti secara seksama permohonan dana untuk pembangunan Gereja Katolik Santa Maria Duling Nomor: 01/PAN-GK/R/2026, Rekomendasi Kepala Desa Nangka Nomor: 400.8/09/PD.007/XI/2026 dan Rekomendasi Pastor Paroki / Pihak Pemohon Pastor Paroki Santo Petrus dan Paulus Menjalin Nomor: 7051/PP-PM/2026 Maka Saya selaku Camat Menjalin tidak keberatan atas Permohonan dimaksud, kepada:";
+      document.getElementById('pemohon-nama').value = "Herkulanus";
+      document.getElementById('pemohon-jabatan').value = "Ketua Panitia Pembangunan Gereja Katolik Santa Maria Duling";
+      document.getElementById('pemohon-alamat').value = "Dusun Duling Desa Nangka, Kecamatan Menjalin Kab.Landak";
+      document.getElementById('surat-penutup').value = "Demikian Rekomendasi ini dibuat untuk dapat dipergunakan sebagaimana mestinya.";
+      document.getElementById('ttd-tempat').value = "Menjalin";
+      document.getElementById('ttd-tgl').value = "29 September 2026";
+      document.getElementById('ttd-jabatan').value = "Camat Menjalin";
+      document.getElementById('ttd-nama').value = "ALBERTO ADMEDLA, S.H";
+      document.getElementById('ttd-pangkat').value = "Penata Tingkat I";
+      document.getElementById('ttd-nip').value = "NIP. 198207072010011019";
       renderSurat();
     }
 
