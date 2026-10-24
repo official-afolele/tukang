@@ -153,7 +153,7 @@
     .frame-box { flex: 1; background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden; }
     .frame-box iframe { width: 100%; height: 100%; border: none; background: white; }
 
-    /* ================= RESPONSIVE SMARTPHONE (HP) ================= */
+    /* RESPONSIVE MOBILE */
     @media (max-width: 768px) {
       aside {
         position: fixed; top: 0; left: 0; bottom: 0; z-index: 100;
@@ -197,35 +197,34 @@
             <div class="brand-sub">All-in-One Workspace</div>
           </div>
         </div>
-        <!-- Tombol Tutup Sidebar di HP -->
         <button class="btn-close-sidebar" onclick="closeSidebar()">✕</button>
       </div>
 
       <nav class="menu-group">
-        <!-- Dashboard -->
+        <!-- 1. App Dashboard Utama -->
         <button onclick="openTab('dashboard')" id="nav-dashboard" class="nav-btn active">
           <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
           App Dashboard
         </button>
 
-        <!-- Scribd Reader -->
-        <button onclick="openTab('scribd')" id="nav-scribd" class="nav-btn">
-          <svg fill="none" viewBox="0 0 24 24" stroke="#4ade80" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-          Scribd Reader & PDF
-        </button>
-
         <div class="menu-label">Portal Web Terhubung</div>
 
-        <!-- Shopee -->
+        <!-- 2. Shopee Center -->
         <button onclick="openTab('shopee')" id="nav-shopee" class="nav-btn">
           <svg fill="none" viewBox="0 0 24 24" stroke="#fb923c" stroke-width="2"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
           Shopee Center
         </button>
 
-        <!-- Pinterest -->
+        <!-- 3. Pinterest Media -->
         <button onclick="openTab('pinterest')" id="nav-pinterest" class="nav-btn">
           <svg fill="none" viewBox="0 0 24 24" stroke="#f87171" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           Pinterest Media
+        </button>
+
+        <!-- 4. Scribd Reader & PDF (DITARUH DI DERETAN BAWAH PINTEREST) -->
+        <button onclick="openTab('scribd')" id="nav-scribd" class="nav-btn">
+          <svg fill="none" viewBox="0 0 24 24" stroke="#4ade80" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          Scribd Reader & PDF
         </button>
       </nav>
     </div>
@@ -244,7 +243,6 @@
   <main>
     <header>
       <div class="header-left">
-        <!-- Tombol Menu Hamburger (Khusus HP) -->
         <button class="btn-hamburger" onclick="openSidebar()">☰</button>
         <div id="page-title" class="header-title">App Dashboard Utama</div>
       </div>
@@ -263,14 +261,7 @@
         </div>
 
         <div class="cards-grid">
-          <div class="hub-card" onclick="openTab('scribd')">
-            <div class="card-icon" style="background:rgba(34,197,94,0.15); color:#4ade80;">
-              <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-            </div>
-            <h3>Scribd Reader & PDF</h3>
-            <p>Buka dokumen skrip Scribd dalam format A4 / Fullscreen dan unduh PDF dengan mudah.</p>
-          </div>
-
+          <!-- Shopee Card -->
           <div class="hub-card" onclick="openTab('shopee')">
             <div class="card-icon" style="background:rgba(249,115,22,0.15); color:#fb923c;">
               <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
@@ -279,6 +270,7 @@
             <p>Riset produk e-commerce dan gunakan ekstensi DJ Grab Pro untuk mengunduh gambar produk.</p>
           </div>
 
+          <!-- Pinterest Card -->
           <div class="hub-card" onclick="openTab('pinterest')">
             <div class="card-icon" style="background:rgba(239,68,68,0.15); color:#f87171;">
               <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -286,13 +278,21 @@
             <h3>Pinterest Media</h3>
             <p>Jelajahi visual HD dan manfaatkan downloader DJ Grab Pro untuk aset resolusi tinggi.</p>
           </div>
+
+          <!-- Scribd Card (Di Bawah Pinterest) -->
+          <div class="hub-card" onclick="openTab('scribd')">
+            <div class="card-icon" style="background:rgba(34,197,94,0.15); color:#4ade80;">
+              <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            </div>
+            <h3>Scribd Reader & PDF</h3>
+            <p>Buka dokumen skrip Scribd dalam format A4 / Fullscreen dan unduh PDF dengan mudah.</p>
+          </div>
         </div>
       </section>
 
       <!-- 2. SCRIBD READER & PDF EXPORTER -->
       <section id="view-scribd" class="page-view">
         <div class="iframe-toolbar">
-          <!-- Grup 1: Input & Kontrol ID -->
           <div class="toolbar-group">
             <span style="font-size:12px; font-weight:600; color:#94a3b8; white-space:nowrap;">ID:</span>
             <input type="text" id="scribd-id-input" value="715129338" placeholder="ID Dokumen" class="url-input" />
@@ -300,7 +300,6 @@
             <button onclick="clearScribdId()" class="btn-action btn-red">Hapus</button>
           </div>
 
-          <!-- Grup 2: Kontrol A4 & Zoom -->
           <div class="toolbar-group">
             <button id="btn-a4-toggle" onclick="toggleA4Mode()" class="btn-action btn-tool">
               📄 Mode A4
@@ -314,7 +313,6 @@
           </div>
         </div>
 
-        <!-- STAGE BACA DOKUMEN -->
         <div class="reader-stage">
           <div id="scribd-target-wrapper" class="scribd-clean-wrapper">
             <iframe id="scribd-frame" 
@@ -354,7 +352,7 @@
 
   <!-- JAVASCRIPT -->
   <script>
-    // 1. Menu Mobile Drawer
+    // 1. Mobile Drawer
     function openSidebar() {
       document.getElementById('sidebar').classList.add('open');
       document.getElementById('mobile-overlay').classList.add('active');
@@ -384,7 +382,6 @@
       };
       document.getElementById('page-title').innerText = titles[tabId] || 'Workspace';
 
-      // Otomatis tutup sidebar jika pengguna sedang di HP
       closeSidebar();
     }
 
@@ -410,7 +407,7 @@
       return null;
     }
 
-    // 5. Muat Dokumen dari ID
+    // 5. Muat Dokumen
     function loadScribdById() {
       const docId = getActiveDocId();
       if (!docId) {
@@ -422,7 +419,7 @@
       document.getElementById('scribd-frame').src = fullUrl;
     }
 
-    // 6. Kontrol Zoom
+    // 6. Zoom Kontrol
     let currentZoom = 1.0;
     function zoomDoc(step) {
       currentZoom = Math.min(Math.max(currentZoom + step, 0.5), 2.0);
@@ -440,7 +437,7 @@
       wrapper.style.transform = `scale(${currentZoom})`;
     }
 
-    // 7. Mode A4 vs Penuh
+    // 7. Mode A4
     let isA4 = false;
     function toggleA4Mode() {
       isA4 = !isA4;
