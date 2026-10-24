@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>DJ PRO - All-in-One Workspace</title>
+  <title>DJ Hub Pro - All-in-One Workspace</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
@@ -16,7 +16,7 @@
     }
     .mobile-overlay.active { display: block; }
 
-    /* TOMBOL MENU KHUSUS LAYAR HP (MENGAMBANG RAPI) */
+    /* TOMBOL MENU KHUSUS HP */
     .floating-hamburger {
       display: none; position: fixed; top: 12px; left: 12px; z-index: 100;
       background: #1e293b; border: 1px solid #334155; color: #f8fafc;
@@ -64,7 +64,7 @@
     }
     .dot-live { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 8px #22c55e; }
 
-    /* MAIN VIEWPORT (BERSIH 100% TANPA HEADER ATAS) */
+    /* MAIN VIEWPORT */
     main { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: #080d1a; position: relative; }
     .content-area { flex: 1; width: 100%; height: 100%; overflow: hidden; position: relative; }
     .page-view { display: none; height: 100%; width: 100%; flex-direction: column; }
@@ -92,14 +92,14 @@
     .hub-card h3 { font-size: 15px; font-weight: 600; color: #fff; }
     .hub-card p { font-size: 11px; color: #94a3b8; line-height: 1.4; }
 
-    /* ================= FRAME SURAT MENJALIN (PENUH & ALAMI) ================= */
-    .surat-full-container {
+    /* ================= BINGKAI LAYAR PENUH (SURAT & PASTE SCRIPT) ================= */
+    .full-embed-container {
       width: 100%;
       height: 100%;
       border: none;
       background: #0b1120;
     }
-    .surat-full-container iframe {
+    .full-embed-container iframe {
       width: 100%;
       height: 100%;
       border: none;
@@ -159,7 +159,7 @@
 </head>
 <body>
 
-  <!-- TOMBOL HAMBURGER MENGAMBANG DI HP -->
+  <!-- TOMBOL MENU KHUSUS LAYAR HP -->
   <button class="floating-hamburger" onclick="openSidebar()">☰</button>
 
   <div id="mobile-overlay" class="mobile-overlay" onclick="closeSidebar()"></div>
@@ -171,14 +171,15 @@
         <div class="brand-content">
           <div class="brand-icon">📜</div>
           <div>
-            <div class="brand-title">DJ PRO <span>Pro</span></div>
-            <div class="brand-sub">Web Pribadi Jaka</div>
+            <div class="brand-title">DJ Hub <span>Pro</span></div>
+            <div class="brand-sub">Sistem Dokumen & Administrasi</div>
           </div>
         </div>
         <button class="btn-close-sidebar" onclick="closeSidebar()">✕</button>
       </div>
 
       <nav class="menu-group">
+        <!-- 1. Dashboard -->
         <button onclick="openTab('dashboard')" id="nav-dashboard" class="nav-btn active">
           <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
           App Dashboard
@@ -186,18 +187,32 @@
 
         <div class="menu-label">Layanan Utama</div>
 
-        <!-- Pembuat Surat -->
+        <!-- 2. Pembuat Surat Resmi -->
         <button onclick="openTab('surat')" id="nav-surat" class="nav-btn">
           <svg fill="none" viewBox="0 0 24 24" stroke="#818cf8" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
           Pembuat Surat Resmi
         </button>
 
-        <!-- Scribd Reader -->
+        <!-- 3. Paste Script (JustPaste.it) -->
+        <button onclick="openTab('pastescript')" id="nav-pastescript" class="nav-btn">
+          <svg fill="none" viewBox="0 0 24 24" stroke="#f59e0b" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+          Paste Script
+        </button>
+
+        <!-- 4. Scribd Reader -->
         <button onclick="openTab('scribd')" id="nav-scribd" class="nav-btn">
           <svg fill="none" viewBox="0 0 24 24" stroke="#4ade80" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
           Scribd Reader & PDF
         </button>
       </nav>
+    </div>
+
+    <div class="badge-live">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span class="dot-live"></span>
+        <span style="font-weight:600; color:#cbd5e1;">Vercel Live</span>
+      </div>
+      <span style="color:#64748b;">v3.5</span>
     </div>
   </aside>
 
@@ -209,11 +224,12 @@
       <section id="view-dashboard" class="page-view active">
         <div class="dashboard-container">
           <div class="welcome-banner">
-            <h2>Selamat Datang di DJ PRO 🚀</h2>
-            <p>Pusat administrasi digital terpadu. Terhubung langsung dengan sistem <b>Surat Menjalin</b> untuk pembuatan surat resmi instan serta pembaca dokumen Scribd.</p>
+            <h2>Selamat Datang di DJ Hub Pro 🚀</h2>
+            <p>Pusat administrasi dan dokumen terpadu. Akses sistem pembuatan surat resmi, catatan teks instan (Paste Script), serta pembaca dokumen Scribd dalam satu ruang kerja.</p>
           </div>
 
           <div class="cards-grid">
+            <!-- Card Surat Menjalin -->
             <div class="hub-card" onclick="openTab('surat')">
               <div class="card-icon" style="background:rgba(99,102,241,0.15); color:#818cf8;">
                 <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
@@ -222,6 +238,16 @@
               <p>Akses langsung aplikasi Surat Menjalin untuk membuat surat dinas, rekomendasi, dan keterangan dengan tampilan leluasa.</p>
             </div>
 
+            <!-- Card Paste Script -->
+            <div class="hub-card" onclick="openTab('pastescript')">
+              <div class="card-icon" style="background:rgba(245,158,11,0.15); color:#f59e0b;">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+              </div>
+              <h3>Paste Script (JustPaste.it)</h3>
+              <p>Salin, tempel, dan bagikan teks, kode, atau skrip secara cepat dan aman melalui JustPaste.it.</p>
+            </div>
+
+            <!-- Card Scribd -->
             <div class="hub-card" onclick="openTab('scribd')">
               <div class="card-icon" style="background:rgba(34,197,94,0.15); color:#4ade80;">
                 <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
@@ -233,9 +259,9 @@
         </div>
       </section>
 
-      <!-- 2. PEMBUAT SURAT RESMI (BERSIH TOTAL, PENUH DARI ATAS KE BAWAH) -->
+      <!-- 2. PEMBUAT SURAT RESMI (SURAT MENJALIN) -->
       <section id="view-surat" class="page-view">
-        <div class="surat-full-container">
+        <div class="full-embed-container">
           <iframe id="frame-surat-menjalin" 
                   src="https://surat-menjalin.vercel.app/" 
                   allow="fullscreen; clipboard-read; clipboard-write;">
@@ -243,7 +269,17 @@
         </div>
       </section>
 
-      <!-- 3. SCRIBD READER VIEW -->
+      <!-- 3. PASTE SCRIPT (JUSTPASTE.IT LAYAR PENUH) -->
+      <section id="view-pastescript" class="page-view">
+        <div class="full-embed-container">
+          <iframe id="frame-pastescript" 
+                  src="https://justpaste.it/" 
+                  allow="fullscreen; clipboard-read; clipboard-write;">
+          </iframe>
+        </div>
+      </section>
+
+      <!-- 4. SCRIBD READER VIEW -->
       <section id="view-scribd" class="page-view">
         <div class="app-toolbar">
           <div style="display:flex; align-items:center; gap:6px;">
