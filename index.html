@@ -9,6 +9,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
     body { background-color: #0b0f19; color: #f1f5f9; display: flex; height: 100vh; overflow: hidden; }
 
+    /* OVERLAY & HAMBURGER HP */
     .mobile-overlay {
       display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
       backdrop-filter: blur(3px); z-index: 90;
@@ -41,19 +42,8 @@
     .btn-close-sidebar { display: none; background: none; border: none; color: #94a3b8; font-size: 20px; cursor: pointer; }
 
     .menu-group { display: flex; flex-direction: column; gap: 6px; }
-    
-    /* PANEL EDIT LAYANAN UTAMA (TERPISAH DI SIDEBAR) */
-    .service-header-wrap {
-      display: flex; justify-content: space-between; align-items: center; margin: 18px 8px 6px;
-    }
-    .menu-label { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px; }
-    .btn-add-service {
-      display: none; background: #334155; border: none; color: #818cf8; padding: 2px 7px;
-      border-radius: 4px; font-size: 10px; cursor: pointer; font-weight: 700;
-    }
-    .is-admin .btn-add-service { display: inline-block; }
+    .menu-label { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px; margin: 18px 8px 6px; }
 
-    .nav-btn-wrap { display: flex; align-items: center; position: relative; }
     .nav-btn {
       width: 100%; display: flex; align-items: center; gap: 12px; padding: 10px 12px;
       background: transparent; border: none; border-radius: 10px; color: #94a3b8;
@@ -66,24 +56,13 @@
     }
     .nav-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
 
-    .nav-action-btns {
-      display: none; position: absolute; right: 6px; gap: 3px; z-index: 10;
-    }
-    .is-admin .nav-action-btns { display: flex; }
-    .btn-nav-act {
-      background: #1e293b; border: 1px solid #475569; color: #f8fafc;
-      width: 22px; height: 22px; border-radius: 4px; font-size: 10px;
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-    }
-    .btn-nav-act.delete:hover { background: #ef4444; border-color: #ef4444; }
-
-    /* MAIN VIEWPORT */
+    /* VIEWPORT */
     main { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: #080d1a; position: relative; }
     .content-area { flex: 1; width: 100%; height: 100%; overflow: hidden; position: relative; }
     .page-view { display: none; height: 100%; width: 100%; flex-direction: column; }
     .page-view.active { display: flex; }
 
-    /* AI HUB */
+    /* ================= AI HUB ================= */
     .ai-hub-container {
       padding: 24px 20px 30px 20px; overflow-y: auto; height: 100%; display: flex; flex-direction: column;
     }
@@ -99,7 +78,6 @@
       cursor: pointer; display: inline-block; user-select: none;
     }
 
-    /* KONTROL ADMIN (AI TOOLS WORKSPACE) */
     .admin-controls-logged {
       position: absolute; right: 0; top: 50%; transform: translateY(-50%);
       display: none; align-items: center; gap: 8px; z-index: 2;
@@ -160,6 +138,44 @@
     .btn-mini:hover { background: #334155; }
     .btn-mini.delete:hover { background: #ef4444; border-color: #ef4444; }
 
+    /* ================= LAYANAN UTAMA ASLI (SURAT & SCRIBD) ================= */
+    .full-embed-container { width: 100%; height: 100%; border: none; background: #0b1120; }
+    .full-embed-container iframe { width: 100%; height: 100%; border: none; background: #ffffff; }
+
+    .app-toolbar {
+      display: flex; gap: 8px; align-items: center; justify-content: space-between; background: #0f172a; border: 1px solid #1e293b;
+      padding: 10px 14px; border-radius: 12px; margin: 12px 14px; flex-wrap: wrap; flex-shrink: 0;
+    }
+    .btn-action {
+      background: #6366f1; color: white; border: none; padding: 8px 14px; border-radius: 8px;
+      font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;
+      transition: 0.15s; white-space: nowrap;
+    }
+    .btn-action:hover { background: #4f46e5; }
+    .btn-green { background: #16a34a; }
+    .btn-green:hover { background: #15803d; }
+    .btn-red { background: #ef4444; }
+    .btn-red:hover { background: #dc2626; }
+    .btn-tool { background: #1e293b; border: 1px solid #334155; }
+    .btn-tool:hover { background: #334155; }
+
+    .form-control {
+      background: #080d1a; border: 1px solid #334155; color: #f8fafc;
+      padding: 7px 11px; border-radius: 8px; font-size: 12px; outline: none;
+    }
+    .reader-stage {
+      flex: 1; overflow: auto; background: #080d1a; display: flex; justify-content: center;
+      padding: 8px 0; position: relative; border-radius: 12px;
+    }
+    .scribd-clean-wrapper {
+      position: relative; width: 100%; height: 100%; background: #ffffff; border-radius: 12px;
+      overflow: hidden; border: 1px solid #1e293b; transition: all 0.25s ease; transform-origin: top center;
+    }
+    .scribd-clean-wrapper.mode-a4 { max-width: 820px; height: 100%; box-shadow: 0 10px 35px rgba(0,0,0,0.7); }
+    .scribd-clean-wrapper iframe { width: 100%; height: calc(100% + 46px); margin-bottom: -46px; border: none; background: #ffffff; }
+    .mask-bottom-left { position: absolute; bottom: 0; left: 0; width: 180px; height: 46px; background: #ffffff; z-index: 30; pointer-events: none; }
+    .mask-bottom-right { position: absolute; bottom: 0; right: 0; width: 90px; height: 46px; background: #ffffff; z-index: 30; pointer-events: none; }
+
     /* MODAL */
     .modal-overlay {
       display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(4px);
@@ -182,14 +198,6 @@
     .form-input:focus { border-color: #6366f1; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }
-    .btn-action {
-      background: #6366f1; color: white; border: none; padding: 8px 14px; border-radius: 8px;
-      font-size: 12px; font-weight: 600; cursor: pointer;
-    }
-    .btn-tool { background: #1e293b; border: 1px solid #334155; }
-
-    .full-embed-container { width: 100%; height: 100%; border: none; background: #0b1120; }
-    .full-embed-container iframe { width: 100%; height: 100%; border: none; background: #ffffff; }
 
     /* RESPONSIVE HP: WAJIB 2 KOLOM */
     @media (max-width: 768px) {
@@ -234,22 +242,27 @@
           AI Tools Hub
         </button>
 
-        <!-- PANEL EDIT LAYANAN UTAMA (TERPISAH) -->
-        <div class="service-header-wrap">
-          <span class="menu-label">Layanan Utama</span>
-          <button class="btn-add-service" onclick="openServiceModal(-1)">+ Tambah</button>
-        </div>
+        <!-- LAYANAN UTAMA ASLI TETAP AMAN -->
+        <div class="menu-label">Layanan Utama</div>
 
-        <div id="services-nav-container" class="menu-group"></div>
+        <button onclick="openTab('surat')" id="nav-surat" class="nav-btn">
+          <svg fill="none" viewBox="0 0 24 24" stroke="#818cf8" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          Pembuat Surat Resmi
+        </button>
+
+        <button onclick="openTab('scribd')" id="nav-scribd" class="nav-btn">
+          <svg fill="none" viewBox="0 0 24 24" stroke="#4ade80" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          Scribd Reader & PDF
+        </button>
       </nav>
     </div>
   </aside>
 
   <!-- MAIN VIEWPORT -->
   <main>
-    <div class="content-area" id="dynamic-content-area">
+    <div class="content-area">
 
-      <!-- AI TOOL WORKSPACE -->
+      <!-- 1. AI TOOL WORKSPACE (TERPISAH KHUSUS KARTU AI) -->
       <section id="view-dashboard" class="page-view active">
         <div class="ai-hub-container">
           <div class="hub-header-bar">
@@ -257,7 +270,6 @@
               <h1 onclick="goToHome()">AI Tool Workspace</h1>
             </div>
 
-            <!-- PANEL EDIT AI TOOLS (TERPISAH) -->
             <div id="admin-logged-group" class="admin-controls-logged">
               <span id="current-user-badge" class="admin-badge-user">Admin</span>
               <button class="btn-add-item" onclick="openAddModal()">+ Tambah AI</button>
@@ -265,8 +277,49 @@
             </div>
           </div>
 
-          <!-- GRID KARTU (3 DI PC, 2 DI HP) -->
+          <!-- GRID 3 KOLOM DI PC, 2 KOLOM DI HP -->
           <div id="ai-tools-grid" class="ai-tools-grid"></div>
+        </div>
+      </section>
+
+      <!-- 2. PEMBUAT SURAT RESMI -->
+      <section id="view-surat" class="page-view">
+        <div class="full-embed-container">
+          <iframe id="frame-surat-menjalin" 
+                  src="https://surat-menjalin.vercel.app/" 
+                  allow="fullscreen; clipboard-read; clipboard-write;">
+          </iframe>
+        </div>
+      </section>
+
+      <!-- 3. SCRIBD READER & PDF (FITUR LENGKAP KEMBALI) -->
+      <section id="view-scribd" class="page-view">
+        <div class="app-toolbar">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="font-size:12px; font-weight:600; color:#94a3b8;">ID:</span>
+            <input type="text" id="scribd-id-input" value="715129338" placeholder="ID Dokumen" class="form-control" style="max-width:130px; padding:6px 10px;" />
+            <button onclick="loadScribdById()" class="btn-action">Buka</button>
+            <button onclick="document.getElementById('scribd-id-input').value=''" class="btn-action btn-red">Hapus</button>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <button id="btn-a4-toggle" onclick="toggleA4Mode()" class="btn-action btn-tool">📄 Mode A4</button>
+            <button onclick="zoomDoc(-0.1)" class="btn-action btn-tool" style="padding:6px 9px;">➖</button>
+            <span id="zoom-label" style="font-size:11px; font-weight:700; color:#818cf8; min-width:38px; text-align:center;">100%</span>
+            <button onclick="zoomDoc(0.1)" class="btn-action btn-tool" style="padding:6px 9px;">➕</button>
+            <button onclick="resetZoom()" class="btn-action btn-tool" style="padding:6px 8px; font-size:10px;">↺</button>
+            <button onclick="downloadScribdPDF()" class="btn-action btn-green">Simpan PDF</button>
+          </div>
+        </div>
+
+        <div class="reader-stage">
+          <div id="scribd-target-wrapper" class="scribd-clean-wrapper">
+            <iframe id="scribd-frame" 
+                    src="https://www.scribd.com/embeds/715129338/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf" 
+                    allowfullscreen="true">
+            </iframe>
+            <div class="mask-bottom-left"></div>
+            <div class="mask-bottom-right"></div>
+          </div>
         </div>
       </section>
 
@@ -342,35 +395,7 @@
     </div>
   </div>
 
-  <!-- MODAL EDIT LAYANAN UTAMA -->
-  <div id="service-modal" class="modal-overlay">
-    <div class="modal-box">
-      <div class="modal-header">
-        <div id="service-modal-heading" class="modal-title">Kelola Layanan Utama</div>
-        <button class="modal-close" onclick="closeServiceModal()">✕</button>
-      </div>
-      <input type="hidden" id="service-row" value="-1">
-      <div class="form-group">
-        <label>Nama Layanan</label>
-        <input type="text" id="service-name" class="form-input" placeholder="contoh: Pembuat Surat Resmi">
-      </div>
-      <div class="form-group">
-        <label>URL Iframe Embed</label>
-        <input type="url" id="service-url" class="form-input" placeholder="https://surat-menjalin.vercel.app/">
-      </div>
-      <div class="form-group">
-        <label>Warna Ikon (#hex)</label>
-        <input type="text" id="service-color" class="form-input" value="#818cf8">
-      </div>
-      <div class="modal-actions">
-        <button type="button" class="btn-action btn-tool" onclick="closeServiceModal()">Batal</button>
-        <button type="button" id="btn-save-service" class="btn-action" onclick="saveService()">Simpan Layanan</button>
-      </div>
-    </div>
-  </div>
-
   <script>
-    // URL Web App Google Spreadsheet Anda:
     const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbzXQAK-LDzCrRYT8YpcHGjh7DalICrslIrEJf44Lb_zoTiHqQGdZ_gdjUEhi8DikDEV/exec";
 
     const DEFAULT_ADMIN = { username: "admin", password: "admin123" };
@@ -381,39 +406,25 @@
       { name: "JustPaste.it", url: "https://justpaste.it", domain: "justpaste.it", logo: "📝", color: "#f97316", desc: "Free text, script, and markdown sharing tool with instant formatting and links.", badge: "Free" }
     ];
 
-    const DEFAULT_SERVICES = [
-      { id: "surat", name: "Pembuat Surat Resmi", url: "https://surat-menjalin.vercel.app/", iconColor: "#818cf8" },
-      { id: "scribd", name: "Scribd Reader & PDF", url: "https://www.scribd.com/embeds/715129338/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf", iconColor: "#4ade80" }
-    ];
-
-    let aiTools = [];
-    let services = [];
+    // Data langsung tampil dari cache/default secara instan (0 detik)
+    let aiTools = JSON.parse(localStorage.getItem('dj_ai_tools')) || DEFAULT_TOOLS;
     let currentUser = localStorage.getItem('dj_admin_user') || null;
 
-    // AMBIL DATA DARI GOOGLE SPREADSHEET (Anti-CORS / Anti-Redirect Issue)
-    async function loadSpreadsheetData() {
+    // AMBIL DATA TERBARU DI LATAR BELAKANG (Agar web cepat dan tidak lelet)
+    async function syncSpreadsheetBackground() {
       try {
-        const [resTools, resServices] = await Promise.all([
-          fetch(`${SPREADSHEET_URL}?type=tools`, { redirect: 'follow' }),
-          fetch(`${SPREADSHEET_URL}?type=services`, { redirect: 'follow' })
-        ]);
-
-        const toolsData = await resTools.json();
-        const servicesData = await resServices.json();
-
-        aiTools = (toolsData && toolsData.length > 0) ? toolsData : DEFAULT_TOOLS;
-        services = (servicesData && servicesData.length > 0) ? servicesData : DEFAULT_SERVICES;
+        const res = await fetch(`${SPREADSHEET_URL}?type=tools`);
+        const remoteData = await res.json();
+        if (remoteData && remoteData.length > 0) {
+          aiTools = remoteData;
+          localStorage.setItem('dj_ai_tools', JSON.stringify(aiTools));
+          renderTools();
+        }
       } catch (e) {
-        console.warn("Menggunakan data default (Menghubungkan ke Sheet...):", e);
-        if (aiTools.length === 0) aiTools = DEFAULT_TOOLS;
-        if (services.length === 0) services = DEFAULT_SERVICES;
+        console.warn("Sinkronisasi sheet offline:", e);
       }
-
-      renderTools();
-      renderServices();
     }
 
-    // KIRIM PERUBAHAN KE GOOGLE SPREADSHEET
     async function sendToSpreadsheet(payload) {
       try {
         await fetch(SPREADSHEET_URL, {
@@ -423,9 +434,9 @@
           body: JSON.stringify(payload)
         });
       } catch (err) {
-        console.error("Gagal mengirim ke sheet:", err);
+        console.error(err);
       }
-      setTimeout(loadSpreadsheetData, 1200);
+      setTimeout(syncSpreadsheetBackground, 1200);
     }
 
     // ================= ROUTE /admin ================= //
@@ -447,7 +458,6 @@
         body.classList.remove('is-admin');
       }
       renderTools();
-      renderServices();
     }
 
     function openLoginModal() {
@@ -520,45 +530,6 @@
       });
     }
 
-    // ================= RENDER LAYANAN UTAMA ================= //
-    function renderServices() {
-      const navContainer = document.getElementById('services-nav-container');
-      const contentArea = document.getElementById('dynamic-content-area');
-
-      navContainer.innerHTML = '';
-      document.querySelectorAll('.page-view:not(#view-dashboard)').forEach(el => el.remove());
-
-      services.forEach((srv, index) => {
-        const srvId = srv.id || `srv_${index}`;
-
-        const wrap = document.createElement('div');
-        wrap.className = 'nav-btn-wrap';
-        wrap.innerHTML = `
-          <button onclick="openTab('${srvId}')" id="nav-${srvId}" class="nav-btn">
-            <svg fill="none" viewBox="0 0 24 24" stroke="${srv.iconColor || '#818cf8'}" stroke-width="2">
-              <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-            </svg>
-            ${srv.name}
-          </button>
-          <div class="nav-action-btns">
-            <button class="btn-nav-act" onclick="openServiceModal(${index})" title="Edit">✏️</button>
-            <button class="btn-nav-act delete" onclick="deleteService(${index})" title="Hapus">🗑️</button>
-          </div>
-        `;
-        navContainer.appendChild(wrap);
-
-        const viewSection = document.createElement('section');
-        viewSection.id = `view-${srvId}`;
-        viewSection.className = 'page-view';
-        viewSection.innerHTML = `
-          <div class="full-embed-container">
-            <iframe src="${srv.url}" allow="fullscreen; clipboard-read; clipboard-write;"></iframe>
-          </div>
-        `;
-        contentArea.appendChild(viewSection);
-      });
-    }
-
     // ================= CRUD TOOLS KE SPREADSHEET ================= //
     function openAddModal() {
       document.getElementById('modal-heading').innerText = 'Tambah AI Baru';
@@ -601,87 +572,91 @@
       let domain = url;
       try { domain = new URL(url).hostname.replace('www.', ''); } catch (e) {}
 
-      const btn = document.getElementById('btn-save-modal');
-      btn.innerText = 'Menyimpan...';
+      const toolData = { name, url, domain, logo, color, desc, badge };
 
-      const payload = {
+      // Update langsung di layar agar responsif instan
+      if (rowIndex > 0) {
+        const idx = aiTools.findIndex(t => t.rowIndex === rowIndex);
+        if (idx !== -1) aiTools[idx] = { ...toolData, rowIndex };
+      } else {
+        aiTools.push({ ...toolData, rowIndex: aiTools.length + 2 });
+      }
+      localStorage.setItem('dj_ai_tools', JSON.stringify(aiTools));
+      renderTools();
+      closeModal();
+
+      // Simpan ke Google Spreadsheet
+      await sendToSpreadsheet({
         type: 'tools',
         action: rowIndex > 0 ? 'update' : 'create',
         rowIndex: rowIndex,
-        name, url, domain, logo, color, desc, badge
-      };
-
-      closeModal();
-      await sendToSpreadsheet(payload);
-      btn.innerText = 'Simpan Data';
+        ...toolData
+      });
     }
 
     async function deleteTool(i) {
       const t = aiTools[i];
-      if (!confirm(`Hapus tool "${t.name}" dari Spreadsheet?`)) return;
+      if (!confirm(`Hapus tool "${t.name}"?`)) return;
+      const rowToDelete = t.rowIndex || (i + 2);
+
+      aiTools.splice(i, 1);
+      localStorage.setItem('dj_ai_tools', JSON.stringify(aiTools));
+      renderTools();
+
       await sendToSpreadsheet({
         type: 'tools',
         action: 'delete',
-        rowIndex: t.rowIndex || (i + 2)
+        rowIndex: rowToDelete
       });
     }
 
-    // ================= CRUD SERVICES KE SPREADSHEET ================= //
-    function openServiceModal(i) {
-      const heading = document.getElementById('service-modal-heading');
-      if (i >= 0) {
-        const s = services[i];
-        heading.innerText = 'Edit Layanan Utama';
-        document.getElementById('service-row').value = s.rowIndex || (i + 2);
-        document.getElementById('service-name').value = s.name;
-        document.getElementById('service-url').value = s.url;
-        document.getElementById('service-color').value = s.iconColor || '#818cf8';
+    // ================= FITUR SCRIBD ASLI ================= //
+    function loadScribdById() {
+      const input = document.getElementById('scribd-id-input').value.trim();
+      const match = input.match(/\d{6,}/);
+      const docId = match ? match[0] : input;
+      if (!docId) { alert("Masukkan ID dokumen!"); return; }
+      document.getElementById('scribd-frame').src = `https://www.scribd.com/embeds/${docId}/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf`;
+    }
+
+    let currentZoom = 1.0;
+    function zoomDoc(step) {
+      currentZoom = Math.min(Math.max(currentZoom + step, 0.5), 2.0);
+      document.getElementById('zoom-label').innerText = Math.round(currentZoom * 100) + '%';
+      document.getElementById('scribd-target-wrapper').style.transform = `scale(${currentZoom})`;
+    }
+    function resetZoom() {
+      currentZoom = 1.0;
+      document.getElementById('zoom-label').innerText = '100%';
+      document.getElementById('scribd-target-wrapper').style.transform = 'scale(1)';
+    }
+
+    let isA4 = false;
+    function toggleA4Mode() {
+      isA4 = !isA4;
+      const wrapper = document.getElementById('scribd-target-wrapper');
+      const btn = document.getElementById('btn-a4-toggle');
+      if (isA4) {
+        wrapper.classList.add('mode-a4');
+        btn.innerText = '🖥️ Lebar Penuh';
+        btn.style.background = '#6366f1';
       } else {
-        heading.innerText = 'Tambah Layanan Utama';
-        document.getElementById('service-row').value = '-1';
-        document.getElementById('service-name').value = '';
-        document.getElementById('service-url').value = '';
-        document.getElementById('service-color').value = '#818cf8';
+        wrapper.classList.remove('mode-a4');
+        btn.innerText = '📄 Mode A4';
+        btn.style.background = '#1e293b';
       }
-      document.getElementById('service-modal').classList.add('active');
     }
 
-    function closeServiceModal() { document.getElementById('service-modal').classList.remove('active'); }
-
-    async function saveService() {
-      const name = document.getElementById('service-name').value.trim();
-      let url = document.getElementById('service-url').value.trim();
-      const iconColor = document.getElementById('service-color').value.trim() || '#818cf8';
-      const rowIndex = parseInt(document.getElementById('service-row').value);
-
-      if (!name || !url) return alert("Nama dan URL Layanan wajib diisi!");
-      if (!url.startsWith('http')) url = 'https://' + url;
-
-      const btn = document.getElementById('btn-save-service');
-      btn.innerText = 'Menyimpan...';
-
-      const payload = {
-        type: 'services',
-        action: rowIndex > 0 ? 'update' : 'create',
-        rowIndex: rowIndex,
-        id: 'srv_' + Date.now(),
-        name, url, iconColor
-      };
-
-      closeServiceModal();
-      await sendToSpreadsheet(payload);
-      btn.innerText = 'Simpan Layanan';
-    }
-
-    async function deleteService(i) {
-      const s = services[i];
-      if (!confirm(`Hapus layanan "${s.name}" dari Spreadsheet?`)) return;
-      await sendToSpreadsheet({
-        type: 'services',
-        action: 'delete',
-        rowIndex: s.rowIndex || (i + 2)
-      });
-      openTab('dashboard');
+    function downloadScribdPDF() {
+      const input = document.getElementById('scribd-id-input').value.trim();
+      const match = input.match(/\d{6,}/);
+      const docId = match ? match[0] : input;
+      if (!docId) { alert("Tidak ada dokumen aktif!"); return; }
+      const printWin = window.open(`https://www.scribd.com/embeds/${docId}/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf`, '_blank');
+      if (printWin) {
+        printWin.focus();
+        setTimeout(() => { printWin.print(); }, 2000);
+      }
     }
 
     // ================= NAVIGASI ================= //
@@ -704,9 +679,11 @@
     }
     function goToHome() { openTab('dashboard'); }
 
+    // Init App
+    renderTools();
     checkAdminRoute();
     updateAuthUI();
-    loadSpreadsheetData();
+    syncSpreadsheetBackground();
   </script>
 </body>
 </html>
