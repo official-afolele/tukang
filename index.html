@@ -64,17 +64,24 @@
     .page-view { display: none; height: 100%; width: 100%; flex-direction: column; }
     .page-view.active { display: flex; }
 
-    /* ================= HALAMAN DEPAN: AI TOOL WORKSPACE ================= */
+    /* ================= AI TOOL WORKSPACE ================= */
     .ai-hub-container {
       padding: 20px 24px 30px 24px;
       overflow-y: auto;
       height: 100%;
     }
 
-    /* JUDUL DI TENGAH (BISA DI-KLIK KEMBALI KE HOME) */
-    .center-title-header {
-      text-align: center;
+    .hub-header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 22px;
+      position: relative;
+    }
+
+    .center-title-header {
+      flex: 1;
+      text-align: center;
     }
     .center-title-header h1 {
       font-size: 20px;
@@ -96,11 +103,59 @@
       transform: scale(1.03);
     }
 
-    /* GRID KARTU AI */
+    /* ADMIN CONTROLS */
+    .admin-controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .btn-admin-toggle {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #94a3b8;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: 0.2s;
+    }
+    .btn-admin-toggle.active {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: #6366f1;
+      color: #818cf8;
+    }
+    .btn-add-item {
+      display: none;
+      background: #6366f1;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-refresh-sheet {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #94a3b8;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    /* GRID TETAP 3 KOLOM DI HP & PC */
     .ai-tools-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 14px;
       padding-bottom: 30px;
     }
 
@@ -114,8 +169,9 @@
       justify-content: space-between;
       gap: 12px;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      cursor: pointer;
+      position: relative;
       text-decoration: none;
+      color: inherit;
     }
     .ai-card:hover {
       border-color: #6366f1;
@@ -131,7 +187,8 @@
     .ai-brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
+      overflow: hidden;
     }
     .ai-logo {
       width: 36px;
@@ -146,14 +203,18 @@
       flex-shrink: 0;
     }
     .ai-name {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 700;
       color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .external-icon {
       color: #64748b;
       transition: 0.2s;
+      flex-shrink: 0;
     }
     .ai-card:hover .external-icon {
       color: #818cf8;
@@ -165,6 +226,7 @@
       color: #94a3b8;
       line-height: 1.45;
       min-height: 34px;
+      word-break: break-word;
     }
 
     .ai-card-footer {
@@ -173,20 +235,25 @@
       align-items: center;
       padding-top: 10px;
       border-top: 1px solid #1e293b;
+      gap: 6px;
     }
     .ai-domain {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 500;
       color: #60a5fa;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .ai-badge {
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 600;
-      padding: 2px 9px;
+      padding: 2px 8px;
       border-radius: 20px;
       background: rgba(34, 197, 94, 0.12);
       color: #4ade80;
       border: 1px solid rgba(34, 197, 94, 0.25);
+      flex-shrink: 0;
     }
     .ai-badge.freemium {
       background: rgba(234, 179, 8, 0.12);
@@ -204,21 +271,90 @@
       border-color: rgba(239, 68, 68, 0.25);
     }
 
-    /* FULL EMBED CONTAINER (SURAT & PASTE SCRIPT) */
-    .full-embed-container {
-      width: 100%;
-      height: 100%;
-      border: none;
-      background: #0b1120;
+    /* AKSI ADMIN DI KARTU */
+    .card-admin-actions {
+      display: none;
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      gap: 4px;
+      z-index: 10;
     }
-    .full-embed-container iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      background: #ffffff;
+    .admin-mode .card-admin-actions { display: flex; }
+    .admin-mode .external-icon { display: none; }
+
+    .btn-mini {
+      background: #1e293b;
+      border: 1px solid #475569;
+      color: #f8fafc;
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 12px;
+      transition: 0.15s;
+    }
+    .btn-mini:hover { background: #334155; }
+    .btn-mini.delete:hover { background: #ef4444; border-color: #ef4444; }
+
+    /* LOADING SPINNER */
+    .loading-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 40px;
+      color: #818cf8;
+      font-size: 14px;
     }
 
-    /* TOOLBAR SCRIBD */
+    /* MODAL */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 14px;
+      width: 100%;
+      max-width: 420px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; }
+    .modal-title { font-size: 16px; font-weight: 700; color: #fff; }
+    .modal-close { background: none; border: none; color: #94a3b8; font-size: 18px; cursor: pointer; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; }
+    .form-input {
+      background: #080d1a;
+      border: 1px solid #334155;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+    }
+    .form-input:focus { border-color: #6366f1; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }
+
+    /* FULL EMBED & SCRIBD */
+    .full-embed-container { width: 100%; height: 100%; border: none; background: #0b1120; }
+    .full-embed-container iframe { width: 100%; height: 100%; border: none; background: #ffffff; }
     .app-toolbar {
       display: flex; gap: 8px; align-items: center; justify-content: space-between; background: #0f172a; border: 1px solid #1e293b;
       padding: 10px 14px; border-radius: 12px; margin: 12px 14px; flex-wrap: wrap; flex-shrink: 0;
@@ -235,13 +371,10 @@
     .btn-red:hover { background: #dc2626; }
     .btn-tool { background: #1e293b; border: 1px solid #334155; }
     .btn-tool:hover { background: #334155; }
-
     .form-control {
       background: #080d1a; border: 1px solid #334155; color: #f8fafc;
       padding: 7px 11px; border-radius: 8px; font-size: 12px; outline: none;
     }
-
-    /* SCRIBD WRAPPER */
     .reader-stage {
       flex: 1; overflow: auto; background: #080d1a; display: flex; justify-content: center;
       padding: 8px 0; position: relative; border-radius: 12px;
@@ -250,31 +383,37 @@
       position: relative; width: 100%; height: 100%; background: #ffffff; border-radius: 12px;
       overflow: hidden; border: 1px solid #1e293b; transition: all 0.25s ease; transform-origin: top center;
     }
-    .scribd-clean-wrapper.mode-a4 {
-      max-width: 820px; height: 100%; box-shadow: 0 10px 35px rgba(0,0,0,0.7);
-    }
-    .scribd-clean-wrapper iframe {
-      width: 100%; height: calc(100% + 46px); margin-bottom: -46px; border: none; background: #ffffff;
-    }
+    .scribd-clean-wrapper.mode-a4 { max-width: 820px; height: 100%; box-shadow: 0 10px 35px rgba(0,0,0,0.7); }
+    .scribd-clean-wrapper iframe { width: 100%; height: calc(100% + 46px); margin-bottom: -46px; border: none; background: #ffffff; }
     .mask-bottom-left { position: absolute; bottom: 0; left: 0; width: 180px; height: 46px; background: #ffffff; z-index: 30; pointer-events: none; }
     .mask-bottom-right { position: absolute; bottom: 0; right: 0; width: 90px; height: 46px; background: #ffffff; z-index: 30; pointer-events: none; }
 
-    /* RESPONSIVE SMARTPHONE (HP) */
+    /* RESPONSIVE HP (TETAP 3 KOLOM) */
     @media (max-width: 768px) {
       aside { position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; transform: translateX(-100%); box-shadow: 10px 0 30px rgba(0,0,0,0.7); }
       aside.open { transform: translateX(0); }
       .btn-close-sidebar { display: block; }
       .floating-hamburger { display: flex; }
-      .ai-hub-container { padding: 50px 14px 20px 14px; }
-      .ai-tools-grid { grid-template-columns: 1fr; }
+      .ai-hub-container { padding: 50px 8px 20px 8px; }
+
+      .ai-tools-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 8px;
+      }
+      .ai-card { padding: 10px 8px; border-radius: 10px; gap: 8px; }
+      .ai-logo { width: 28px; height: 28px; font-size: 14px; border-radius: 6px; }
+      .ai-name { font-size: 11px; }
+      .ai-desc { font-size: 10px; line-height: 1.3; min-height: 28px; }
+      .ai-domain { font-size: 9px; }
+      .ai-badge { font-size: 8px; padding: 1px 5px; }
+      .external-icon { width: 14px; height: 14px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- TOMBOL MENU KHUSUS HP -->
+  <!-- TOMBOL MENU HP -->
   <button class="floating-hamburger" onclick="openSidebar()">☰</button>
-
   <div id="mobile-overlay" class="mobile-overlay" onclick="closeSidebar()"></div>
 
   <!-- SIDEBAR -->
@@ -284,7 +423,7 @@
         <div class="brand-content">
           <div class="brand-icon">⚡</div>
           <div>
-            <div class="brand-title">DJ  <span>PRO</span></div>
+            <div class="brand-title">DJ <span>PRO</span></div>
             <div class="brand-sub">Web Pribadi Jaka</div>
           </div>
         </div>
@@ -292,7 +431,6 @@
       </div>
 
       <nav class="menu-group">
-        <!-- 1. AI Tools Hub -->
         <button onclick="openTab('dashboard')" id="nav-dashboard" class="nav-btn active">
           <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
           AI Tools Hub
@@ -300,13 +438,11 @@
 
         <div class="menu-label">Layanan Utama</div>
 
-        <!-- 2. Pembuat Surat Resmi -->
         <button onclick="openTab('surat')" id="nav-surat" class="nav-btn">
           <svg fill="none" viewBox="0 0 24 24" stroke="#818cf8" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
           Pembuat Surat Resmi
         </button>
 
-        <!-- 3. Scribd Reader -->
         <button onclick="openTab('scribd')" id="nav-scribd" class="nav-btn">
           <svg fill="none" viewBox="0 0 24 24" stroke="#4ade80" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
           Scribd Reader & PDF
@@ -323,74 +459,28 @@
       <section id="view-dashboard" class="page-view active">
         <div class="ai-hub-container">
           
-          <!-- JUDUL BERADA DI TENGAH (KLIK UNTUK REFRESH / KEMBALI KE HOME) -->
-          <div class="center-title-header">
-            <h1 onclick="goToHome()" title="Klik untuk kembali ke halaman utama">
-              AI Tool Workspace
-            </h1>
+          <div class="hub-header-bar">
+            <div class="center-title-header">
+              <h1 onclick="goToHome()" title="Klik untuk refresh / home">
+                AI Tool Workspace
+              </h1>
+            </div>
+            
+            <div class="admin-controls">
+              <button class="btn-refresh-sheet" onclick="fetchToolsFromSheet()" title="Muat ulang dari Spreadsheet">↻</button>
+              <button id="btn-admin" class="btn-admin-toggle" onclick="toggleAdminMode()">⚙️ Mode Admin</button>
+              <button id="btn-add" class="btn-add-item" onclick="openAddModal()">+ Tambah AI</button>
+            </div>
           </div>
 
-          <div class="ai-tools-grid">
-
-            <!-- ChatGPT -->
-            <a href="https://chat.openai.com" target="_blank" class="ai-card">
-              <div>
-                <div class="ai-card-header">
-                  <div class="ai-brand">
-                    <div class="ai-logo" style="background:#10a37f;">🟢</div>
-                    <div class="ai-name">ChatGPT</div>
-                  </div>
-                  <svg class="external-icon" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
-                </div>
-                <p class="ai-desc" style="margin-top:10px;">Free AI chat with daily limits, advanced reasoning, and internet browsing.</p>
-              </div>
-              <div class="ai-card-footer">
-                <span class="ai-domain">chat.openai.com</span>
-                <span class="ai-badge">Free</span>
-              </div>
-            </a>
-
-            <!-- Claude -->
-            <a href="https://claude.ai" target="_blank" class="ai-card">
-              <div>
-                <div class="ai-card-header">
-                  <div class="ai-brand">
-                    <div class="ai-logo" style="background:#d97706;">✳️</div>
-                    <div class="ai-name">Claude</div>
-                  </div>
-                  <svg class="external-icon" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
-                </div>
-                <p class="ai-desc" style="margin-top:10px;">Free AI assistant with generous limits, natural tone, and large document context.</p>
-              </div>
-              <div class="ai-card-footer">
-                <span class="ai-domain">claude.ai</span>
-                <span class="ai-badge">Free</span>
-              </div>
-            </a>
-
-            <!-- JustPaste.it -->
-            <a href="https://justpaste.it" target="_blank" class="ai-card">
-              <div>
-                <div class="ai-card-header">
-                  <div class="ai-brand">
-                    <div class="ai-logo" style="background:#f97316;">📝</div>
-                    <div class="ai-name">JustPaste.it</div>
-                  </div>
-                  <svg class="external-icon" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
-                </div>
-                <p class="ai-desc" style="margin-top:10px;">Free text, script, and markdown sharing tool with instant formatting and links.</p>
-              </div>
-              <div class="ai-card-footer">
-                <span class="ai-domain">justpaste.it</span>
-                <span class="ai-badge">Free</span>
-              </div>
-            </a>
-
+          <div id="ai-tools-grid" class="ai-tools-grid">
+            <div class="loading-state">Sedang memuat data dari Spreadsheet...</div>
           </div>
+
         </div>
       </section>
 
-      <!-- 2. PEMBUAT SURAT RESMI (SURAT MENJALIN) -->
+      <!-- 2. PEMBUAT SURAT RESMI -->
       <section id="view-surat" class="page-view">
         <div class="full-embed-container">
           <iframe id="frame-surat-menjalin" 
@@ -400,7 +490,7 @@
         </div>
       </section>
 
-      <!-- 4. SCRIBD READER VIEW -->
+      <!-- 3. SCRIBD READER VIEW -->
       <section id="view-scribd" class="page-view">
         <div class="app-toolbar">
           <div style="display:flex; align-items:center; gap:6px;">
@@ -434,8 +524,286 @@
     </div>
   </main>
 
+  <!-- MODAL ADMIN TAMBAH / EDIT KARTU AI -->
+  <div id="admin-modal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div id="modal-heading" class="modal-title">Tambah AI Baru</div>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+
+      <input type="hidden" id="edit-row-index" value="-1">
+
+      <div class="form-group">
+        <label>Nama AI</label>
+        <input type="text" id="tool-name" class="form-input" placeholder="contoh: ChatGPT">
+      </div>
+
+      <div class="form-group">
+        <label>URL Website</label>
+        <input type="url" id="tool-url" class="form-input" placeholder="https://chat.openai.com">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Emoji / Logo</label>
+          <input type="text" id="tool-logo" class="form-input" placeholder="🟢 atau 🤖">
+        </div>
+        <div class="form-group">
+          <label>Warna Background</label>
+          <input type="text" id="tool-color" class="form-input" placeholder="#10a37f">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Deskripsi Singkat</label>
+        <textarea id="tool-desc" class="form-input" rows="2" placeholder="Penjelasan fungsi alat..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Tipe Badge</label>
+        <select id="tool-badge" class="form-input">
+          <option value="Free">Free</option>
+          <option value="Freemium">Freemium</option>
+          <option value="Trial">Trial</option>
+          <option value="Paid">Paid</option>
+        </select>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-action btn-tool" onclick="closeModal()">Batal</button>
+        <button type="button" id="btn-save-modal" class="btn-action" onclick="saveToolToSheet()">Simpan ke Spreadsheet</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // 1. Mobile Drawer Navigation
+    // ================= SPREADSHEET URL ================= //
+    // GANTI DENGAN URL WEB APP HASIL DEPLOY APPS SCRIPT ANDA
+    const SCRIPT_URL = "MASUKKAN_URL_WEB_APP_APPS_SCRIPT_DISINI";
+
+    // Data cadangan jika SCRIPT_URL belum dipasang
+    const FALLBACK_TOOLS = [
+      { name: "ChatGPT", url: "https://chat.openai.com", domain: "chat.openai.com", logo: "🟢", color: "#10a37f", desc: "Free AI chat with daily limits, advanced reasoning, and internet browsing.", badge: "Free" },
+      { name: "Claude", url: "https://claude.ai", domain: "claude.ai", logo: "✳️", color: "#d97706", desc: "Free AI assistant with generous limits, natural tone, and large document context.", badge: "Free" },
+      { name: "JustPaste.it", url: "https://justpaste.it", domain: "justpaste.it", logo: "📝", color: "#f97316", desc: "Free text, script, and markdown sharing tool with instant formatting and links.", badge: "Free" }
+    ];
+
+    let aiTools = [];
+    let isAdminMode = false;
+
+    // AMBIL DATA DARI GOOGLE SPREADSHEET
+    async function fetchToolsFromSheet() {
+      const grid = document.getElementById('ai-tools-grid');
+      grid.innerHTML = '<div class="loading-state">Sedang memuat data dari Spreadsheet...</div>';
+
+      if (!SCRIPT_URL || SCRIPT_URL.includes("MASUKKAN_URL")) {
+        aiTools = JSON.parse(localStorage.getItem('dj_ai_tools')) || FALLBACK_TOOLS;
+        renderTools();
+        return;
+      }
+
+      try {
+        const response = await fetch(SCRIPT_URL);
+        const data = await response.json();
+        aiTools = data;
+        localStorage.setItem('dj_ai_tools', JSON.stringify(aiTools)); // Cache offline
+        renderTools();
+      } catch (err) {
+        console.error("Gagal mengambil data dari Google Sheets:", err);
+        aiTools = JSON.parse(localStorage.getItem('dj_ai_tools')) || FALLBACK_TOOLS;
+        renderTools();
+      }
+    }
+
+    function renderTools() {
+      const grid = document.getElementById('ai-tools-grid');
+      grid.innerHTML = '';
+
+      if (aiTools.length === 0) {
+        grid.innerHTML = '<div class="loading-state">Belum ada tool AI. Aktifkan Mode Admin untuk menambahkan.</div>';
+        return;
+      }
+
+      aiTools.forEach((tool, index) => {
+        const badgeClass = (tool.badge || 'free').toLowerCase();
+        const card = document.createElement('div');
+        card.className = `ai-card ${isAdminMode ? 'admin-mode' : ''}`;
+        
+        card.innerHTML = `
+          <div class="card-admin-actions">
+            <button class="btn-mini" onclick="openEditModal(${index})" title="Edit">✏️</button>
+            <button class="btn-mini delete" onclick="deleteToolFromSheet(${index})" title="Hapus">🗑️</button>
+          </div>
+          <div>
+            <div class="ai-card-header">
+              <div class="ai-brand">
+                <div class="ai-logo" style="background:${tool.color || '#6366f1'};">${tool.logo || '⚡'}</div>
+                <div class="ai-name">${tool.name}</div>
+              </div>
+              <svg class="external-icon" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/>
+              </svg>
+            </div>
+            <p class="ai-desc" style="margin-top:10px;">${tool.desc || ''}</p>
+          </div>
+          <div class="ai-card-footer">
+            <span class="ai-domain">${tool.domain || (new URL(tool.url)).hostname.replace('www.', '')}</span>
+            <span class="ai-badge ${badgeClass}">${tool.badge || 'Free'}</span>
+          </div>
+        `;
+
+        card.addEventListener('click', (e) => {
+          if (!isAdminMode && !e.target.closest('.card-admin-actions')) {
+            window.open(tool.url, '_blank');
+          }
+        });
+
+        grid.appendChild(card);
+      });
+    }
+
+    // TOGGLE ADMIN MODE
+    function toggleAdminMode() {
+      isAdminMode = !isAdminMode;
+      const btn = document.getElementById('btn-admin');
+      const btnAdd = document.getElementById('btn-add');
+
+      if (isAdminMode) {
+        btn.classList.add('active');
+        btn.innerHTML = '✓ Keluar Admin';
+        btnAdd.style.display = 'inline-block';
+      } else {
+        btn.classList.remove('active');
+        btn.innerHTML = '⚙️ Mode Admin';
+        btnAdd.style.display = 'none';
+      }
+      renderTools();
+    }
+
+    // MODAL
+    function openAddModal() {
+      document.getElementById('modal-heading').innerText = 'Tambah AI Baru';
+      document.getElementById('edit-row-index').value = '-1';
+      document.getElementById('tool-name').value = '';
+      document.getElementById('tool-url').value = '';
+      document.getElementById('tool-logo').value = '⚡';
+      document.getElementById('tool-color').value = '#6366f1';
+      document.getElementById('tool-desc').value = '';
+      document.getElementById('tool-badge').value = 'Free';
+      document.getElementById('admin-modal').classList.add('active');
+    }
+
+    function openEditModal(index) {
+      const tool = aiTools[index];
+      document.getElementById('modal-heading').innerText = 'Edit Kartu AI';
+      document.getElementById('edit-row-index').value = tool.rowIndex || index + 2;
+      document.getElementById('tool-name').value = tool.name;
+      document.getElementById('tool-url').value = tool.url;
+      document.getElementById('tool-logo').value = tool.logo;
+      document.getElementById('tool-color').value = tool.color;
+      document.getElementById('tool-desc').value = tool.desc;
+      document.getElementById('tool-badge').value = tool.badge;
+      document.getElementById('admin-modal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('admin-modal').classList.remove('active');
+    }
+
+    // SIMPAN KE SPREADSHEET (CREATE / UPDATE)
+    async function saveToolToSheet() {
+      const name = document.getElementById('tool-name').value.trim();
+      let url = document.getElementById('tool-url').value.trim();
+      const logo = document.getElementById('tool-logo').value.trim() || '⚡';
+      const color = document.getElementById('tool-color').value.trim() || '#6366f1';
+      const desc = document.getElementById('tool-desc').value.trim();
+      const badge = document.getElementById('tool-badge').value;
+      const rowIndex = parseInt(document.getElementById('edit-row-index').value);
+
+      if (!name || !url) {
+        alert("Nama dan URL website wajib diisi!");
+        return;
+      }
+      if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        url = 'https://' + url;
+      }
+
+      let domain = url;
+      try { domain = new URL(url).hostname.replace('www.', ''); } catch (e) {}
+
+      const btnSave = document.getElementById('btn-save-modal');
+      btnSave.innerText = 'Menyimpan...';
+      btnSave.disabled = true;
+
+      const payload = {
+        action: rowIndex > 0 ? 'update' : 'create',
+        rowIndex: rowIndex,
+        name, url, domain, logo, color, desc, badge
+      };
+
+      if (!SCRIPT_URL || SCRIPT_URL.includes("MASUKKAN_URL")) {
+        // Fallback jika belum pasang Apps Script
+        if (rowIndex > 0) {
+          const idx = aiTools.findIndex(t => t.rowIndex === rowIndex);
+          if (idx !== -1) aiTools[idx] = payload;
+        } else {
+          aiTools.push(payload);
+        }
+        localStorage.setItem('dj_ai_tools', JSON.stringify(aiTools));
+        btnSave.innerText = 'Simpan ke Spreadsheet';
+        btnSave.disabled = false;
+        closeModal();
+        renderTools();
+        return;
+      }
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        closeModal();
+        setTimeout(fetchToolsFromSheet, 1200); // Sinkronkan kembali
+      } catch (err) {
+        alert("Gagal menyimpan ke Spreadsheet: " + err.message);
+      } finally {
+        btnSave.innerText = 'Simpan ke Spreadsheet';
+        btnSave.disabled = false;
+      }
+    }
+
+    // HAPUS DARI SPREADSHEET (DELETE)
+    async function deleteToolFromSheet(index) {
+      const tool = aiTools[index];
+      if (!confirm(`Hapus kartu "${tool.name}" dari Spreadsheet?`)) return;
+
+      if (!SCRIPT_URL || SCRIPT_URL.includes("MASUKKAN_URL")) {
+        aiTools.splice(index, 1);
+        localStorage.setItem('dj_ai_tools', JSON.stringify(aiTools));
+        renderTools();
+        return;
+      }
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'delete',
+            rowIndex: tool.rowIndex || (index + 2)
+          })
+        });
+        setTimeout(fetchToolsFromSheet, 1200);
+      } catch (err) {
+        alert("Gagal menghapus: " + err.message);
+      }
+    }
+
+    // ================= NAVIGASI & SCRIBD ================= //
     function openSidebar() {
       document.getElementById('sidebar').classList.add('open');
       document.getElementById('mobile-overlay').classList.add('active');
@@ -445,7 +813,6 @@
       document.getElementById('mobile-overlay').classList.remove('active');
     }
 
-    // 2. Tab Navigation
     function openTab(tabId) {
       document.querySelectorAll('.page-view').forEach(view => view.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
@@ -459,16 +826,11 @@
       closeSidebar();
     }
 
-    // 3. FUNGSI KEMBALI KE HOME DARI JUDUL
     function goToHome() {
       openTab('dashboard');
-      const hubContainer = document.querySelector('.ai-hub-container');
-      if (hubContainer) {
-        hubContainer.scrollTo({ top: 0, behavior: 'smooth' });
-      }
+      fetchToolsFromSheet();
     }
 
-    // ================= SCRIBD FUNCTIONS ================= //
     function loadScribdById() {
       const input = document.getElementById('scribd-id-input').value.trim();
       const match = input.match(/\d{6,}/);
@@ -516,6 +878,9 @@
         setTimeout(() => { printWin.print(); }, 2000);
       }
     }
+
+    // Load data otomatis saat pertama kali dibuka
+    fetchToolsFromSheet();
   </script>
 </body>
 </html>
