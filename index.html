@@ -138,7 +138,7 @@
     .btn-mini:hover { background: #334155; }
     .btn-mini.delete:hover { background: #ef4444; border-color: #ef4444; }
 
-    /* ================= LAYANAN UTAMA ASLI (SURAT & SCRIBD) ================= */
+    /* LAYANAN UTAMA ASLI (SURAT & SCRIBD) */
     .full-embed-container { width: 100%; height: 100%; border: none; background: #0b1120; }
     .full-embed-container iframe { width: 100%; height: 100%; border: none; background: #ffffff; }
 
@@ -262,7 +262,7 @@
   <main>
     <div class="content-area">
 
-      <!-- 1. AI TOOL WORKSPACE (TERPISAH KHUSUS KARTU AI) -->
+      <!-- 1. AI TOOL WORKSPACE -->
       <section id="view-dashboard" class="page-view active">
         <div class="ai-hub-container">
           <div class="hub-header-bar">
@@ -292,7 +292,7 @@
         </div>
       </section>
 
-      <!-- 3. SCRIBD READER & PDF (FITUR LENGKAP KEMBALI) -->
+      <!-- 3. SCRIBD READER & PDF -->
       <section id="view-scribd" class="page-view">
         <div class="app-toolbar">
           <div style="display:flex; align-items:center; gap:6px;">
@@ -397,7 +397,6 @@
 
   <script>
     const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbzXQAK-LDzCrRYT8YpcHGjh7DalICrslIrEJf44Lb_zoTiHqQGdZ_gdjUEhi8DikDEV/exec";
-
     const DEFAULT_ADMIN = { username: "admin", password: "admin123" };
 
     const DEFAULT_TOOLS = [
@@ -406,37 +405,42 @@
       { name: "JustPaste.it", url: "https://justpaste.it", domain: "justpaste.it", logo: "📝", color: "#f97316", desc: "Free text, script, and markdown sharing tool with instant formatting and links.", badge: "Free" }
     ];
 
-    // Data langsung tampil dari cache/default secara instan (0 detik)
-    let aiTools = JSON.parse(localStorage.getItem('dj_ai_tools')) || DEFAULT_TOOLS;
+    let aiTools = [];
     let currentUser = localStorage.getItem('dj_admin_user') || null;
 
-    // AMBIL DATA TERBARU DI LATAR BELAKANG (Agar web cepat dan tidak lelet)
-    async function syncSpreadsheetBackground() {
+    // AMBIL DATA DARI GOOGLE SPREADSHEET (Real-time di browser mana pun)
+    async function fetchFromGoogleSheet() {
       try {
-        const res = await fetch(`${SPREADSHEET_URL}?type=tools`);
-        const remoteData = await res.json();
-        if (remoteData && remoteData.length > 0) {
-          aiTools = remoteData;
-          localStorage.setItem('dj_ai_tools', JSON.stringify(aiTools));
-          renderTools();
+        const res = await fetch(`${SPREADSHEET_URL}?t=${Date.now()}`);
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          aiTools = data;
+        } else {
+          aiTools = DEFAULT_TOOLS;
         }
-      } catch (e) {
-        console.warn("Sinkronisasi sheet offline:", e);
+      } catch (err) {
+        console.warn("Koneksi spreadsheet tertunda, menampilkan data bawaan:", err);
+        if (aiTools.length === 0) aiTools = DEFAULT_TOOLS;
       }
+      renderTools();
     }
 
-    async function sendToSpreadsheet(payload) {
+    // KIRIM DATA MENGGUNAKAN FORM PAYLOAD (Bypass CORS 100% Berhasil)
+    async function sendToGoogleSheet(payload) {
+      const formBody = new URLSearchParams();
+      formBody.append("payload", JSON.stringify(payload));
+
       try {
         await fetch(SPREADSHEET_URL, {
           method: 'POST',
           mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: formBody.toString()
         });
       } catch (err) {
-        console.error(err);
+        console.error("Gagal simpan:", err);
       }
-      setTimeout(syncSpreadsheetBackground, 1200);
+      setTimeout(fetchFromGoogleSheet, 1500);
     }
 
     // ================= ROUTE /admin ================= //
@@ -574,20 +578,18 @@
 
       const toolData = { name, url, domain, logo, color, desc, badge };
 
-      // Update langsung di layar agar responsif instan
+      // Update tampilan langsung
       if (rowIndex > 0) {
         const idx = aiTools.findIndex(t => t.rowIndex === rowIndex);
         if (idx !== -1) aiTools[idx] = { ...toolData, rowIndex };
       } else {
         aiTools.push({ ...toolData, rowIndex: aiTools.length + 2 });
       }
-      localStorage.setItem('dj_ai_tools', JSON.stringify(aiTools));
       renderTools();
       closeModal();
 
-      // Simpan ke Google Spreadsheet
-      await sendToSpreadsheet({
-        type: 'tools',
+      // Kirim ke Google Spreadsheet
+      await sendToGoogleSheet({
         action: rowIndex > 0 ? 'update' : 'create',
         rowIndex: rowIndex,
         ...toolData
@@ -596,15 +598,13 @@
 
     async function deleteTool(i) {
       const t = aiTools[i];
-      if (!confirm(`Hapus tool "${t.name}"?`)) return;
+      if (!confirm(`Hapus tool "${t.name}" dari Spreadsheet?`)) return;
       const rowToDelete = t.rowIndex || (i + 2);
 
       aiTools.splice(i, 1);
-      localStorage.setItem('dj_ai_tools', JSON.stringify(aiTools));
       renderTools();
 
-      await sendToSpreadsheet({
-        type: 'tools',
+      await sendToGoogleSheet({
         action: 'delete',
         rowIndex: rowToDelete
       });
@@ -679,11 +679,11 @@
     }
     function goToHome() { openTab('dashboard'); }
 
-    // Init App
+    // Mulai aplikasi
     renderTools();
     checkAdminRoute();
     updateAuthUI();
-    syncSpreadsheetBackground();
+    fetchFromGoogleSheet();
   </script>
 </body>
 </html>
