@@ -249,7 +249,7 @@
   <main>
     <div class="content-area" id="dynamic-content-area">
 
-      <!-- 1. AI TOOL WORKSPACE -->
+      <!-- AI TOOL WORKSPACE -->
       <section id="view-dashboard" class="page-view active">
         <div class="ai-hub-container">
           <div class="hub-header-bar">
@@ -303,7 +303,7 @@
         <div id="modal-heading" class="modal-title">Tambah AI Baru</div>
         <button class="modal-close" onclick="closeModal()">✕</button>
       </div>
-      <input type="hidden" id="edit-tool-index" value="-1">
+      <input type="hidden" id="edit-tool-row" value="-1">
       <div class="form-group">
         <label>Nama AI</label>
         <input type="text" id="tool-name" class="form-input">
@@ -349,7 +349,7 @@
         <div id="service-modal-heading" class="modal-title">Kelola Layanan Utama</div>
         <button class="modal-close" onclick="closeServiceModal()">✕</button>
       </div>
-      <input type="hidden" id="service-index" value="-1">
+      <input type="hidden" id="service-row" value="-1">
       <div class="form-group">
         <label>Nama Layanan</label>
         <input type="text" id="service-name" class="form-input" placeholder="contoh: Pembuat Surat Resmi">
@@ -370,78 +370,72 @@
   </div>
 
   <script>
-    // ================= DATA DEFAULT YANG PASTI TAMPIL SEJAK AWAL ================= //
-    const INITIAL_TOOLS = [
-      {
-        name: "ChatGPT",
-        url: "https://chat.openai.com",
-        domain: "chat.openai.com",
-        logo: "🟢",
-        color: "#10a37f",
-        desc: "Free AI chat with daily limits, advanced reasoning, and internet browsing.",
-        badge: "Free"
-      },
-      {
-        name: "Claude",
-        url: "https://claude.ai",
-        domain: "claude.ai",
-        logo: "✳️",
-        color: "#d97706",
-        desc: "Free AI assistant with generous limits, natural tone, and large document context.",
-        badge: "Free"
-      },
-      {
-        name: "JustPaste.it",
-        url: "https://justpaste.it",
-        domain: "justpaste.it",
-        logo: "📝",
-        color: "#f97316",
-        desc: "Free text, script, and markdown sharing tool with instant formatting and links.",
-        badge: "Free"
-      }
-    ];
-
-    const INITIAL_SERVICES = [
-      {
-        id: "surat",
-        name: "Pembuat Surat Resmi",
-        url: "https://surat-menjalin.vercel.app/",
-        iconColor: "#818cf8"
-      },
-      {
-        id: "scribd",
-        name: "Scribd Reader & PDF",
-        url: "https://www.scribd.com/embeds/715129338/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf",
-        iconColor: "#4ade80"
-      }
-    ];
-
-    // Opsional: jika ada link Google Apps Script, isi di sini
-    const SCRIPT_URL = ""; 
+    // ================= URL APPS SCRIPT SPREADSHEET ANDA ================= //
+    // GANTI TULISAN DI BAWAH DENGAN URL WEB APP HASIL DEPLOY DI LANGKAH 1
+    const SPREADSHEET_URL = "MASUKKAN_URL_WEB_APP_APPS_SCRIPT_DISINI";
 
     const DEFAULT_ADMIN = { username: "admin", password: "admin123" };
 
-    // Inisialisasi Data: utamakan LocalStorage jika ada, jika kosong langsung pakai INITIAL bawaan
-    let aiTools = JSON.parse(localStorage.getItem('dj_ai_tools')) || INITIAL_TOOLS;
-    let services = JSON.parse(localStorage.getItem('dj_services')) || INITIAL_SERVICES;
+    const DEFAULT_TOOLS = [
+      { name: "ChatGPT", url: "https://chat.openai.com", domain: "chat.openai.com", logo: "🟢", color: "#10a37f", desc: "Free AI chat with daily limits, advanced reasoning, and internet browsing.", badge: "Free" },
+      { name: "Claude", url: "https://claude.ai", domain: "claude.ai", logo: "✳️", color: "#d97706", desc: "Free AI assistant with generous limits, natural tone, and large document context.", badge: "Free" },
+      { name: "JustPaste.it", url: "https://justpaste.it", domain: "justpaste.it", logo: "📝", color: "#f97316", desc: "Free text, script, and markdown sharing tool with instant formatting and links.", badge: "Free" }
+    ];
+
+    const DEFAULT_SERVICES = [
+      { id: "surat", name: "Pembuat Surat Resmi", url: "https://surat-menjalin.vercel.app/", iconColor: "#818cf8" },
+      { id: "scribd", name: "Scribd Reader & PDF", url: "https://www.scribd.com/embeds/715129338/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf", iconColor: "#4ade80" }
+    ];
+
+    let aiTools = [];
+    let services = [];
     let currentUser = localStorage.getItem('dj_admin_user') || null;
 
-    // Sinkronkan ke Spreadsheet jika SCRIPT_URL diisi
-    function syncToSheet(payload) {
-      if (!SCRIPT_URL) return;
-      try {
-        fetch(SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-      } catch (e) {
-        console.warn("Gagal sinkron spreadsheet:", e);
+    // AMBIL DATA DARI GOOGLE SPREADSHEET
+    async function loadSpreadsheetData() {
+      // Jika URL belum dipasang, tampilkan default agar tidak kosong
+      if (!SPREADSHEET_URL || SPREADSHEET_URL.includes("MASUKKAN_URL")) {
+        aiTools = DEFAULT_TOOLS;
+        services = DEFAULT_SERVICES;
+        renderTools();
+        renderServices();
+        return;
       }
+
+      try {
+        // Ambil Tools
+        const resTools = await fetch(`${SPREADSHEET_URL}?type=tools`);
+        const toolsData = await resTools.json();
+        aiTools = (toolsData && toolsData.length > 0) ? toolsData : DEFAULT_TOOLS;
+
+        // Ambil Services
+        const resServices = await fetch(`${SPREADSHEET_URL}?type=services`);
+        const servicesData = await resServices.json();
+        services = (servicesData && servicesData.length > 0) ? servicesData : DEFAULT_SERVICES;
+      } catch (e) {
+        console.error("Gagal load dari Google Spreadsheet:", e);
+        aiTools = DEFAULT_TOOLS;
+        services = DEFAULT_SERVICES;
+      }
+
+      renderTools();
+      renderServices();
     }
 
-    // ================= DETEKSI ROUTE /admin ================= //
+    // KIRIM PERUBAHAN KE GOOGLE SPREADSHEET
+    async function sendToSpreadsheet(payload) {
+      if (!SPREADSHEET_URL || SPREADSHEET_URL.includes("MASUKKAN_URL")) return;
+      await fetch(SPREADSHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      // Berikan jeda 1 detik agar Google Sheet selesai menulis baris baru
+      setTimeout(loadSpreadsheetData, 1200);
+    }
+
+    // ================= ROUTE /admin ================= //
     function checkAdminRoute() {
       const path = window.location.pathname.toLowerCase();
       if (path.endsWith('/admin') || path.endsWith('/admin/')) {
@@ -498,7 +492,7 @@
       }
     }
 
-    // ================= RENDER AI TOOLS (3 KOLOM PC, 2 KOLOM HP) ================= //
+    // ================= RENDER TOOLS (3 KOLOM PC, 2 KOLOM HP) ================= //
     function renderTools() {
       const grid = document.getElementById('ai-tools-grid');
       grid.innerHTML = '';
@@ -544,7 +538,6 @@
       services.forEach((srv, index) => {
         const srvId = srv.id || `srv_${index}`;
 
-        // Sidebar link
         const wrap = document.createElement('div');
         wrap.className = 'nav-btn-wrap';
         wrap.innerHTML = `
@@ -561,7 +554,6 @@
         `;
         navContainer.appendChild(wrap);
 
-        // Halaman embed iframe
         const viewSection = document.createElement('section');
         viewSection.id = `view-${srvId}`;
         viewSection.className = 'page-view';
@@ -574,10 +566,10 @@
       });
     }
 
-    // ================= CRUD AI TOOLS ================= //
+    // ================= CRUD TOOLS KE SPREADSHEET ================= //
     function openAddModal() {
       document.getElementById('modal-heading').innerText = 'Tambah AI Baru';
-      document.getElementById('edit-tool-index').value = '-1';
+      document.getElementById('edit-tool-row').value = '-1';
       document.getElementById('tool-name').value = '';
       document.getElementById('tool-url').value = '';
       document.getElementById('tool-logo').value = '⚡';
@@ -590,7 +582,7 @@
     function openEditModal(i) {
       const t = aiTools[i];
       document.getElementById('modal-heading').innerText = 'Edit Kartu AI';
-      document.getElementById('edit-tool-index').value = i;
+      document.getElementById('edit-tool-row').value = t.rowIndex || (i + 2);
       document.getElementById('tool-name').value = t.name;
       document.getElementById('tool-url').value = t.url;
       document.getElementById('tool-logo').value = t.logo;
@@ -602,55 +594,60 @@
 
     function closeModal() { document.getElementById('admin-modal').classList.remove('active'); }
 
-    function saveTool() {
+    async function saveTool() {
       const name = document.getElementById('tool-name').value.trim();
       let url = document.getElementById('tool-url').value.trim();
       const logo = document.getElementById('tool-logo').value.trim() || '⚡';
       const color = document.getElementById('tool-color').value.trim() || '#6366f1';
       const desc = document.getElementById('tool-desc').value.trim();
       const badge = document.getElementById('tool-badge').value;
-      const index = parseInt(document.getElementById('edit-tool-index').value);
+      const rowIndex = parseInt(document.getElementById('edit-tool-row').value);
 
       if (!name || !url) return alert("Nama dan URL wajib diisi!");
       if (!url.startsWith('http')) url = 'https://' + url;
       let domain = url;
       try { domain = new URL(url).hostname.replace('www.', ''); } catch (e) {}
 
-      const toolData = { name, url, domain, logo, color, desc, badge };
+      const btn = document.getElementById('btn-save-modal');
+      btn.innerText = 'Menyimpan ke Spreadsheet...';
+      btn.disabled = true;
 
-      if (index >= 0) {
-        aiTools[index] = toolData;
-      } else {
-        aiTools.push(toolData);
-      }
+      const payload = {
+        type: 'tools',
+        action: rowIndex > 0 ? 'update' : 'create',
+        rowIndex: rowIndex,
+        name, url, domain, logo, color, desc, badge
+      };
 
-      localStorage.setItem('dj_ai_tools', JSON.stringify(aiTools));
-      syncToSheet({ type: 'tools', action: index >= 0 ? 'update' : 'create', ...toolData, rowIndex: index + 2 });
       closeModal();
-      renderTools();
+      await sendToSpreadsheet(payload);
+      btn.innerText = 'Simpan Data';
+      btn.disabled = false;
     }
 
-    function deleteTool(i) {
-      if (!confirm(`Hapus tool "${aiTools[i].name}"?`)) return;
-      aiTools.splice(i, 1);
-      localStorage.setItem('dj_ai_tools', JSON.stringify(aiTools));
-      syncToSheet({ type: 'tools', action: 'delete', rowIndex: i + 2 });
-      renderTools();
+    async function deleteTool(i) {
+      const t = aiTools[i];
+      if (!confirm(`Hapus tool "${t.name}" dari Spreadsheet?`)) return;
+      await sendToSpreadsheet({
+        type: 'tools',
+        action: 'delete',
+        rowIndex: t.rowIndex || (i + 2)
+      });
     }
 
-    // ================= CRUD LAYANAN UTAMA ================= //
+    // ================= CRUD SERVICES KE SPREADSHEET ================= //
     function openServiceModal(i) {
       const heading = document.getElementById('service-modal-heading');
       if (i >= 0) {
         const s = services[i];
         heading.innerText = 'Edit Layanan Utama';
-        document.getElementById('service-index').value = i;
+        document.getElementById('service-row').value = s.rowIndex || (i + 2);
         document.getElementById('service-name').value = s.name;
         document.getElementById('service-url').value = s.url;
         document.getElementById('service-color').value = s.iconColor || '#818cf8';
       } else {
         heading.innerText = 'Tambah Layanan Utama';
-        document.getElementById('service-index').value = '-1';
+        document.getElementById('service-row').value = '-1';
         document.getElementById('service-name').value = '';
         document.getElementById('service-url').value = '';
         document.getElementById('service-color').value = '#818cf8';
@@ -660,40 +657,41 @@
 
     function closeServiceModal() { document.getElementById('service-modal').classList.remove('active'); }
 
-    function saveService() {
+    async function saveService() {
       const name = document.getElementById('service-name').value.trim();
       let url = document.getElementById('service-url').value.trim();
       const iconColor = document.getElementById('service-color').value.trim() || '#818cf8';
-      const index = parseInt(document.getElementById('service-index').value);
+      const rowIndex = parseInt(document.getElementById('service-row').value);
 
       if (!name || !url) return alert("Nama dan URL Layanan wajib diisi!");
       if (!url.startsWith('http')) url = 'https://' + url;
 
-      const serviceData = {
-        id: index >= 0 ? services[index].id : 'srv_' + Date.now(),
-        name,
-        url,
-        iconColor
+      const btn = document.getElementById('btn-save-service');
+      btn.innerText = 'Menyimpan ke Spreadsheet...';
+      btn.disabled = true;
+
+      const payload = {
+        type: 'services',
+        action: rowIndex > 0 ? 'update' : 'create',
+        rowIndex: rowIndex,
+        id: 'srv_' + Date.now(),
+        name, url, iconColor
       };
 
-      if (index >= 0) {
-        services[index] = serviceData;
-      } else {
-        services.push(serviceData);
-      }
-
-      localStorage.setItem('dj_services', JSON.stringify(services));
-      syncToSheet({ type: 'services', action: index >= 0 ? 'update' : 'create', ...serviceData, rowIndex: index + 2 });
       closeServiceModal();
-      renderServices();
+      await sendToSpreadsheet(payload);
+      btn.innerText = 'Simpan Layanan';
+      btn.disabled = false;
     }
 
-    function deleteService(i) {
-      if (!confirm(`Hapus layanan "${services[i].name}"?`)) return;
-      services.splice(i, 1);
-      localStorage.setItem('dj_services', JSON.stringify(services));
-      syncToSheet({ type: 'services', action: 'delete', rowIndex: i + 2 });
-      renderServices();
+    async function deleteService(i) {
+      const s = services[i];
+      if (!confirm(`Hapus layanan "${s.name}" dari Spreadsheet?`)) return;
+      await sendToSpreadsheet({
+        type: 'services',
+        action: 'delete',
+        rowIndex: s.rowIndex || (i + 2)
+      });
       openTab('dashboard');
     }
 
@@ -717,9 +715,9 @@
     }
     function goToHome() { openTab('dashboard'); }
 
-    // Init Data & UI
     checkAdminRoute();
     updateAuthUI();
+    loadSpreadsheetData();
   </script>
 </body>
 </html>
