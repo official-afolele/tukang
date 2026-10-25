@@ -42,7 +42,7 @@
 
     .menu-group { display: flex; flex-direction: column; gap: 6px; }
     
-    /* HEADER LAYANAN UTAMA & PANEL EDIT TERPISAH */
+    /* PANEL EDIT LAYANAN UTAMA (TERPISAH DI SIDEBAR) */
     .service-header-wrap {
       display: flex; justify-content: space-between; align-items: center; margin: 18px 8px 6px;
     }
@@ -87,6 +87,8 @@
     .ai-hub-container {
       padding: 24px 20px 30px 20px; overflow-y: auto; height: 100%; display: flex; flex-direction: column;
     }
+    
+    /* JUDUL WAJIB DI TENGAH ATAS DI PC DAN HP */
     .hub-header-bar {
       position: relative; display: flex; justify-content: center; align-items: center;
       margin-bottom: 24px; width: 100%; min-height: 38px;
@@ -102,7 +104,7 @@
       position: absolute; right: 0; top: 50%; transform: translateY(-50%);
       display: none; align-items: center; gap: 8px; z-index: 2;
     }
-    .is-admin-view .admin-controls-logged { display: flex; }
+    .is-admin .admin-controls-logged { display: flex; }
     .admin-badge-user {
       font-size: 11px; color: #4ade80; background: rgba(34, 197, 94, 0.15);
       border: 1px solid rgba(34, 197, 94, 0.3); padding: 4px 8px; border-radius: 6px; font-weight: 600;
@@ -116,7 +118,7 @@
       border-radius: 8px; font-size: 11px; cursor: pointer;
     }
 
-    /* GRID AI: 3 GRID DI PC */
+    /* GRID: 3 KOLOM DI PC */
     .ai-tools-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding-bottom: 30px;
     }
@@ -151,15 +153,12 @@
       display: none; position: absolute; top: 8px; right: 8px; gap: 4px; z-index: 10;
     }
     .is-admin .card-admin-actions { display: flex; }
-    .is-admin .external-icon { display: none; }
     .btn-mini {
       background: #1e293b; border: 1px solid #475569; color: #f8fafc; width: 26px; height: 26px;
       border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 12px;
     }
     .btn-mini:hover { background: #334155; }
     .btn-mini.delete:hover { background: #ef4444; border-color: #ef4444; }
-
-    .loading-state { grid-column: 1 / -1; text-align: center; padding: 40px; color: #818cf8; font-size: 14px; }
 
     /* MODAL */
     .modal-overlay {
@@ -192,7 +191,7 @@
     .full-embed-container { width: 100%; height: 100%; border: none; background: #0b1120; }
     .full-embed-container iframe { width: 100%; height: 100%; border: none; background: #ffffff; }
 
-    /* RESPONSIVE HP (2 GRID) */
+    /* RESPONSIVE HP: WAJIB 2 KOLOM */
     @media (max-width: 768px) {
       aside { position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; transform: translateX(-100%); }
       aside.open { transform: translateX(0); }
@@ -235,7 +234,7 @@
           AI Tools Hub
         </button>
 
-        <!-- PANEL KHUSUS EDIT LAYANAN UTAMA -->
+        <!-- PANEL EDIT LAYANAN UTAMA (TERPISAH) -->
         <div class="service-header-wrap">
           <span class="menu-label">Layanan Utama</span>
           <button class="btn-add-service" onclick="openServiceModal(-1)">+ Tambah</button>
@@ -250,7 +249,7 @@
   <main>
     <div class="content-area" id="dynamic-content-area">
 
-      <!-- 1. HALAMAN DEPAN: AI TOOL WORKSPACE -->
+      <!-- 1. AI TOOL WORKSPACE -->
       <section id="view-dashboard" class="page-view active">
         <div class="ai-hub-container">
           <div class="hub-header-bar">
@@ -258,7 +257,7 @@
               <h1 onclick="goToHome()">AI Tool Workspace</h1>
             </div>
 
-            <!-- PANEL KHUSUS EDIT AI TOOLS WORKSPACE -->
+            <!-- PANEL EDIT AI TOOLS (TERPISAH) -->
             <div id="admin-logged-group" class="admin-controls-logged">
               <span id="current-user-badge" class="admin-badge-user">Admin</span>
               <button class="btn-add-item" onclick="openAddModal()">+ Tambah AI</button>
@@ -266,10 +265,8 @@
             </div>
           </div>
 
-          <!-- GRID 3 KOLOM DI PC, 2 KOLOM DI HP -->
-          <div id="ai-tools-grid" class="ai-tools-grid">
-            <div class="loading-state">Sedang memuat data dari Spreadsheet...</div>
-          </div>
+          <!-- GRID KARTU (3 DI PC, 2 DI HP) -->
+          <div id="ai-tools-grid" class="ai-tools-grid"></div>
         </div>
       </section>
 
@@ -306,7 +303,7 @@
         <div id="modal-heading" class="modal-title">Tambah AI Baru</div>
         <button class="modal-close" onclick="closeModal()">✕</button>
       </div>
-      <input type="hidden" id="edit-row-index" value="-1">
+      <input type="hidden" id="edit-tool-index" value="-1">
       <div class="form-group">
         <label>Nama AI</label>
         <input type="text" id="tool-name" class="form-input">
@@ -340,19 +337,19 @@
       </div>
       <div class="modal-actions">
         <button type="button" class="btn-action btn-tool" onclick="closeModal()">Batal</button>
-        <button type="button" id="btn-save-modal" class="btn-action" onclick="saveToolToSheet()">Simpan ke Spreadsheet</button>
+        <button type="button" id="btn-save-modal" class="btn-action" onclick="saveTool()">Simpan Data</button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL EDIT LAYANAN UTAMA (SIDEBAR) -->
+  <!-- MODAL EDIT LAYANAN UTAMA -->
   <div id="service-modal" class="modal-overlay">
     <div class="modal-box">
       <div class="modal-header">
         <div id="service-modal-heading" class="modal-title">Kelola Layanan Utama</div>
         <button class="modal-close" onclick="closeServiceModal()">✕</button>
       </div>
-      <input type="hidden" id="service-row-index" value="-1">
+      <input type="hidden" id="service-index" value="-1">
       <div class="form-group">
         <label>Nama Layanan</label>
         <input type="text" id="service-name" class="form-input" placeholder="contoh: Pembuat Surat Resmi">
@@ -367,35 +364,81 @@
       </div>
       <div class="modal-actions">
         <button type="button" class="btn-action btn-tool" onclick="closeServiceModal()">Batal</button>
-        <button type="button" id="btn-save-service" class="btn-action" onclick="saveServiceToSheet()">Simpan Layanan</button>
+        <button type="button" id="btn-save-service" class="btn-action" onclick="saveService()">Simpan Layanan</button>
       </div>
     </div>
   </div>
 
   <script>
-    // ================= URL GOOGLE APPS SCRIPT ================= //
-    // Masukkan URL Web App dari deployment langkah 1 di sini:
-    const SCRIPT_URL = "MASUKKAN_URL_WEB_APP_APPS_SCRIPT_DISINI";
+    // ================= DATA DEFAULT YANG PASTI TAMPIL SEJAK AWAL ================= //
+    const INITIAL_TOOLS = [
+      {
+        name: "ChatGPT",
+        url: "https://chat.openai.com",
+        domain: "chat.openai.com",
+        logo: "🟢",
+        color: "#10a37f",
+        desc: "Free AI chat with daily limits, advanced reasoning, and internet browsing.",
+        badge: "Free"
+      },
+      {
+        name: "Claude",
+        url: "https://claude.ai",
+        domain: "claude.ai",
+        logo: "✳️",
+        color: "#d97706",
+        desc: "Free AI assistant with generous limits, natural tone, and large document context.",
+        badge: "Free"
+      },
+      {
+        name: "JustPaste.it",
+        url: "https://justpaste.it",
+        domain: "justpaste.it",
+        logo: "📝",
+        color: "#f97316",
+        desc: "Free text, script, and markdown sharing tool with instant formatting and links.",
+        badge: "Free"
+      }
+    ];
+
+    const INITIAL_SERVICES = [
+      {
+        id: "surat",
+        name: "Pembuat Surat Resmi",
+        url: "https://surat-menjalin.vercel.app/",
+        iconColor: "#818cf8"
+      },
+      {
+        id: "scribd",
+        name: "Scribd Reader & PDF",
+        url: "https://www.scribd.com/embeds/715129338/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf",
+        iconColor: "#4ade80"
+      }
+    ];
+
+    // Opsional: jika ada link Google Apps Script, isi di sini
+    const SCRIPT_URL = ""; 
 
     const DEFAULT_ADMIN = { username: "admin", password: "admin123" };
 
-    const DEFAULT_SERVICES = [
-      { id: "surat", name: "Pembuat Surat Resmi", url: "https://surat-menjalin.vercel.app/", iconColor: "#818cf8" },
-      { id: "scribd", name: "Scribd Reader & PDF", url: "https://www.scribd.com/embeds/715129338/content?start_page=1&view_mode=scroll&access_key=key-fFexxf7r1bzEfWu3HKwf", iconColor: "#4ade80" }
-    ];
-
-    let aiTools = [];
-    let services = [];
+    // Inisialisasi Data: utamakan LocalStorage jika ada, jika kosong langsung pakai INITIAL bawaan
+    let aiTools = JSON.parse(localStorage.getItem('dj_ai_tools')) || INITIAL_TOOLS;
+    let services = JSON.parse(localStorage.getItem('dj_services')) || INITIAL_SERVICES;
     let currentUser = localStorage.getItem('dj_admin_user') || null;
 
-    // Helper POST ke Google Apps Script tanpa CORS Error
-    function postToAppsScript(payload) {
-      return fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+    // Sinkronkan ke Spreadsheet jika SCRIPT_URL diisi
+    function syncToSheet(payload) {
+      if (!SCRIPT_URL) return;
+      try {
+        fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch (e) {
+        console.warn("Gagal sinkron spreadsheet:", e);
+      }
     }
 
     // ================= DETEKSI ROUTE /admin ================= //
@@ -411,10 +454,10 @@
       const badge = document.getElementById('current-user-badge');
 
       if (currentUser) {
-        body.classList.add('is-admin', 'is-admin-view');
+        body.classList.add('is-admin');
         badge.innerText = `● @${currentUser}`;
       } else {
-        body.classList.remove('is-admin', 'is-admin-view');
+        body.classList.remove('is-admin');
       }
       renderTools();
       renderServices();
@@ -455,33 +498,10 @@
       }
     }
 
-    // ================= LOAD DATA TOOLS ================= //
-    async function loadTools() {
-      const grid = document.getElementById('ai-tools-grid');
-      grid.innerHTML = '<div class="loading-state">Memuat data tools...</div>';
-
-      if (!SCRIPT_URL || SCRIPT_URL.includes("MASUKKAN_URL")) {
-        aiTools = JSON.parse(localStorage.getItem('dj_ai_tools')) || [];
-        renderTools();
-        return;
-      }
-      try {
-        const res = await fetch(`${SCRIPT_URL}?type=tools`);
-        aiTools = await res.json();
-        localStorage.setItem('dj_ai_tools', JSON.stringify(aiTools));
-      } catch (e) {
-        aiTools = JSON.parse(localStorage.getItem('dj_ai_tools')) || [];
-      }
-      renderTools();
-    }
-
+    // ================= RENDER AI TOOLS (3 KOLOM PC, 2 KOLOM HP) ================= //
     function renderTools() {
       const grid = document.getElementById('ai-tools-grid');
       grid.innerHTML = '';
-      if (!aiTools || aiTools.length === 0) {
-        grid.innerHTML = '<div class="loading-state">Belum ada tool AI. Gunakan Mode Admin untuk menambah.</div>';
-        return;
-      }
 
       aiTools.forEach((tool, index) => {
         const badgeClass = (tool.badge || 'free').toLowerCase();
@@ -489,8 +509,8 @@
         card.className = 'ai-card';
         card.innerHTML = `
           <div class="card-admin-actions">
-            <button class="btn-mini" onclick="openEditModal(${index})">✏️</button>
-            <button class="btn-mini delete" onclick="deleteTool(${index})">🗑️</button>
+            <button class="btn-mini" onclick="openEditModal(${index})" title="Edit">✏️</button>
+            <button class="btn-mini delete" onclick="deleteTool(${index})" title="Hapus">🗑️</button>
           </div>
           <div>
             <div class="ai-card-header">
@@ -513,36 +533,18 @@
       });
     }
 
-    // ================= LOAD DATA LAYANAN UTAMA ================= //
-    async function loadServices() {
-      if (!SCRIPT_URL || SCRIPT_URL.includes("MASUKKAN_URL")) {
-        services = JSON.parse(localStorage.getItem('dj_services')) || DEFAULT_SERVICES;
-        renderServices();
-        return;
-      }
-      try {
-        const res = await fetch(`${SCRIPT_URL}?type=services`);
-        const data = await res.json();
-        services = data.length > 0 ? data : DEFAULT_SERVICES;
-        localStorage.setItem('dj_services', JSON.stringify(services));
-      } catch (e) {
-        services = JSON.parse(localStorage.getItem('dj_services')) || DEFAULT_SERVICES;
-      }
-      renderServices();
-    }
-
+    // ================= RENDER LAYANAN UTAMA ================= //
     function renderServices() {
       const navContainer = document.getElementById('services-nav-container');
       const contentArea = document.getElementById('dynamic-content-area');
 
-      // Bersihkan nav dan page-view selain dashboard
       navContainer.innerHTML = '';
       document.querySelectorAll('.page-view:not(#view-dashboard)').forEach(el => el.remove());
 
       services.forEach((srv, index) => {
-        const srvId = srv.id || `srv-${index}`;
+        const srvId = srv.id || `srv_${index}`;
 
-        // 1. Tambah Nav Item di Sidebar
+        // Sidebar link
         const wrap = document.createElement('div');
         wrap.className = 'nav-btn-wrap';
         wrap.innerHTML = `
@@ -553,13 +555,13 @@
             ${srv.name}
           </button>
           <div class="nav-action-btns">
-            <button class="btn-nav-act" onclick="openServiceModal(${index})">✏️</button>
-            <button class="btn-nav-act delete" onclick="deleteService(${index})">🗑️</button>
+            <button class="btn-nav-act" onclick="openServiceModal(${index})" title="Edit">✏️</button>
+            <button class="btn-nav-act delete" onclick="deleteService(${index})" title="Hapus">🗑️</button>
           </div>
         `;
         navContainer.appendChild(wrap);
 
-        // 2. Tambah Dynamic Iframe View
+        // Halaman embed iframe
         const viewSection = document.createElement('section');
         viewSection.id = `view-${srvId}`;
         viewSection.className = 'page-view';
@@ -572,10 +574,10 @@
       });
     }
 
-    // ================= MODAL AI TOOL ================= //
+    // ================= CRUD AI TOOLS ================= //
     function openAddModal() {
       document.getElementById('modal-heading').innerText = 'Tambah AI Baru';
-      document.getElementById('edit-row-index').value = '-1';
+      document.getElementById('edit-tool-index').value = '-1';
       document.getElementById('tool-name').value = '';
       document.getElementById('tool-url').value = '';
       document.getElementById('tool-logo').value = '⚡';
@@ -584,10 +586,11 @@
       document.getElementById('tool-badge').value = 'Free';
       document.getElementById('admin-modal').classList.add('active');
     }
+
     function openEditModal(i) {
       const t = aiTools[i];
       document.getElementById('modal-heading').innerText = 'Edit Kartu AI';
-      document.getElementById('edit-row-index').value = t.rowIndex || (i + 2);
+      document.getElementById('edit-tool-index').value = i;
       document.getElementById('tool-name').value = t.name;
       document.getElementById('tool-url').value = t.url;
       document.getElementById('tool-logo').value = t.logo;
@@ -596,104 +599,102 @@
       document.getElementById('tool-badge').value = t.badge;
       document.getElementById('admin-modal').classList.add('active');
     }
+
     function closeModal() { document.getElementById('admin-modal').classList.remove('active'); }
 
-    async function saveToolToSheet() {
+    function saveTool() {
       const name = document.getElementById('tool-name').value.trim();
       let url = document.getElementById('tool-url').value.trim();
       const logo = document.getElementById('tool-logo').value.trim() || '⚡';
       const color = document.getElementById('tool-color').value.trim() || '#6366f1';
       const desc = document.getElementById('tool-desc').value.trim();
       const badge = document.getElementById('tool-badge').value;
-      const rowIndex = parseInt(document.getElementById('edit-row-index').value);
+      const index = parseInt(document.getElementById('edit-tool-index').value);
 
       if (!name || !url) return alert("Nama dan URL wajib diisi!");
       if (!url.startsWith('http')) url = 'https://' + url;
       let domain = url;
       try { domain = new URL(url).hostname.replace('www.', ''); } catch (e) {}
 
-      const btn = document.getElementById('btn-save-modal');
-      btn.innerText = 'Menyimpan...';
+      const toolData = { name, url, domain, logo, color, desc, badge };
 
-      const payload = {
-        type: 'tools',
-        action: rowIndex > 0 ? 'update' : 'create',
-        rowIndex, name, url, domain, logo, color, desc, badge
-      };
+      if (index >= 0) {
+        aiTools[index] = toolData;
+      } else {
+        aiTools.push(toolData);
+      }
 
-      await postToAppsScript(payload);
+      localStorage.setItem('dj_ai_tools', JSON.stringify(aiTools));
+      syncToSheet({ type: 'tools', action: index >= 0 ? 'update' : 'create', ...toolData, rowIndex: index + 2 });
       closeModal();
-      btn.innerText = 'Simpan ke Spreadsheet';
-      setTimeout(loadTools, 1500);
+      renderTools();
     }
 
-    async function deleteTool(i) {
-      const t = aiTools[i];
-      if (!confirm(`Hapus tool "${t.name}"?`)) return;
-      await postToAppsScript({
-        type: 'tools',
-        action: 'delete',
-        rowIndex: t.rowIndex || (i + 2)
-      });
-      setTimeout(loadTools, 1500);
+    function deleteTool(i) {
+      if (!confirm(`Hapus tool "${aiTools[i].name}"?`)) return;
+      aiTools.splice(i, 1);
+      localStorage.setItem('dj_ai_tools', JSON.stringify(aiTools));
+      syncToSheet({ type: 'tools', action: 'delete', rowIndex: i + 2 });
+      renderTools();
     }
 
-    // ================= MODAL LAYANAN UTAMA ================= //
+    // ================= CRUD LAYANAN UTAMA ================= //
     function openServiceModal(i) {
       const heading = document.getElementById('service-modal-heading');
       if (i >= 0) {
         const s = services[i];
         heading.innerText = 'Edit Layanan Utama';
-        document.getElementById('service-row-index').value = s.rowIndex || (i + 2);
+        document.getElementById('service-index').value = i;
         document.getElementById('service-name').value = s.name;
         document.getElementById('service-url').value = s.url;
         document.getElementById('service-color').value = s.iconColor || '#818cf8';
       } else {
         heading.innerText = 'Tambah Layanan Utama';
-        document.getElementById('service-row-index').value = '-1';
+        document.getElementById('service-index').value = '-1';
         document.getElementById('service-name').value = '';
         document.getElementById('service-url').value = '';
         document.getElementById('service-color').value = '#818cf8';
       }
       document.getElementById('service-modal').classList.add('active');
     }
+
     function closeServiceModal() { document.getElementById('service-modal').classList.remove('active'); }
 
-    async function saveServiceToSheet() {
+    function saveService() {
       const name = document.getElementById('service-name').value.trim();
       let url = document.getElementById('service-url').value.trim();
       const iconColor = document.getElementById('service-color').value.trim() || '#818cf8';
-      const rowIndex = parseInt(document.getElementById('service-row-index').value);
+      const index = parseInt(document.getElementById('service-index').value);
 
       if (!name || !url) return alert("Nama dan URL Layanan wajib diisi!");
       if (!url.startsWith('http')) url = 'https://' + url;
 
-      const btn = document.getElementById('btn-save-service');
-      btn.innerText = 'Menyimpan...';
-
-      const payload = {
-        type: 'services',
-        action: rowIndex > 0 ? 'update' : 'create',
-        rowIndex,
-        id: 'srv_' + Date.now(),
-        name, url, iconColor
+      const serviceData = {
+        id: index >= 0 ? services[index].id : 'srv_' + Date.now(),
+        name,
+        url,
+        iconColor
       };
 
-      await postToAppsScript(payload);
+      if (index >= 0) {
+        services[index] = serviceData;
+      } else {
+        services.push(serviceData);
+      }
+
+      localStorage.setItem('dj_services', JSON.stringify(services));
+      syncToSheet({ type: 'services', action: index >= 0 ? 'update' : 'create', ...serviceData, rowIndex: index + 2 });
       closeServiceModal();
-      btn.innerText = 'Simpan Layanan';
-      setTimeout(loadServices, 1500);
+      renderServices();
     }
 
-    async function deleteService(i) {
-      const s = services[i];
-      if (!confirm(`Hapus layanan "${s.name}"?`)) return;
-      await postToAppsScript({
-        type: 'services',
-        action: 'delete',
-        rowIndex: s.rowIndex || (i + 2)
-      });
-      setTimeout(loadServices, 1500);
+    function deleteService(i) {
+      if (!confirm(`Hapus layanan "${services[i].name}"?`)) return;
+      services.splice(i, 1);
+      localStorage.setItem('dj_services', JSON.stringify(services));
+      syncToSheet({ type: 'services', action: 'delete', rowIndex: i + 2 });
+      renderServices();
+      openTab('dashboard');
     }
 
     // ================= NAVIGASI ================= //
@@ -714,13 +715,11 @@
       if (targetNav) targetNav.classList.add('active');
       closeSidebar();
     }
-    function goToHome() { openTab('dashboard'); loadTools(); }
+    function goToHome() { openTab('dashboard'); }
 
-    // Init App
+    // Init Data & UI
     checkAdminRoute();
     updateAuthUI();
-    loadTools();
-    loadServices();
   </script>
 </body>
 </html>
