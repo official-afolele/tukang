@@ -103,13 +103,13 @@
       transform: scale(1.03);
     }
 
-    /* ADMIN CONTROLS */
+    /* ADMIN & AUTH CONTROLS */
     .admin-controls {
       display: flex;
       gap: 8px;
       align-items: center;
     }
-    .btn-admin-toggle {
+    .btn-login-toggle {
       background: #1e293b;
       border: 1px solid #334155;
       color: #94a3b8;
@@ -123,13 +123,23 @@
       gap: 6px;
       transition: 0.2s;
     }
-    .btn-admin-toggle.active {
-      background: rgba(99, 102, 241, 0.2);
-      border-color: #6366f1;
-      color: #818cf8;
+    .btn-login-toggle:hover { background: #334155; color: #fff; }
+    
+    .admin-logged-group {
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
+    .admin-badge-user {
+      font-size: 11px;
+      color: #4ade80;
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-weight: 600;
     }
     .btn-add-item {
-      display: none;
       background: #6366f1;
       color: white;
       border: none;
@@ -139,6 +149,17 @@
       font-weight: 600;
       cursor: pointer;
     }
+    .btn-add-item:hover { background: #4f46e5; }
+    .btn-logout {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
     .btn-refresh-sheet {
       background: #1e293b;
       border: 1px solid #334155;
@@ -147,15 +168,13 @@
       border-radius: 8px;
       font-size: 11px;
       cursor: pointer;
-      display: inline-flex;
-      align-items: center;
     }
 
-    /* GRID TETAP 3 KOLOM DI HP & PC */
+    /* GRID UNTUK PC / DESKTOP (3 KOLOM) */
     .ai-tools-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr) !important;
-      gap: 14px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
       padding-bottom: 30px;
     }
 
@@ -271,7 +290,7 @@
       border-color: rgba(239, 68, 68, 0.25);
     }
 
-    /* AKSI ADMIN DI KARTU */
+    /* TOMBOL EDIT / HAPUS (MODE ADMIN) */
     .card-admin-actions {
       display: none;
       position: absolute;
@@ -280,8 +299,8 @@
       gap: 4px;
       z-index: 10;
     }
-    .admin-mode .card-admin-actions { display: flex; }
-    .admin-mode .external-icon { display: none; }
+    .is-admin .card-admin-actions { display: flex; }
+    .is-admin .external-icon { display: none; }
 
     .btn-mini {
       background: #1e293b;
@@ -300,7 +319,6 @@
     .btn-mini:hover { background: #334155; }
     .btn-mini.delete:hover { background: #ef4444; border-color: #ef4444; }
 
-    /* LOADING SPINNER */
     .loading-state {
       grid-column: 1 / -1;
       text-align: center;
@@ -309,7 +327,7 @@
       font-size: 14px;
     }
 
-    /* MODAL */
+    /* MODAL POPUPS */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -327,7 +345,7 @@
       border: 1px solid #334155;
       border-radius: 14px;
       width: 100%;
-      max-width: 420px;
+      max-width: 400px;
       padding: 20px;
       display: flex;
       flex-direction: column;
@@ -352,7 +370,7 @@
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }
 
-    /* FULL EMBED & SCRIBD */
+    /* EMBED & SCRIBD */
     .full-embed-container { width: 100%; height: 100%; border: none; background: #0b1120; }
     .full-embed-container iframe { width: 100%; height: 100%; border: none; background: #ffffff; }
     .app-toolbar {
@@ -388,25 +406,31 @@
     .mask-bottom-left { position: absolute; bottom: 0; left: 0; width: 180px; height: 46px; background: #ffffff; z-index: 30; pointer-events: none; }
     .mask-bottom-right { position: absolute; bottom: 0; right: 0; width: 90px; height: 46px; background: #ffffff; z-index: 30; pointer-events: none; }
 
-    /* RESPONSIVE HP (TETAP 3 KOLOM) */
+    /* ================= RESPONSIVE HP (KHUSUS LAYAR HP TEPAT 2 GRID) ================= */
     @media (max-width: 768px) {
       aside { position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; transform: translateX(-100%); box-shadow: 10px 0 30px rgba(0,0,0,0.7); }
       aside.open { transform: translateX(0); }
       .btn-close-sidebar { display: block; }
       .floating-hamburger { display: flex; }
-      .ai-hub-container { padding: 50px 8px 20px 8px; }
+      .ai-hub-container { padding: 50px 10px 20px 10px; }
 
+      /* GRID 2 KOLOM DI HP */
       .ai-tools-grid {
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 8px;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px;
       }
-      .ai-card { padding: 10px 8px; border-radius: 10px; gap: 8px; }
-      .ai-logo { width: 28px; height: 28px; font-size: 14px; border-radius: 6px; }
-      .ai-name { font-size: 11px; }
-      .ai-desc { font-size: 10px; line-height: 1.3; min-height: 28px; }
-      .ai-domain { font-size: 9px; }
-      .ai-badge { font-size: 8px; padding: 1px 5px; }
-      .external-icon { width: 14px; height: 14px; }
+      .ai-card {
+        padding: 12px 10px;
+        border-radius: 12px;
+        gap: 10px;
+      }
+      .ai-logo { width: 32px; height: 32px; font-size: 16px; border-radius: 8px; }
+      .ai-name { font-size: 13px; }
+      .ai-desc { font-size: 11px; line-height: 1.35; min-height: 30px; }
+      .ai-domain { font-size: 10px; }
+      .ai-badge { font-size: 9px; padding: 2px 6px; }
+      .external-icon { width: 16px; height: 16px; }
+      .admin-badge-user { display: none; }
     }
   </style>
 </head>
@@ -468,11 +492,18 @@
             
             <div class="admin-controls">
               <button class="btn-refresh-sheet" onclick="fetchToolsFromSheet()" title="Muat ulang dari Spreadsheet">↻</button>
-              <button id="btn-admin" class="btn-admin-toggle" onclick="toggleAdminMode()">⚙️ Mode Admin</button>
-              <button id="btn-add" class="btn-add-item" onclick="openAddModal()">+ Tambah AI</button>
+              
+              <button id="btn-login-modal" class="btn-login-toggle" onclick="openLoginModal()">🔒 Login Admin</button>
+
+              <div id="admin-logged-group" class="admin-logged-group">
+                <span id="current-user-badge" class="admin-badge-user">Admin</span>
+                <button class="btn-add-item" onclick="openAddModal()">+ Tambah AI</button>
+                <button class="btn-logout" onclick="logoutAdmin()" title="Keluar Akun Admin">Logout</button>
+              </div>
             </div>
           </div>
 
+          <!-- GRID KARTU AI (PC = 3 KOLOM, HP = 2 KOLOM) -->
           <div id="ai-tools-grid" class="ai-tools-grid">
             <div class="loading-state">Sedang memuat data dari Spreadsheet...</div>
           </div>
@@ -524,7 +555,34 @@
     </div>
   </main>
 
-  <!-- MODAL ADMIN TAMBAH / EDIT KARTU AI -->
+  <!-- MODAL LOGIN ADMIN -->
+  <div id="login-modal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">🔐 Login Admin Portal</div>
+        <button class="modal-close" onclick="closeLoginModal()">✕</button>
+      </div>
+
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="login-user" class="form-input" placeholder="Masukkan username">
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="login-pass" class="form-input" placeholder="Masukkan password" onkeydown="if(event.key==='Enter') executeLogin()">
+      </div>
+
+      <div id="login-error-msg" style="display:none; font-size:12px; color:#f87171;"></div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-action btn-tool" onclick="closeLoginModal()">Batal</button>
+        <button type="button" class="btn-action" onclick="executeLogin()">Masuk</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL TAMBAH / EDIT KARTU AI -->
   <div id="admin-modal" class="modal-overlay">
     <div class="modal-box">
       <div class="modal-header">
@@ -578,11 +636,13 @@
   </div>
 
   <script>
-    // ================= SPREADSHEET URL ================= //
-    // GANTI DENGAN URL WEB APP HASIL DEPLOY APPS SCRIPT ANDA
     const SCRIPT_URL = "MASUKKAN_URL_WEB_APP_APPS_SCRIPT_DISINI";
 
-    // Data cadangan jika SCRIPT_URL belum dipasang
+    const DEFAULT_ADMIN = {
+      username: "admin",
+      password: "admin123"
+    };
+
     const FALLBACK_TOOLS = [
       { name: "ChatGPT", url: "https://chat.openai.com", domain: "chat.openai.com", logo: "🟢", color: "#10a37f", desc: "Free AI chat with daily limits, advanced reasoning, and internet browsing.", badge: "Free" },
       { name: "Claude", url: "https://claude.ai", domain: "claude.ai", logo: "✳️", color: "#d97706", desc: "Free AI assistant with generous limits, natural tone, and large document context.", badge: "Free" },
@@ -590,9 +650,65 @@
     ];
 
     let aiTools = [];
-    let isAdminMode = false;
+    let currentUser = localStorage.getItem('dj_admin_user') || null;
 
-    // AMBIL DATA DARI GOOGLE SPREADSHEET
+    function updateAuthUI() {
+      const btnLoginModal = document.getElementById('btn-login-modal');
+      const adminGroup = document.getElementById('admin-logged-group');
+      const userBadge = document.getElementById('current-user-badge');
+
+      if (currentUser) {
+        btnLoginModal.style.display = 'none';
+        adminGroup.style.display = 'flex';
+        userBadge.innerText = `● @${currentUser}`;
+      } else {
+        btnLoginModal.style.display = 'inline-flex';
+        adminGroup.style.display = 'none';
+      }
+      renderTools();
+    }
+
+    function openLoginModal() {
+      document.getElementById('login-user').value = '';
+      document.getElementById('login-pass').value = '';
+      document.getElementById('login-error-msg').style.display = 'none';
+      document.getElementById('login-modal').classList.add('active');
+    }
+
+    function closeLoginModal() {
+      document.getElementById('login-modal').classList.remove('active');
+    }
+
+    function executeLogin() {
+      const user = document.getElementById('login-user').value.trim();
+      const pass = document.getElementById('login-pass').value.trim();
+      const errBox = document.getElementById('login-error-msg');
+
+      if (!user || !pass) {
+        errBox.innerText = "Username dan password wajib diisi!";
+        errBox.style.display = 'block';
+        return;
+      }
+
+      if (user === DEFAULT_ADMIN.username && pass === DEFAULT_ADMIN.password) {
+        currentUser = user;
+        localStorage.setItem('dj_admin_user', user);
+        closeLoginModal();
+        updateAuthUI();
+      } else {
+        errBox.innerText = "Username atau password salah!";
+        errBox.style.display = 'block';
+      }
+    }
+
+    function logoutAdmin() {
+      if (confirm("Yakin ingin logout dari akun admin?")) {
+        currentUser = null;
+        localStorage.removeItem('dj_admin_user');
+        updateAuthUI();
+      }
+    }
+
     async function fetchToolsFromSheet() {
       const grid = document.getElementById('ai-tools-grid');
       grid.innerHTML = '<div class="loading-state">Sedang memuat data dari Spreadsheet...</div>';
@@ -607,7 +723,7 @@
         const response = await fetch(SCRIPT_URL);
         const data = await response.json();
         aiTools = data;
-        localStorage.setItem('dj_ai_tools', JSON.stringify(aiTools)); // Cache offline
+        localStorage.setItem('dj_ai_tools', JSON.stringify(aiTools));
         renderTools();
       } catch (err) {
         console.error("Gagal mengambil data dari Google Sheets:", err);
@@ -621,14 +737,14 @@
       grid.innerHTML = '';
 
       if (aiTools.length === 0) {
-        grid.innerHTML = '<div class="loading-state">Belum ada tool AI. Aktifkan Mode Admin untuk menambahkan.</div>';
+        grid.innerHTML = '<div class="loading-state">Belum ada tool AI.</div>';
         return;
       }
 
       aiTools.forEach((tool, index) => {
         const badgeClass = (tool.badge || 'free').toLowerCase();
         const card = document.createElement('div');
-        card.className = `ai-card ${isAdminMode ? 'admin-mode' : ''}`;
+        card.className = `ai-card ${currentUser ? 'is-admin' : ''}`;
         
         card.innerHTML = `
           <div class="card-admin-actions">
@@ -654,7 +770,7 @@
         `;
 
         card.addEventListener('click', (e) => {
-          if (!isAdminMode && !e.target.closest('.card-admin-actions')) {
+          if (!e.target.closest('.card-admin-actions')) {
             window.open(tool.url, '_blank');
           }
         });
@@ -663,26 +779,8 @@
       });
     }
 
-    // TOGGLE ADMIN MODE
-    function toggleAdminMode() {
-      isAdminMode = !isAdminMode;
-      const btn = document.getElementById('btn-admin');
-      const btnAdd = document.getElementById('btn-add');
-
-      if (isAdminMode) {
-        btn.classList.add('active');
-        btn.innerHTML = '✓ Keluar Admin';
-        btnAdd.style.display = 'inline-block';
-      } else {
-        btn.classList.remove('active');
-        btn.innerHTML = '⚙️ Mode Admin';
-        btnAdd.style.display = 'none';
-      }
-      renderTools();
-    }
-
-    // MODAL
     function openAddModal() {
+      if (!currentUser) return;
       document.getElementById('modal-heading').innerText = 'Tambah AI Baru';
       document.getElementById('edit-row-index').value = '-1';
       document.getElementById('tool-name').value = '';
@@ -695,6 +793,7 @@
     }
 
     function openEditModal(index) {
+      if (!currentUser) return;
       const tool = aiTools[index];
       document.getElementById('modal-heading').innerText = 'Edit Kartu AI';
       document.getElementById('edit-row-index').value = tool.rowIndex || index + 2;
@@ -711,8 +810,9 @@
       document.getElementById('admin-modal').classList.remove('active');
     }
 
-    // SIMPAN KE SPREADSHEET (CREATE / UPDATE)
     async function saveToolToSheet() {
+      if (!currentUser) return;
+
       const name = document.getElementById('tool-name').value.trim();
       let url = document.getElementById('tool-url').value.trim();
       const logo = document.getElementById('tool-logo').value.trim() || '⚡';
@@ -743,7 +843,6 @@
       };
 
       if (!SCRIPT_URL || SCRIPT_URL.includes("MASUKKAN_URL")) {
-        // Fallback jika belum pasang Apps Script
         if (rowIndex > 0) {
           const idx = aiTools.findIndex(t => t.rowIndex === rowIndex);
           if (idx !== -1) aiTools[idx] = payload;
@@ -766,7 +865,7 @@
           body: JSON.stringify(payload)
         });
         closeModal();
-        setTimeout(fetchToolsFromSheet, 1200); // Sinkronkan kembali
+        setTimeout(fetchToolsFromSheet, 1200);
       } catch (err) {
         alert("Gagal menyimpan ke Spreadsheet: " + err.message);
       } finally {
@@ -775,10 +874,10 @@
       }
     }
 
-    // HAPUS DARI SPREADSHEET (DELETE)
     async function deleteToolFromSheet(index) {
+      if (!currentUser) return;
       const tool = aiTools[index];
-      if (!confirm(`Hapus kartu "${tool.name}" dari Spreadsheet?`)) return;
+      if (!confirm(`Hapus kartu "${tool.name}" dari database?`)) return;
 
       if (!SCRIPT_URL || SCRIPT_URL.includes("MASUKKAN_URL")) {
         aiTools.splice(index, 1);
@@ -803,7 +902,7 @@
       }
     }
 
-    // ================= NAVIGASI & SCRIBD ================= //
+    // ================= NAVIGASI ================= //
     function openSidebar() {
       document.getElementById('sidebar').classList.add('open');
       document.getElementById('mobile-overlay').classList.add('active');
@@ -879,7 +978,7 @@
       }
     }
 
-    // Load data otomatis saat pertama kali dibuka
+    updateAuthUI();
     fetchToolsFromSheet();
   </script>
 </body>
